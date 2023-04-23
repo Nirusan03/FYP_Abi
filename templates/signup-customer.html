@@ -6,9 +6,9 @@
 </head>
 <body>
     <div class="signupFrm">
-        <form class="form" method="POST" action="/create_clusters">
+        <form class="form" method="POST" action="/create_clusters_customer">
           <h1 class="title">SIGN UP</h1>
-          <h2 class="title2">Already have a account ? <a href="#" style="text-decoration: none; color: blue;">Log in</a></h2>
+          <h2 class="title2">Already have a account ? <a href="{{ url_for('login_page_customer') }}" style="text-decoration: none; color: blue;">Log in</a></h2>
 
           <div class="inputContainer">
             <input type="text" name="cluster_name_prefix" id="cluster_name_prefix" class="input" required>

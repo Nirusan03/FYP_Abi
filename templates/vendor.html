@@ -35,7 +35,7 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/vendor.png' )}}" alt="dashboard" width="30px" height="38px">
-                        <a href="#">VENDORS</a>
+                        <a href="{{ url_for('inventory') }}">INVENTORY</a>
                     </div>
                     <ul class="submenu">
                         <li><a href="#">Quote Requests</a></li>
@@ -45,7 +45,7 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/staff.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="#">CUSTOMERS</a>
+                        <a href="#">RFQ (Requesting for Quote)</a>
                     </div>
                 </li>
 
@@ -56,12 +56,6 @@
                     </div>
                 </li>
 
-                <li>
-                    <div class="menuList">
-                        <img src="{{ url_for('static', filename = 'images/products.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="#">PRODUCTS</a>
-                    </div>
-                </li>
             </ul>
 
             <div class="content">
