@@ -1,0 +1,15 @@
+1. Customer should be able to create a profile
+
+2. Vendor should able to create the product and add product should be visible inventory 
+
+3. Customer should be able to check the product and add to cart them. The product should be able to added to cart based on the vendor
+
+4. After customer click the products and request for the rfq
+
+5. When requesting for product rfq, vendor should be able to see the all quantity and reply by sending a code and that should be a pop out in clients page. 
+
+6. The client should be able to see the quote after vendor sends on the screen. So customer should be able to customize his quote request and analyse on his nav bar menu. 
+
+7. Vendor also should be able to see the quote. If customer canceled it would be same. 
+
+8. Proceed to purchase order. Delivery date

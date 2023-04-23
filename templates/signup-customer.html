@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MedEase - Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/SignUp.css' )}}">
+</head>
+<body>
+    <div class="signupFrm">
+        <form class="form" method="POST" action="/create_clusters">
+          <h1 class="title">SIGN UP</h1>
+          <h2 class="title2">Already have a account ? <a href="#" style="text-decoration: none; color: blue;">Log in</a></h2>
+
+          <div class="inputContainer">
+            <input type="text" name="cluster_name_prefix" id="cluster_name_prefix" class="input" required>
+            <label class="label" for="cluster_name_prefix">User Name </label>
+          </div>
+
+          <div class="inputContainer">
+            <input type="password" class="input" name="password">
+            <label class="label">Password</label>
+          </div>
+    
+          <div class="inputContainer">
+            <input type="password" class="input" placeholder="a">
+            <label class="label">Confirm Password</label>
+          </div>
+    
+          <input type="submit" class="submitBtn" value="Create Account">
+        </form>
+      </div>
+</body>
+</html>
