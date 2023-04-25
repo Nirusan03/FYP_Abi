@@ -11,8 +11,8 @@ cluster = MongoClient("mongodb://localhost:27017")
 database = cluster["Fyp_Abi"]
 collection = database["vendor"]
 db = cluster['test']
+customer = ""
 vendor = ""
-
 retrieve_orders = collection.find()
 upcoming_order = []
 
@@ -63,7 +63,7 @@ def login():
     # Check if the collection is available in the database
     if username in db.list_collection_names():
         vendor = username
-        return redirect(url_for('home_vendor', cluster_name=username))
+        return redirect(url_for('home_vendor', cluster_name=vendor))
     else:
         return redirect(url_for('login_page'))
 
@@ -113,13 +113,13 @@ def login_page_customer():
 
 @app.route('/login_customer', methods=['POST'])
 def login_customer():
-    global vendor
+    global customer
     # Get the username and password from the form
     username = request.form['username']
     # Check if the collection is available in the database
     if username in db.list_collection_names():
-        vendor = username
-        return redirect(url_for('customer', cluster_name=username))
+        customer = username
+        return redirect(url_for('customer', cluster_name=customer))
     else:
         return redirect(url_for('login_page'))
 
@@ -131,11 +131,18 @@ def customer(cluster_name):
     return render_template('customer.html', date=date, upcoming_orders=upcoming_order, cluster_name=cluster_name)
 
 
+@app.route('/products')
+def products():
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    return render_template('products.html', date=date, upcoming_orders=upcoming_order, customer=customer)
+
+
 @app.route('/inventory')
 def inventory():
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    return render_template('inventory.html', date=date, upcoming_orders=upcoming_order)
+    return render_template('inventory.html', date=date, upcoming_orders=upcoming_order, vendor=vendor)
 
 
 @app.route('/insert_data', methods=['POST'])
