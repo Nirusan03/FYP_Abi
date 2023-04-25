@@ -1,42 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MedEase - Sign Up</title>
+	<title>MedEase - Sign Up Customer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/SignUp.css' )}}">
 </head>
 <body>
-    <div class="signupFrm">
-        <form class="form" method="POST" action="/create_clusters_customer">
-          <h1 class="title">SIGN UP</h1>
-          <h2 class="title2">Already have a account ? <a href="{{ url_for('login_page_customer') }}" style="text-decoration: none; color: blue;">Log in</a></h2>
-
-          <div class="inputContainer">
-            <input type="text" name="cluster_name_prefix" id="cluster_name_prefix" class="input" required>
-            <label class="label" for="cluster_name_prefix">User Name </label>
-          </div>
-
-          <div class="inputContainer">
-            <input type="text" name="cluster_number" id="cluster_number" class="input" required>
-            <label class="label" for="cluster_number"> </label>
-          </div>
-
-          <div class="inputContainer">
-            <input type="text" name="cluster_email" id="cluster_email" class="input" required>
-            <label class="label" for="cluster_email"> </label>
-          </div>
-
-          <div class="inputContainer">
-            <input type="password" class="input" name="password">
-            <label class="label">Password</label>
-          </div>
-    
-          <div class="inputContainer">
-            <input type="password" class="input" placeholder="a">
-            <label class="label">Confirm Password</label>
-          </div>
-    
-          <input type="submit" class="submitBtn" value="Create Account">
-        </form>
+  <div class = "container">
+      <div class="image">
+        <img src="{{ url_for('static', filename = 'images/SignLogin.png' )}}" alt="Image">
       </div>
+
+      <form class="form" method="POST" action="/create_clusters1">
+        <h1><u>Register</u></h1>
+        <div class = "login">Already have a account ? <a href="{{ url_for('login_page') }}" style="text-decoration: none; color: blue;">Log in</a></div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_name_prefix">Vendor Name</label>
+          <input type="text" name="cluster_name_prefix" id="cluster_name_prefix" class="input" placeholder="Abishek" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_code">Vendor Code</label>
+          <input type="number" name="cluster_code" id="cluster_code" class="input" placeholder="+94 7*********" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_phoneNo">Contact Number</label>
+          <input type="email" name="cluster_phoneNo" id="cluster_phoneNo" class="input" placeholder="medease@hotmail.com" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_address">Vendor Address</label>
+          <input type="password" class="input" name="cluster_address" id="cluster_address" required>
+        </div>
+
+        <div class="inputContainer">
+            <label class="label" for="cluster_email">Vendor Email</label>
+            <input type="password" class="input" name="cluster_email" id="cluster_email" required>
+        </div>
+  
+        <div class="inputContainer">
+          <label class="label" for="cluster_password">Password</label>
+          <input type="password" class="input" for="cluster_password" id="cluster_password" placeholder="a" required>
+        </div>
+  
+        <input type="submit" class="submitBtn" value="Next">
+      </form>
+  </div>
 </body>
 </html>

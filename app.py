@@ -164,6 +164,14 @@ def home_vendor(cluster_name):
 def signup_customer():
     return render_template('signup-customer.html')
 
+@app.route('/signUp-customer2')
+def signUp_customer2():
+    return render_template('signup-vendor2.html')
+
+
+@app.route('/signUp-customer3')
+def signUp_customer3():
+    return render_template('signup-vendor3.html')
 
 @app.route('/create_clusters_customer', methods=['POST'])
 def create_clusters_customer():
