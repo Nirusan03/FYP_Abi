@@ -15,6 +15,7 @@ customer = ""
 vendor = ""
 retrieve_orders = collection.find()
 upcoming_order = []
+cluster_name_prefix = ""
 
 for documents in retrieve_orders:
     upcoming_order.append(documents)
@@ -25,29 +26,112 @@ def signup():
     return render_template('signup-vendor.html')
 
 
-@app.route('/create_clusters', methods=['POST'])
-def create_clusters():
+@app.route('/signup2')
+def signup2():
+    return render_template('signup-vendor2.html')
+
+
+@app.route('/signup3')
+def signup3():
+    return render_template('signup-vendor3.html')
+
+
+@app.route('/create_clusters1', methods=['POST'])
+def create_clusters1():
+    global cluster_name_prefix
     # Get the form data
     cluster_name_prefix = request.form['cluster_name_prefix']
-
+    cluster_number = request.form['cluster_number']
+    cluster_email = request.form['cluster_email']
+    cluster_password = request.form['cluster_password']
     # Create the clusters
     for i in range(1):
         cluster_name = f"{cluster_name_prefix}"
-        create_cluster(cluster_name)
+        create_cluster1(cluster_name, cluster_number, cluster_email, cluster_password)
 
     # Return a success message
-    return redirect(url_for('home_vendor', cluster_name=f"{cluster_name_prefix}"))
+    return redirect(url_for('signup2'))
 
 
-def create_cluster(cluster_name):
+def create_cluster1(cluster_name, cluster_number, cluster_email, cluster_password):
     # Create a MongoDB client
     client = MongoClient('localhost', 27017)
 
     # Get the "test" database
     db = client.test
-
+    temp_database = client["test"]
     # Create the new cluster
     db.create_collection(cluster_name)
+    temp_collection = temp_database[cluster_name]
+
+    post = {
+        "Customer_name": cluster_name,
+        "Customer_email": cluster_email,
+        "Customer_PhoneNo": cluster_number,
+        "Customer_Password": cluster_password
+    }
+    temp_collection.insert_one(post)
+
+
+@app.route('/insert_signup', methods=['POST'])
+def insert_signup():
+    global cluster_name_prefix
+    # Get the form data
+    cluster_company = request.form['cluster_company']
+    cluster_address = request.form['cluster_address']
+    cluster_taxNo = request.form['cluster_taxNo']
+    cluster_shipping = request.form['cluster_shipping']
+    cluster_business = request.form['cluster_business']
+
+    # Create a MongoDB client
+    client = MongoClient('localhost', 27017)
+
+    # Get the "test" database
+    temp_database = client["test"]
+    temp_collection = temp_database[cluster_name_prefix]
+
+    post = {
+        "Customer_company": cluster_company,
+        "Customer_ComAddress": cluster_address,
+        "Customer_TaxNo": cluster_taxNo,
+        "Customer_Shipping": cluster_shipping,
+        "Customer_business": cluster_business
+    }
+    temp_collection.update_one({"Customer_name":cluster_name_prefix}, {"$set": post}, upsert=True)
+
+    # Return a success message
+    return redirect(url_for('signup3'))
+
+
+@app.route('/insert_signup_last', methods=['POST'])
+def insert_signup_last():
+    global cluster_name_prefix
+    # Get the form data
+    cluster_paymentTerm = request.form['cluster_paymentTerm']
+    cluster_nameCard = request.form['cluster_nameCard']
+    cluster_cardNo = request.form['cluster_cardNo']
+    cluster_cardEx = request.form['cluster_cardEx']
+    cluster_cvc = request.form['cluster_cvc']
+
+    # Create a MongoDB client
+    client = MongoClient('localhost', 27017)
+
+    # Get the "test" database
+    db = client.test
+    temp_database = client["test"]
+    temp_collection = temp_database[cluster_name_prefix]
+
+    post = {
+        "Customer_Payment_Term": cluster_paymentTerm,
+        "Customer_NameCard": cluster_nameCard,
+        "Customer_cardNo": cluster_cardNo,
+        "Customer_cardEx": cluster_cardEx,
+        "Customer_cvc": cluster_cvc
+    }
+    temp_collection.update_one({"Customer_name": cluster_name_prefix}, {"$set": post}, upsert=True)
+
+    # Return a success message
+    return redirect(url_for('home_vendor', cluster_name=f"{cluster_name_prefix}"))
 
 
 @app.route('/login_page')
@@ -89,7 +173,7 @@ def create_clusters_customer():
     # Create the clusters
     for i in range(1):
         cluster_name = f"{cluster_name_prefix}"
-        create_cluster(cluster_name)
+        create_cluster_customer(cluster_name)
 
     # Return a success message
     return redirect(url_for('customer', cluster_name=f"{cluster_name_prefix}"))

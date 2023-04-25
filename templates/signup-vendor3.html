@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MedEase - Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/SignUp.css' )}}">
+</head>
+<body>
+  <div class = "container">
+      <div class="image">
+        <img src="{{ url_for('static', filename = 'images/SignLogin.png' )}}" alt="Image">
+      </div>
+
+      <form class="form" method="POST" action="/insert_signup_last">
+        <h1><u>PAYMENT AND FINANCIAL DETAILS </u></h1>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_paymentTerm">Payment Terms</label>
+          <input type="text" name="cluster_paymentTerm" id="cluster_paymentTerm" class="input" placeholder="Terms" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_nameCard">Name on card</label>
+          <input type="text" name="cluster_nameCard" id="cluster_nameCard" class="input" placeholder="Danie David" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_cardNo">Card Number </label>
+          <input type="number" name="cluster_cardNo" id="cluster_cardNo" class="input" placeholder="1999129123123" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_cardEx">Expiration Month and year</label>
+          <input type="date" class="input" name="cluster_cardEx" id="cluster_cardEx" placeholder="01/45" required>
+        </div>
+
+        <div class="inputContainer">
+            <label class="label" for="cluster_cvc">CVC</label>
+            <input type="number" class="input" name="cluster_cvc" id="cluster_cvc" placeholder="111" required>
+        </div>
+        
+        <input type="submit" class="submitBtn" value="Create Account">
+      </form>
+  </div>
+</body>
+</html>
