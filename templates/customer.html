@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Vendors Page</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/vendor2.css' )}}"
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/customer.css' )}}"
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,7 @@
             <ul class="menu">
                 <div class="admin">
                     <img src="{{ url_for('static', filename = 'images/INSL_IEEE.jpg' )}}" width="90px"  alt="" style="float:left; border-radius: 50%;">
-                    <span style="padding: 30px 0px 0px 10px; font-size: 20px;">ADMIN</span>
+                    <span style="padding: 30px 0px 0px 10px; font-size: 20px;">{{ cluster_name }}</span>
                 </div>
                 <li>
                     <div class="menuList">
@@ -53,7 +53,7 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/products.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="{{ url_for('inventory') }}">PRODUCTS</a>
+                        <a href="{{ url_for('products') }}">PRODUCTS</a>
                     </div>
                 </li>
             </ul>
