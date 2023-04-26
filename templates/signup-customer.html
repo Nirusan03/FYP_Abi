@@ -10,7 +10,7 @@
         <img src="{{ url_for('static', filename = 'images/SignLogin.png' )}}" alt="Image">
       </div>
 
-      <form class="form" method="POST" action="/create_clusters1">
+      <form class="form" method="POST" action="/create_clusters_customer">
         <h1><u>Register</u></h1>
         <div class = "login">Already have a account ? <a href="{{ url_for('login_page') }}" style="text-decoration: none; color: blue;">Log in</a></div>
 
@@ -26,7 +26,7 @@
 
         <div class="inputContainer">
           <label class="label" for="cluster_phoneNo">Contact Number</label>
-          <input type="email" name="cluster_phoneNo" id="cluster_phoneNo" class="input" placeholder="medease@hotmail.com" required>
+          <input type="number" name="cluster_phoneNo" id="cluster_phoneNo" class="input" placeholder="medease@hotmail.com" required>
         </div>
 
         <div class="inputContainer">
@@ -36,12 +36,12 @@
 
         <div class="inputContainer">
             <label class="label" for="cluster_email">Vendor Email</label>
-            <input type="password" class="input" name="cluster_email" id="cluster_email" required>
+            <input type="email" class="input" name="cluster_email" id="cluster_email" required>
         </div>
   
         <div class="inputContainer">
-          <label class="label" for="cluster_password">Password</label>
-          <input type="password" class="input" for="cluster_password" id="cluster_password" placeholder="a" required>
+          <label class="label" for="cluster_password">Vendor Email</label>
+          <input type="password" class="input" name="cluster_password" id="cluster_password" required>
         </div>
   
         <input type="submit" class="submitBtn" value="Next">

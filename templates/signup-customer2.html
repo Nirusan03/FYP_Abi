@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MedEase - Sign Up Customer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/SignUp.css' )}}">
+</head>
+<body>
+  <div class = "container">
+      <div class="image">
+        <img src="{{ url_for('static', filename = 'images/SignLogin.png' )}}" alt="Image">
+      </div>
+
+      <form class="form" method="POST" action="/insert_signup_vendor">
+        <h1><u>ORGANISATION DETAILS</u></h1>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_registrationNo">Registration No</label>
+          <input type="text" name="cluster_registrationNo" id="cluster_registrationNo" class="input" placeholder="Immserive Smile Plus" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_vat">VAT Reg No.</label>
+          <input type="text" name="cluster_vat" id="cluster_vat" class="input" placeholder="Dubai main road, Dubai Kuruku santhu, Dubai" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_registration">Registration </label>
+          <input type="number" name="cluster_registration" id="cluster_registration" class="input" placeholder="1********" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_regisCert">Registration Certification</label>
+          <input type="text" class="input" name="cluster_regisCert" id="cluster_regisCert" placeholder="Cyber Psychological Therapy" required>
+        </div>
+
+        <div class="inputContainer">
+            <label class="label" for="cluster_productCert">Product Quality Approve Certicficate</label>
+            <input type="text" class="input" name="cluster_productCert" id="cluster_productCert" placeholder="Home Delivery" required>
+        </div>
+        
+        <input type="submit" class="submitBtn" value="Next">
+      </form>
+  </div>
+</body>
+</html>
