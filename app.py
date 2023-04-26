@@ -22,23 +22,39 @@ for documents in retrieve_orders:
     upcoming_order.append(documents)
 
 
+# CUSTOMER
 @app.route('/')
-def signup():
+def signup_vendor():
     return render_template('signup-vendor.html')
 
 
-@app.route('/signup2')
-def signup2():
+@app.route('/signup_vendor2')
+def signup_vendor2():
     return render_template('signup-vendor2.html')
 
 
-@app.route('/signup3')
-def signup3():
+@app.route('/signup_vendor3')
+def signup_vendor3():
     return render_template('signup-vendor3.html')
 
 
-@app.route('/create_clusters1', methods=['POST'])
-def create_clusters1():
+@app.route('/signup_customer')
+def signup_customer():
+    return render_template('signup-vendor.html')
+
+
+@app.route('/signup_customer2')
+def signup_customer2():
+    return render_template('signup-customer2.html')
+
+
+@app.route('/signup_customer3')
+def signup_customer3():
+    return render_template('signup-customer3.html')
+
+
+@app.route('/create_clusters_customer', methods=['POST'])
+def create_clusters_customer():
     global cluster_name_prefix
     # Get the form data
     cluster_name_prefix = request.form['cluster_name_prefix']
@@ -48,13 +64,13 @@ def create_clusters1():
     # Create the clusters
     for i in range(1):
         cluster_name = f"{cluster_name_prefix}"
-        create_cluster1(cluster_name, cluster_number, cluster_email, cluster_password)
+        create_cluster_customer(cluster_name, cluster_number, cluster_email, cluster_password)
 
     # Return a success message
-    return redirect(url_for('signup2'))
+    return redirect(url_for('signup_customer2'))
 
 
-def create_cluster1(cluster_name, cluster_number, cluster_email, cluster_password):
+def create_cluster_customer(cluster_name, cluster_number, cluster_email, cluster_password):
     # Create a MongoDB client
     client = MongoClient('localhost', 27017)
 
@@ -74,13 +90,13 @@ def create_cluster1(cluster_name, cluster_number, cluster_email, cluster_passwor
     temp_collection.insert_one(post)
 
 
-@app.route('/insert_signup', methods=['POST'])
-def insert_signup():
+@app.route('/insert_signup_customer2', methods=['POST'])
+def insert_signup_customer2():
     global cluster_name_prefix
     # Get the form data
     cluster_company = request.form['cluster_company']
     cluster_address = request.form['cluster_address']
-    cluster_taxNo = request.form['cluster_taxNo']
+    cluster_tax_no = request.form['cluster_taxNo']
     cluster_shipping = request.form['cluster_shipping']
     cluster_business = request.form['cluster_business']
 
@@ -94,24 +110,24 @@ def insert_signup():
     post = {
         "Customer_company": cluster_company,
         "Customer_ComAddress": cluster_address,
-        "Customer_TaxNo": cluster_taxNo,
+        "Customer_TaxNo": cluster_tax_no,
         "Customer_Shipping": cluster_shipping,
         "Customer_business": cluster_business
     }
     temp_collection.update_one({"Customer_name": cluster_name_prefix}, {"$set": post}, upsert=True)
 
     # Return a success message
-    return redirect(url_for('signup3'))
+    return redirect(url_for('signup_customer3'))
 
 
-@app.route('/insert_signup_last', methods=['POST'])
-def insert_signup_last():
+@app.route('/insert_signup_customer2', methods=['POST'])
+def insert_signup_customer2():
     global cluster_name_prefix
     # Get the form data
-    cluster_paymentTerm = request.form['cluster_paymentTerm']
-    cluster_nameCard = request.form['cluster_nameCard']
-    cluster_cardNo = request.form['cluster_cardNo']
-    cluster_cardEx = request.form['cluster_cardEx']
+    cluster_payment_term = request.form['cluster_paymentTerm']
+    cluster_name_card = request.form['cluster_nameCard']
+    cluster_card_no = request.form['cluster_cardNo']
+    cluster_card_ex = request.form['cluster_cardEx']
     cluster_cvc = request.form['cluster_cvc']
 
     # Create a MongoDB client
@@ -123,57 +139,41 @@ def insert_signup_last():
     temp_collection = temp_database[cluster_name_prefix]
 
     post = {
-        "Customer_Payment_Term": cluster_paymentTerm,
-        "Customer_NameCard": cluster_nameCard,
-        "Customer_cardNo": cluster_cardNo,
-        "Customer_cardEx": cluster_cardEx,
+        "Customer_Payment_Term": cluster_payment_term,
+        "Customer_NameCard": cluster_name_card,
+        "Customer_cardNo": cluster_card_no,
+        "Customer_cardEx": cluster_card_ex,
         "Customer_cvc": cluster_cvc
     }
     temp_collection.update_one({"Customer_name": cluster_name_prefix}, {"$set": post}, upsert=True)
 
     # Return a success message
-    return redirect(url_for('home_vendor', cluster_name=f"{cluster_name_prefix}"))
+    return redirect(url_for('home_customer', cluster_name=f"{cluster_name_prefix}"))
 
 
-@app.route('/login_page')
-def login_page():
-    return render_template('login-vendor.html')
+@app.route('/login_page_customer')
+def login_page_customer():
+    return render_template('login-customer.html')
 
 
-@app.route('/login', methods=['POST'])
-def login():
-    global vendor
+@app.route('/login_customer', methods=['POST'])
+def login_customer():
+    global customer
     # Get the username and password from the form
     username = request.form['username']
     # Check if the collection is available in the database
     if username in db.list_collection_names():
-        vendor = username
-        return redirect(url_for('home_vendor', cluster_name=vendor))
+        customer = username
+        return redirect(url_for('home_customer', cluster_name=customer))
     else:
-        return redirect(url_for('login_page'))
+        return redirect(url_for('login_page_customer'))
 
 
-@app.route('/home_vendor/<cluster_name>')
-def home_vendor(cluster_name):
+@app.route('/home_customer/<cluster_name>')
+def home_customer(cluster_name):
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    return render_template('vendor.html', date=date, upcoming_orders=upcoming_order, cluster_name=cluster_name)
-
-
-# CUSTOMER
-@app.route('/signup_vendor')
-def signup_vendor():
-    return render_template('signup-customer.html')
-
-
-@app.route('/signup_vendor2')
-def signup_vendor2():
-    return render_template('signup-customer2.html')
-
-
-@app.route('/signup_vendor3')
-def signup_vendor3():
-    return render_template('signup-customer3.html')
+    return render_template('customer.html', date=date, upcoming_orders=upcoming_order, cluster_name=cluster_name)
 
 
 @app.route('/create_clusters_vendor', methods=['POST'])
@@ -280,29 +280,29 @@ def insert_signup_vendor3():
     return redirect(url_for('home_vendor', cluster_name=f"{cluster_name_prefix_vendor}"))
 
 
-@app.route('/login_page_customer')
-def login_page_customer():
-    return render_template('login-customer.html')
+@app.route('/login_page_vendor')
+def login_page_vendor():
+    return render_template('login-vendor.html')
 
 
-@app.route('/login_customer', methods=['POST'])
-def login_customer():
-    global customer
+@app.route('/login_vendor', methods=['POST'])
+def login_vendor():
+    global vendor
     # Get the username and password from the form
     username = request.form['username']
     # Check if the collection is available in the database
     if username in db.list_collection_names():
-        customer = username
-        return redirect(url_for('customer', cluster_name=customer))
+        vendor = username
+        return redirect(url_for('home_vendor', cluster_name=vendor))
     else:
-        return redirect(url_for('login_page'))
+        return redirect(url_for('login_page_vendor'))
 
 
-@app.route('/customer/<cluster_name>')
-def customer(cluster_name):
+@app.route('/home_vendor/<cluster_name>')
+def home_vendor(cluster_name):
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    return render_template('customer.html', date=date, upcoming_orders=upcoming_order, cluster_name=cluster_name)
+    return render_template('vendor.html', date=date, upcoming_orders=upcoming_order, cluster_name=cluster_name)
 
 
 @app.route('/products')
