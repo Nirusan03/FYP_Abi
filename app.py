@@ -307,7 +307,6 @@ def insert_data():
     date = now.strftime("%Y-%m-%d")
     button_value = request.form['my-button']
     words = [w.strip() for w in button_value.split()]
-    print(words)
     product_name = words[0]
     product_price = words[1]
     product_quantity = words[2]
@@ -322,14 +321,19 @@ def insert_data():
 
     temp_collection = db_vendor[product_vendor]
     temp_collection.insert_one({'data': button_value})
-    return redirect(url_for('customer_single_product', date=date, customer=customer))
+    return redirect(url_for('customer_single_product', date=date, customer=customer,
+                            product_name=product_name, product_price=product_price, product_quantity=product_quantity,
+                            product_vendor=product_vendor, product_customer=product_customer))
 
 
-@app.route('/customer-single-product')
-def customer_single_product():
+@app.route('/customer-single-product/<product_name>/<product_price>/<product_quantity>'
+           '/<product_vendor>/<product_customer>')
+def customer_single_product(product_name, product_price, product_quantity, product_vendor, product_customer):
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    return render_template('customer-single-product.html', date=date, customer=customer)
+    return render_template('customer-single-product.html', date=date, customer=customer,
+                           product_name=product_name, product_price=product_price, product_quantity=product_quantity,
+                           product_vendor=product_vendor, product_customer=product_customer)
 
 
 @app.route('/rfq_vendor')
