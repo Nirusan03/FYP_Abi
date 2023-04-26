@@ -15,8 +15,8 @@ customer = ""
 vendor = ""
 retrieve_orders = collection.find()
 upcoming_order = []
-cluster_name_prefix = ""
-cluster_name_prefix_vendor = ""
+cluster_vendor = ""
+cluster_customer = ""
 
 for documents in retrieve_orders:
     upcoming_order.append(documents)
@@ -53,17 +53,147 @@ def signup_customer3():
     return render_template('signup-customer3.html')
 
 
+@app.route('/create_clusters_vendor', methods=['POST'])
+def create_clusters_vendor():
+    global cluster_vendor
+    # Get the form data
+    cluster_vendor = request.form['cluster_customer']
+    cluster_code = request.form['cluster_code']
+    cluster_phone_no = request.form['cluster_phoneNo']
+    cluster_address = request.form['cluster_address']
+    cluster_email = request.form['cluster_email']
+    cluster_password = request.form['cluster_password']
+
+    # Create the clusters
+    for i in range(1):
+        cluster_name = f"{cluster_vendor}"
+        create_cluster_vendor(cluster_name, cluster_code, cluster_phone_no,
+                              cluster_address, cluster_email, cluster_password)
+
+    # Return a success message
+    # return redirect(url_for('customer', cluster_name=f"{cluster_customer}"))
+    return redirect(url_for('signup_vendor2'))
+
+
+def create_cluster_vendor(cluster_name, cluster_code, cluster_phone_no, cluster_address, cluster_email,
+                          cluster_password):
+    # Create a MongoDB client
+    client = MongoClient('localhost', 27017)
+
+    # Get the "test" database
+    db = client.test
+    temp_database = client["test"]
+    # Create the new cluster
+    db.create_collection(cluster_name)
+    temp_collection = temp_database[cluster_name]
+
+    post = {
+        "Vendor_name": cluster_name,
+        "Vendor_Code": cluster_code,
+        "Vendor_phoneNo": cluster_phone_no,
+        "Vendor_Address": cluster_address,
+        "Vendor_email": cluster_email,
+        "Vendor_Password": cluster_password
+    }
+    temp_collection.insert_one(post)
+
+
+@app.route('/insert_signup_vendor2', methods=['POST'])
+def insert_signup_vendor2():
+    global cluster_vendor
+    # Get the form data
+    cluster_registration_no = request.form['cluster_registrationNo']
+    cluster_vat = request.form['cluster_vat']
+    cluster_registration = request.form['cluster_registration']
+    cluster_regis_cert = request.form['cluster_regisCert']
+    cluster_product_cert = request.form['cluster_productCert']
+
+    # Create a MongoDB client
+    client = MongoClient('localhost', 27017)
+
+    # Get the "test" database
+    temp_database = client["test"]
+    temp_collection = temp_database[cluster_vendor]
+
+    post = {
+        "Vendor_RegisterNo": cluster_registration_no,
+        "Vendor_vat": cluster_vat,
+        "Vendor_Registration": cluster_registration,
+        "Vendor_regisCert": cluster_regis_cert,
+        "Vendor_productCert": cluster_product_cert
+    }
+    temp_collection.update_one({"Vendor_name": cluster_vendor}, {"$set": post}, upsert=True)
+
+    # Return a success message
+    return redirect(url_for('signup_vendor3'))
+
+
+@app.route('/insert_signup_vendor3', methods=['POST'])
+def insert_signup_vendor3():
+    global cluster_customer
+    # Get the form data
+    cluster_bank_name = request.form['cluster_bankName']
+    cluster_bank_add = request.form['cluster_bankAdd']
+    cluster_acc_name = request.form['cluster_accName']
+    cluster_acc_no = request.form['cluster_accNo']
+    cluster_statement = request.form['cluster_statement']
+
+    # Create a MongoDB client
+    client = MongoClient('localhost', 27017)
+
+    # Get the "test" database
+    temp_database = client["test"]
+    temp_collection = temp_database[cluster_vendor]
+
+    post = {
+        "Vendor_bankName": cluster_bank_name,
+        "Vendor_bankAddress": cluster_bank_add,
+        "Vendor_AccName": cluster_acc_name,
+        "Vendor_AccNo": cluster_acc_no,
+        "Vendor_statement": cluster_statement
+    }
+    temp_collection.update_one({"Vendor_name": cluster_vendor}, {"$set": post}, upsert=True)
+
+    # Return a success message
+    return redirect(url_for('home_vendor', cluster_name=f"{cluster_vendor}"))
+
+
+@app.route('/login_page_vendor')
+def login_page_vendor():
+    return render_template('login-vendor.html')
+
+
+@app.route('/login_vendor', methods=['POST'])
+def login_vendor():
+    global vendor
+    # Get the username and password from the form
+    username = request.form['username']
+    # Check if the collection is available in the database
+    if username in db.list_collection_names():
+        vendor = username
+        return redirect(url_for('home_vendor', cluster_name=vendor))
+    else:
+        return redirect(url_for('login_page_vendor'))
+
+
+@app.route('/home_vendor/<cluster_name>')
+def home_vendor(cluster_name):
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    return render_template('vendor.html', date=date, upcoming_orders=upcoming_order, cluster_name=cluster_name)
+
+
 @app.route('/create_clusters_customer', methods=['POST'])
 def create_clusters_customer():
-    global cluster_name_prefix
+    global cluster_customer
     # Get the form data
-    cluster_name_prefix = request.form['cluster_name_prefix']
+    cluster_customer = request.form['cluster_customer']
     cluster_number = request.form['cluster_number']
     cluster_email = request.form['cluster_email']
     cluster_password = request.form['cluster_password']
     # Create the clusters
     for i in range(1):
-        cluster_name = f"{cluster_name_prefix}"
+        cluster_name = f"{cluster_customer}"
         create_cluster_customer(cluster_name, cluster_number, cluster_email, cluster_password)
 
     # Return a success message
@@ -92,7 +222,7 @@ def create_cluster_customer(cluster_name, cluster_number, cluster_email, cluster
 
 @app.route('/insert_signup_customer2', methods=['POST'])
 def insert_signup_customer2():
-    global cluster_name_prefix
+    global cluster_customer
     # Get the form data
     cluster_company = request.form['cluster_company']
     cluster_address = request.form['cluster_address']
@@ -105,7 +235,7 @@ def insert_signup_customer2():
 
     # Get the "test" database
     temp_database = client["test"]
-    temp_collection = temp_database[cluster_name_prefix]
+    temp_collection = temp_database[cluster_customer]
 
     post = {
         "Customer_company": cluster_company,
@@ -114,15 +244,15 @@ def insert_signup_customer2():
         "Customer_Shipping": cluster_shipping,
         "Customer_business": cluster_business
     }
-    temp_collection.update_one({"Customer_name": cluster_name_prefix}, {"$set": post}, upsert=True)
+    temp_collection.update_one({"Customer_name": cluster_customer}, {"$set": post}, upsert=True)
 
     # Return a success message
     return redirect(url_for('signup_customer3'))
 
 
-@app.route('/insert_signup_customer2', methods=['POST'])
-def insert_signup_customer2():
-    global cluster_name_prefix
+@app.route('/insert_signup_customer3', methods=['POST'])
+def insert_signup_customer3():
+    global cluster_customer
     # Get the form data
     cluster_payment_term = request.form['cluster_paymentTerm']
     cluster_name_card = request.form['cluster_nameCard']
@@ -136,7 +266,7 @@ def insert_signup_customer2():
     # Get the "test" database
     db = client.test
     temp_database = client["test"]
-    temp_collection = temp_database[cluster_name_prefix]
+    temp_collection = temp_database[cluster_customer]
 
     post = {
         "Customer_Payment_Term": cluster_payment_term,
@@ -145,10 +275,10 @@ def insert_signup_customer2():
         "Customer_cardEx": cluster_card_ex,
         "Customer_cvc": cluster_cvc
     }
-    temp_collection.update_one({"Customer_name": cluster_name_prefix}, {"$set": post}, upsert=True)
+    temp_collection.update_one({"Customer_name": cluster_customer}, {"$set": post}, upsert=True)
 
     # Return a success message
-    return redirect(url_for('home_customer', cluster_name=f"{cluster_name_prefix}"))
+    return redirect(url_for('home_customer', cluster_name=f"{cluster_customer}"))
 
 
 @app.route('/login_page_customer')
@@ -174,135 +304,6 @@ def home_customer(cluster_name):
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     return render_template('customer.html', date=date, upcoming_orders=upcoming_order, cluster_name=cluster_name)
-
-
-@app.route('/create_clusters_vendor', methods=['POST'])
-def create_clusters_vendor():
-    global cluster_name_prefix_vendor
-    # Get the form data
-    cluster_name_prefix_vendor = request.form['cluster_name_prefix']
-    cluster_code = request.form['cluster_code']
-    cluster_phone_no = request.form['cluster_phoneNo']
-    cluster_address = request.form['cluster_address']
-    cluster_email = request.form['cluster_email']
-    cluster_password = request.form['cluster_password']
-
-    # Create the clusters
-    for i in range(1):
-        cluster_name = f"{cluster_name_prefix_vendor}"
-        create_cluster_vendor(cluster_name, cluster_code, cluster_phone_no,
-                              cluster_address, cluster_email, cluster_password)
-
-    # Return a success message
-    # return redirect(url_for('customer', cluster_name=f"{cluster_name_prefix}"))
-    return redirect(url_for('signup_vendor2'))
-
-
-def create_cluster_vendor(cluster_name, cluster_code, cluster_phone_no, cluster_address, cluster_email,
-                          cluster_password):
-    # Create a MongoDB client
-    client = MongoClient('localhost', 27017)
-
-    # Get the "test" database
-    db = client.test
-    temp_database = client["test"]
-    # Create the new cluster
-    db.create_collection(cluster_name)
-    temp_collection = temp_database[cluster_name]
-
-    post = {
-        "Vendor_name": cluster_name,
-        "Vendor_Code": cluster_code,
-        "Vendor_phoneNo": cluster_phone_no,
-        "Vendor_Address": cluster_address,
-        "Vendor_email": cluster_email,
-        "Vendor_Password": cluster_password
-    }
-    temp_collection.insert_one(post)
-
-
-@app.route('/insert_signup_vendor', methods=['POST'])
-def insert_signup_vendor():
-    # Get the form data
-    cluster_registration_no = request.form['cluster_registrationNo']
-    cluster_vat = request.form['cluster_vat']
-    cluster_registration = request.form['cluster_registration']
-    cluster_regis_cert = request.form['cluster_regisCert']
-    cluster_product_cert = request.form['cluster_productCert']
-
-    # Create a MongoDB client
-    client = MongoClient('localhost', 27017)
-
-    # Get the "test" database
-    temp_database = client["test"]
-    temp_collection = temp_database[cluster_name_prefix]
-
-    post = {
-        "Vendor_RegisterNo": cluster_registration_no,
-        "Vendor_vat": cluster_vat,
-        "Vendor_Registration": cluster_registration,
-        "Vendor_regisCert": cluster_regis_cert,
-        "Vendor_productCert": cluster_product_cert
-    }
-    temp_collection.update_one({"Vendor_name": cluster_name_prefix_vendor}, {"$set": post}, upsert=True)
-
-    # Return a success message
-    return redirect(url_for('signup_vendor3'))
-
-
-@app.route('/insert_signup_vendor3', methods=['POST'])
-def insert_signup_vendor3():
-    global cluster_name_prefix
-    # Get the form data
-    cluster_bank_name = request.form['cluster_bankName']
-    cluster_bank_add = request.form['cluster_bankAdd']
-    cluster_acc_name = request.form['cluster_accName']
-    cluster_acc_no = request.form['cluster_accNo']
-    cluster_statement = request.form['cluster_statement']
-
-    # Create a MongoDB client
-    client = MongoClient('localhost', 27017)
-
-    # Get the "test" database
-    temp_database = client["test"]
-    temp_collection = temp_database[cluster_name_prefix]
-
-    post = {
-        "Vendor_bankName": cluster_bank_name,
-        "Vendor_bankAddress": cluster_bank_add,
-        "Vendor_AccName": cluster_acc_name,
-        "Vendor_AccNo": cluster_acc_no,
-        "Vendor_statement": cluster_statement
-    }
-    temp_collection.update_one({"Vendor_name": cluster_name_prefix_vendor}, {"$set": post}, upsert=True)
-
-    # Return a success message
-    return redirect(url_for('home_vendor', cluster_name=f"{cluster_name_prefix_vendor}"))
-
-
-@app.route('/login_page_vendor')
-def login_page_vendor():
-    return render_template('login-vendor.html')
-
-
-@app.route('/login_vendor', methods=['POST'])
-def login_vendor():
-    global vendor
-    # Get the username and password from the form
-    username = request.form['username']
-    # Check if the collection is available in the database
-    if username in db.list_collection_names():
-        vendor = username
-        return redirect(url_for('home_vendor', cluster_name=vendor))
-    else:
-        return redirect(url_for('login_page_vendor'))
-
-
-@app.route('/home_vendor/<cluster_name>')
-def home_vendor(cluster_name):
-    now = datetime.datetime.now()
-    date = now.strftime("%Y-%m-%d")
-    return render_template('vendor.html', date=date, upcoming_orders=upcoming_order, cluster_name=cluster_name)
 
 
 @app.route('/products')

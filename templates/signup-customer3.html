@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MedEase - Sign Up Customer</title>
+	<title>MedEase - Sign Up Vendor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/SignUp.css' )}}">
 </head>
 <body>
@@ -10,7 +10,7 @@
         <img src="{{ url_for('static', filename = 'images/SignLogin.png' )}}" alt="Image">
       </div>
 
-      <form class="form" method="POST" action="/insert_signup_vendor3">
+      <form class="form" method="POST" action="/insert_signup_customer3">
         <h1><u>PAYMENT AND FINANCIAL DETAILS </u></h1>
 
         <div class="inputContainer">
@@ -19,28 +19,23 @@
         </div>
 
         <div class="inputContainer">
-          <label class="label" for="cluster_bankName">Bank Name</label>
-          <input type="text" name="cluster_bankName" id="cluster_bankName" class="input" placeholder="Danie David" required>
+          <label class="label" for="cluster_nameCard">Name on card</label>
+          <input type="text" name="cluster_nameCard" id="cluster_nameCard" class="input" placeholder="Danie David" required>
         </div>
 
         <div class="inputContainer">
-          <label class="label" for="cluster_bankAdd">Bank Address</label>
-          <input type="number" name="cluster_bankAdd" id="cluster_bankAdd" class="input" placeholder="1999129123123" required>
+          <label class="label" for="cluster_cardNo">Card Number </label>
+          <input type="number" name="cluster_cardNo" id="cluster_cardNo" class="input" placeholder="1999129123123" required>
         </div>
 
         <div class="inputContainer">
-          <label class="label" for="cluster_accName">Account Name</label>
-          <input type="date" class="input" name="cluster_accName" id="cluster_accName" placeholder="01/45" required>
+          <label class="label" for="cluster_cardEx">Expiration Month and year</label>
+          <input type="date" class="input" name="cluster_cardEx" id="cluster_cardEx" placeholder="01/45" required>
         </div>
 
         <div class="inputContainer">
-            <label class="label" for="cluster_accNo">Account Number</label>
-            <input type="number" class="input" name="cluster_accNo" id="cluster_accNo" placeholder="111" required>
-        </div>
-
-        <div class="inputContainer">
-          <label class="label" for="cluster_statement">Statment of Finance for the last 02 years</label>
-          <input type="number" class="input" name="cluster_statement" id="cluster_statement" placeholder="111" required>
+            <label class="label" for="cluster_cvc">CVC</label>
+            <input type="number" class="input" name="cluster_cvc" id="cluster_cvc" placeholder="111" required>
         </div>
         
         <input type="submit" class="submitBtn" value="Create Account">
