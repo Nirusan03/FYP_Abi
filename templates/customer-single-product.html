@@ -16,7 +16,7 @@
             <ul class="menu">
                 <div class="admin">
                     <img src="{{ url_for('static', filename = 'images/INSL_IEEE.jpg' )}}" width="90px"  alt="" style="float:left; border-radius: 50%;">
-                    <span style="padding: 30px 0px 0px 10px; font-size: 20px;">ADMIN</span>
+                    <span style="padding: 30px 0px 0px 10px; font-size: 20px;">{{customer}}</span>
                 </div>
                 <li>
                     <div class="menuList">
@@ -82,18 +82,21 @@
                 <div class="delivery-earning">
                     <div class="upcoming">
                         <p>Product : {{product_name}}</p>
-                        <p>{{product_name}} Price : {{product_price}}</p>
-                        <p>{{product_quantity}} Quantity :{{product_quantity}}</p>
-                        <p>Vendor Name : {{product_vendor}}</p>
+                        <p>1X Price : {{product_price}}</p>
+                        <p>Available quantity :{{product_quantity}}</p>
+                        <p>Vendor : {{product_vendor}}</p>
+                        <form method="POST" action="/add_cart">
+                            <label class="label" for="quantity">Quantity</label>
+                            <input type="number" name="quantity" id="quantity" class="input" placeholder="100" min="100" max="300" required>                    
+                            <button type="submit" value="Add to cart" id="my-button" name="my-button">Add to cart</button>
+                        </form>
                     </div>
                 </div>
                 
         </div>
-        
-
-
         <footer>
 
         </footer>
     </body>
+    
 </html>

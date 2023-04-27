@@ -3,6 +3,8 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from flask import url_for
+from flask import jsonify
+from bson.objectid import ObjectId
 import datetime
 from pymongo import *
 
@@ -21,8 +23,16 @@ vendor = ""
 retrieve_products = collection_products.find()
 product_list = []
 
+carts = []
+
 collection_vendor = ""
 collection_customer = ""
+
+product_name = ""
+product_price = ""
+product_quantity = ""
+product_vendor = ""
+product_customer = ""
 
 for documents in retrieve_products:
     product_list.append(documents)
@@ -300,9 +310,12 @@ def inventory():
     return render_template('vendor-inventory.html', date=date, upcoming_orders=product_list, vendor=vendor)
 
 
-@app.route('/insert_data', methods=['POST'])
-def insert_data():
+@app.route('/pass_data', methods=['POST'])
+def pass_data():
+    global product_name, product_price, product_quantity, \
+        product_vendor, product_customer
     button_value = ""
+    words = []
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     button_value = request.form['my-button']
@@ -313,14 +326,16 @@ def insert_data():
     product_vendor = "Vendor" + words[3]
     product_customer = words[4]
 
-    print("Product Name : ", product_name,
-          "\nProduct Price : ", product_price,
-          "\nProduct Quantity : ", product_quantity,
-          "\nProduct Vendor : ", product_vendor,
-          "\nProduct Customer : ", product_customer)
+    print("Product_Name : ", product_name,
+          "\nProduct_Price : ", product_price,
+          "\nProduct_Quantity : ", product_quantity,
+          "\nProduct_Vendor : ", product_vendor,
+          "\nProduct_Customer : ", product_customer)
 
-    temp_collection = db_vendor[product_vendor]
-    temp_collection.insert_one({'data': button_value})
+    # temp_collection = db_vendor[product_vendor]
+    # temp_collection.insert_one({'data': button_value})
+
+    # return jsonify({'result': 'success'})
     return redirect(url_for('customer_single_product', date=date, customer=customer,
                             product_name=product_name, product_price=product_price, product_quantity=product_quantity,
                             product_vendor=product_vendor, product_customer=product_customer))
@@ -336,11 +351,97 @@ def customer_single_product(product_name, product_price, product_quantity, produ
                            product_vendor=product_vendor, product_customer=product_customer)
 
 
+@app.route("/add_cart", methods=['POST'])
+def add_cart():
+    global db_customer, product_name, product_price \
+        , product_vendor, customer
+    quantity = request.form["quantity"]
+    print("INSIDE ADD TO CART"
+          "\nProduct Name : ", product_name,
+          "\nProduct Price : ", product_price,
+          "\nProduct Vendor : ", product_vendor,
+          "\nSelected Quantity : ", quantity,
+          "\nProduct Customer : ", customer)
+
+    post = {
+        "product_Name": product_name,
+        "product_Price": product_price,
+        "product_Vendor": product_vendor,
+        "selected_Quantity": quantity,
+        "product_Customer": customer,
+        "status": "cart"
+    }
+    temp_collection = db_customer[customer]
+    temp_collection.insert_one(post)
+    return redirect(url_for('products'))
+
+
 @app.route('/rfq_vendor')
 def rfq_vendor():
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     return render_template('rfq-vendor.html', date=date, upcoming_orders=product_list)
+
+
+@app.route('/cart')
+def cart():
+    global carts
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    retrieve_carts = db_customer[customer].find({"status": "cart"})
+    carts = []
+    for document in retrieve_carts:
+        # keys = list(document.keys())
+        #
+        # vendor_key = keys[3]
+        # vendor_value = document[vendor_key]
+        #
+        # vendor_collection = db_vendor[vendor_value]
+        # vendor_collection.insert_one(document)
+
+        carts.append(document)
+        print(document)
+
+    return render_template('customer-cart.html', date=date, cart=carts, customer=customer)
+
+
+@app.route("/rfq", methods=['POST'])
+def rfq():
+    global carts
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    button_value = ""
+    words = []
+    button_value = request.form['my-button']
+    words = [w.strip() for w in button_value.split()]
+
+    str_id = words[0]
+    obj_id = ObjectId(str_id)
+    print(type(str_id), " ",  str_id)
+    print(type(obj_id), " ",  obj_id)
+    name = words[1]
+    price = words[2]
+    quantity = words[3]
+    vendor = words[4]
+    customer = words[5]
+    customer_str = "" + customer
+
+    temp_collection_vendor = db_vendor[vendor]
+    temp_collection_customer = db_customer[customer]
+
+    post = {
+        "product_Name": name,
+        "product_Price": price,
+        "selected_quantity": quantity,
+        "product_Customer": customer,
+        "status": "rfq"
+    }
+
+    temp_collection_vendor.insert_one(post)
+    update = temp_collection_customer.update_one({"_id": obj_id}, {"$set": {"status": "rfq"}})
+    print(update.matched_count, " matched")
+    print(update.modified_count, " modified")
+    return render_template('customer-cart.html', date=date, cart=carts, customer=customer)
 
 
 if __name__ == "__main__":
