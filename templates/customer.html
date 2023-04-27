@@ -21,7 +21,7 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/dashboard.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="#">DASHBOARD</a>
+                        <a href="{{ url_for('home_customer', cluster_name=customer) }}">DASHBOARD</a>
                     </div>
                     
     
@@ -34,13 +34,9 @@
                 
                 <li>
                     <div class="menuList">
-                        <img src="{{ url_for('static', filename = 'images/vendor.png' )}}" alt="dashboard" width="30px" height="38px">
-                        <a href="#">RFQ</a>
+                        <img src="{{ url_for('static', filename = 'images/products.png' )}}" alt="dashboard" width="30px" height="35px">
+                        <a href="{{ url_for('products') }}">PRODUCTS</a>
                     </div>
-                    <ul class="submenu">
-                        <li><a href="#">Quote Requests</a></li>
-                        <li><a href="#">Inventory</a></li>
-                    </ul>
                 </li>
 
                 <li>
@@ -49,13 +45,18 @@
                         <a href="{{url_for('cart')}}">CART</a>
                     </div>
                 </li>
-
+                
                 <li>
                     <div class="menuList">
-                        <img src="{{ url_for('static', filename = 'images/products.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="{{ url_for('products') }}">PRODUCTS</a>
+                        <img src="{{ url_for('static', filename = 'images/vendor.png' )}}" alt="dashboard" width="30px" height="38px">
+                        <a href="{{ url_for('customer_rfq') }}">RFQ</a>
                     </div>
+                    <ul class="submenu">
+                        <li><a href="#">Quote Requests</a></li>
+                        <li><a href="#">Inventory</a></li>
+                    </ul>
                 </li>
+
             </ul>
 
             <div class="content">

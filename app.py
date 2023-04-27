@@ -385,7 +385,7 @@ def rfq_vendor():
 
 @app.route('/cart')
 def cart():
-    global carts
+    global carts, customer
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     retrieve_carts = db_customer[customer].find({"status": "cart"})
@@ -442,6 +442,19 @@ def rfq():
     print(update.matched_count, " matched")
     print(update.modified_count, " modified")
     return render_template('customer-cart.html', date=date, cart=carts, customer=customer)
+
+
+@app.route('/customer_rfq')
+def customer_rfq():
+    global carts, customer
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    retrieve_rfq = db_customer[customer].find({"status": "rfq"})
+    rfq_dic = []
+
+    for document in retrieve_rfq:
+        rfq_dic.append(document)
+    return render_template('customer-rfq.html', date=date, rfq_dic=rfq_dic, customer=customer)
 
 
 if __name__ == "__main__":

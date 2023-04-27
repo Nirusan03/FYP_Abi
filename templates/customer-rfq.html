@@ -42,14 +42,14 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/staff.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="#">RFQ (Requesting for Quote)</a>
+                        <a href="{{ url_for('customer_rfq') }}">RFQ (Requesting for Quote)</a>
                     </div>
                 </li>
 
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="#">CART</a>
+                        <a href="{{ url_for('cart') }}">CART</a>
                     </div>
                 </li>
 
@@ -85,7 +85,7 @@
                               <th>PRODUCT QUANTITY</th>
                               <th>VENDOR</th>
                             </tr>
-                          {% for post in cart %}
+                          {% for post in rfq_dic %}
                                 <a href="#">
                                 <tr onclick="window.location.href='www.google.com#tag1'">
                                   <td>{{post.product_Name}}</td>
@@ -93,8 +93,8 @@
                                   <td>{{post.selected_Quantity}}</td>
                                   <td>{{post.product_Vendor}}</td>
                                   <td>
-                                    <form method="POST" action="/rfq">
-                                    <button type="submit" value=" {{post._id}} {{post.product_Name}} {{post.product_Price}} 
+                                    <form method="POST" action="">
+                                    <button type="submit" value="{{post.product_Name}} {{post.product_Price}} 
                                     {{post.selected_Quantity}} {{post.product_Vendor}} {{customer}} " id="my-button" name="my-button">RFQ</button>
                                     </form>
                                 </td>
