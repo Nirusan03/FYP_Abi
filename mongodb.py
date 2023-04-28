@@ -2,8 +2,8 @@ import pymongo
 from pymongo import MongoClient
 
 cluster = MongoClient("mongodb://localhost:27017")
-database = cluster["Fyp_Abi"]
-collection = database["vendor"]
+database = cluster["Storage"]
+collection = database["Inventory"]
 
 # Collection is like a mini database inside the cluster
 # Each collection something known as post. Post means entries
