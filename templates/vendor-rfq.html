@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Inventory</title>
+        <title>Requesting For Quote</title>
         <link rel="stylesheet" href="{{ url_for('static', filename = 'css/rfq-vendor.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
             <ul class="menu">
                 <div class="admin">
                     <img src="{{ url_for('static', filename = 'images/INSL_IEEE.jpg' )}}" width="90px"  alt="" style="float:left; border-radius: 50%;">
-                    <span style="padding: 30px 0px 0px 10px; font-size: 20px;">{{ cluster_name }}</span>
+                    <span style="padding: 30px 0px 0px 10px; font-size: 20px;">{{ vendor }}</span>
                 </div>
                 <li>
                     <div class="menuList">
@@ -61,7 +61,7 @@
             <div class="content">
                 <img src="{{ url_for('static', filename = 'images/dashboard.png' )}}" alt="dashboard" width="30px" height="35px">
                 <div class="header1">
-                    <h1>DASHBOARD</h1>
+                    <h1>Requests</h1>
                     <span style="float: right; margin: 20px 0 0 130vh;">{{ date  }}</span>
                 </div>
                 <hr>
@@ -81,25 +81,21 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <h2>UPCOMING DELIVERIES</h2>
+                        <h2>RFQ Details</h2>
                         <table>
                             <tr>
                               <th>PRODUCT NAME</th>
                               <th>PRODUCT ID</th>
                               <th>PRODUCT QU</th>
-                              <th>VENDOR</th>
-                              <th>PRICE</th>
                             </tr>
-                          {% for post in upcoming_orders %}
+                          {% for post in rfq_dic %}
                                 <tr>
-                                  <td>{{post.quantity}}</td>
-                                  <td>{{post.productId}}</td>
-                                  <td>{{post.productName}}</td>
-                                  <td>{{post.vendor}}</td>
-                                  <td>{{post.price}}</td>
+                                  <td>{{post.product_Name}}</td>
+                                  <td>{{post.product_id}}</td>
+                                  <td>{{post.selected_quantity}}</td>
                                   <td>
-                                    <form method="POST" action="/insert_data">
-                                    <button type="submit" value="{{post.productName}}  {{post.vendor}}" id="my-button" name="my-button">RFQ</button>
+                                    <form method="POST" action="/">
+                                    <button type="submit" style="border: none; background-color:transparent; cursor: pointer;" value="{{post.productName}}  {{post.vendor}}" id="my-button" name="my-button">RFQ</button>
                                     </form>
                                 </td>
                                 </tr>

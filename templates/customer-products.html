@@ -89,14 +89,14 @@
                           {% for post in upcoming_orders %}
                                 <a href="#">
                                 <tr onclick="window.location.href='www.google.com#tag1'">
-                                  <td>{{post.quantity}}</td>
-                                  <td>{{post.productId}}</td>
-                                  <td>{{post.productName}}</td>
+                                    <td>{{post.productName}}</td>
+                                    <td>{{post.price}}</td>
+                                    <td>{{post.quantity}}</td>
+                                  <!-- <td>{{post.productId}}</td> -->
                                   <!-- <td>{{post.vendor}}</td> -->
-                                  <td>{{post.price}}</td>
                                   <td>
                                     <form method="POST" action="/pass_data">
-                                    <button type="submit" value="{{post.productName}} {{post.price}} {{post.quantity}} {{post.vendor}} {{customer}} " id="my-button" name="my-button">RFQ</button>
+                                    <button type="submit" value="{{post.productName}} {{post.price}} {{post.quantity}} {{post.vendor}} {{customer}} {{post.productId}}" id="my-button" name="my-button">RFQ</button>
                                     </form>
                                 </td>
                                 </tr>

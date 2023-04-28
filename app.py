@@ -33,6 +33,7 @@ product_price = ""
 product_quantity = ""
 product_vendor = ""
 product_customer = ""
+product_id = 0
 
 for documents in retrieve_products:
     product_list.append(documents)
@@ -185,6 +186,59 @@ def home_vendor(cluster_name):
     return render_template('vendor.html', date=date, upcoming_orders=product_list, cluster_name=cluster_name)
 
 
+@app.route('/inventory')
+def inventory():
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    return render_template('vendor-inventory.html', date=date, upcoming_orders=product_list, vendor=vendor)
+
+
+@app.route('/pass_information', methods=['POST'])
+def pass_information():
+    button_value = ""
+    words = []
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    button_value = request.form['product-button']
+    words = [w.strip() for w in button_value.split()]
+
+    p_id = words[0]
+    name = words[1]
+    quantity = words[2]
+    price = words[3]
+
+    print("Product ID : ", p_id,
+          "\nName : ", name,
+          "\nQuantity : ", quantity,
+          "\nPrice : ", price)
+
+    return redirect(url_for('vendor_single_inventory', date=date, vendor=vendor,
+                            p_id=p_id, name=name, quantity=quantity, price=price))
+
+
+@app.route('/vendor-single-inventory/<p_id>/<name>/<quantity>/<price>')
+def vendor_single_inventory(p_id, name, quantity, price):
+    global vendor
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    return render_template('vendor-single-inventory.html', date=date, vendor=vendor,
+                           p_id=p_id, name=name, quantity=quantity, price=price)
+
+
+@app.route('/vendor_rfq')
+def vendor_rfq():
+    global vendor
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    retrieve_rfq = db_vendor[vendor].find({"status" : "rfq"})
+
+    rfq_dic = []
+    for document in retrieve_rfq:
+        rfq_dic.append(document)
+
+    return render_template('vendor-rfq.html', date=date, rfq_dic=rfq_dic, vendor=vendor)
+
+
 @app.route('/create_clusters_customer', methods=['POST'])
 def create_clusters_customer():
     global collection_customer, customer
@@ -303,17 +357,10 @@ def products():
     return render_template('customer-products.html', date=date, upcoming_orders=product_list, customer=customer)
 
 
-@app.route('/inventory')
-def inventory():
-    now = datetime.datetime.now()
-    date = now.strftime("%Y-%m-%d")
-    return render_template('vendor-inventory.html', date=date, upcoming_orders=product_list, vendor=vendor)
-
-
 @app.route('/pass_data', methods=['POST'])
 def pass_data():
     global product_name, product_price, product_quantity, \
-        product_vendor, product_customer
+        product_vendor, product_customer, product_id
     button_value = ""
     words = []
     now = datetime.datetime.now()
@@ -325,46 +372,39 @@ def pass_data():
     product_quantity = words[2]
     product_vendor = "Vendor" + words[3]
     product_customer = words[4]
+    product_id = words[5]
 
     print("Product_Name : ", product_name,
           "\nProduct_Price : ", product_price,
           "\nProduct_Quantity : ", product_quantity,
           "\nProduct_Vendor : ", product_vendor,
-          "\nProduct_Customer : ", product_customer)
+          "\nProduct_Customer : ", product_customer,
+          "\nProduct_Id : ", product_id)
 
-    # temp_collection = db_vendor[product_vendor]
-    # temp_collection.insert_one({'data': button_value})
-
-    # return jsonify({'result': 'success'})
     return redirect(url_for('customer_single_product', date=date, customer=customer,
                             product_name=product_name, product_price=product_price, product_quantity=product_quantity,
-                            product_vendor=product_vendor, product_customer=product_customer))
+                            product_vendor=product_vendor, product_customer=product_customer, product_id=product_id))
 
 
 @app.route('/customer-single-product/<product_name>/<product_price>/<product_quantity>'
-           '/<product_vendor>/<product_customer>')
-def customer_single_product(product_name, product_price, product_quantity, product_vendor, product_customer):
+           '/<product_vendor>/<product_customer>/<product_id>')
+def customer_single_product(product_name, product_price, product_quantity, product_vendor, product_customer, product_id):
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     return render_template('customer-single-product.html', date=date, customer=customer,
                            product_name=product_name, product_price=product_price, product_quantity=product_quantity,
-                           product_vendor=product_vendor, product_customer=product_customer)
+                           product_vendor=product_vendor, product_customer=product_customer, product_id=product_id)
 
 
 @app.route("/add_cart", methods=['POST'])
 def add_cart():
     global db_customer, product_name, product_price \
-        , product_vendor, customer
+        , product_vendor, customer, product_id
     quantity = request.form["quantity"]
-    print("INSIDE ADD TO CART"
-          "\nProduct Name : ", product_name,
-          "\nProduct Price : ", product_price,
-          "\nProduct Vendor : ", product_vendor,
-          "\nSelected Quantity : ", quantity,
-          "\nProduct Customer : ", customer)
 
     post = {
         "product_Name": product_name,
+        "product_Id": product_id,
         "product_Price": product_price,
         "product_Vendor": product_vendor,
         "selected_Quantity": quantity,
@@ -376,13 +416,6 @@ def add_cart():
     return redirect(url_for('products'))
 
 
-@app.route('/rfq_vendor')
-def rfq_vendor():
-    now = datetime.datetime.now()
-    date = now.strftime("%Y-%m-%d")
-    return render_template('rfq-vendor.html', date=date, upcoming_orders=product_list)
-
-
 @app.route('/cart')
 def cart():
     global carts, customer
@@ -391,14 +424,6 @@ def cart():
     retrieve_carts = db_customer[customer].find({"status": "cart"})
     carts = []
     for document in retrieve_carts:
-        # keys = list(document.keys())
-        #
-        # vendor_key = keys[3]
-        # vendor_value = document[vendor_key]
-        #
-        # vendor_collection = db_vendor[vendor_value]
-        # vendor_collection.insert_one(document)
-
         carts.append(document)
         print(document)
 
@@ -417,23 +442,26 @@ def rfq():
 
     str_id = words[0]
     obj_id = ObjectId(str_id)
-    print(type(str_id), " ",  str_id)
-    print(type(obj_id), " ",  obj_id)
+    print(type(str_id), " ", str_id)
+    print(type(obj_id), " ", obj_id)
     name = words[1]
     price = words[2]
     quantity = words[3]
-    vendor = words[4]
-    customer = words[5]
-    customer_str = "" + customer
+    vendor_name = words[4]
+    customer_name = words[5]
+    p_id = int(words[6])
 
-    temp_collection_vendor = db_vendor[vendor]
-    temp_collection_customer = db_customer[customer]
+    customer_str = "" + customer_name
+
+    temp_collection_vendor = db_vendor[vendor_name]
+    temp_collection_customer = db_customer[customer_name]
 
     post = {
         "product_Name": name,
+        "product_id": p_id,
         "product_Price": price,
         "selected_quantity": quantity,
-        "product_Customer": customer,
+        "product_Customer": customer_name,
         "status": "rfq"
     }
 
@@ -441,7 +469,7 @@ def rfq():
     update = temp_collection_customer.update_one({"_id": obj_id}, {"$set": {"status": "rfq"}})
     print(update.matched_count, " matched")
     print(update.modified_count, " modified")
-    return render_template('customer-cart.html', date=date, cart=carts, customer=customer)
+    return render_template('customer-cart.html', date=date, cart=carts, customer=customer_name)
 
 
 @app.route('/customer_rfq')
