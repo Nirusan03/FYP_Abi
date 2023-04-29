@@ -605,7 +605,7 @@ def customer_proceed_page(p_id, p_vendor):
     date = now.strftime("%Y-%m-%d")
     print(p_id, " ", p_vendor, " ", customer)
     retrieve_quote2 = db_customer[customer].find_one({"status": "rfq_sent", "product_Id": int(p_id),
-                                                     "product_Vendor": p_vendor})
+                                                      "product_Vendor": p_vendor})
     print(retrieve_quote2)
     return render_template('customer-proceed.html', date=date, customer=customer, retrieve_quote2=retrieve_quote2)
 
