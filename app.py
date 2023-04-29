@@ -653,8 +653,13 @@ def customer_invoice():
     global customer
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
+    retrieve_invoice = db_customer[customer].find({"status": "purchased"})
+    invoice = []
+    for document in retrieve_invoice:
+        invoice.append(document)
+        print(document)
 
-    return render_template('customer-invoice.html', date=date, customer=customer)
+    return render_template('customer-invoice.html', date=date, customer=customer, invoice=invoice)
 
 
 if __name__ == "__main__":
