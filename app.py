@@ -284,10 +284,13 @@ def vendor_sent_quote():
         words = [w.strip() for w in button_value.split()]
         p_id = int(words[0])
         cus_name = words[1]
+
         total_price = request.form['price']
         period = int(request.form['period'])
+
         query = {"product_Id": p_id, "product_Customer": cus_name}
         query2 = {"product_id": p_id, "product_Customer": cus_name}
+
         new_value = {"$set": {"total_price": total_price, "period": period, "status": "rfq_sent"}}
 
         update = db_customer[cus_name].update_one(query, new_value)
@@ -591,12 +594,10 @@ def proceed_po():
     date = now.strftime("%Y-%m-%d")
     if "proc-po" in request.form:
         button_value = request.form['proc-po']
-        print(button_value + " values")
         words = [w.strip() for w in button_value.split()]
-        print(words)
         p_id = int(words[0])
         p_vendor = words[1]
-        return render_template(url_for('customer_proceed_page', p_id=p_id, p_vendor=p_vendor))
+        return redirect(url_for('customer_proceed_page', p_id=p_id, p_vendor=p_vendor))
     elif "dic_po" in request.form:
         return "decline order"
 
@@ -606,10 +607,35 @@ def customer_proceed_page(p_id, p_vendor):
     global customer
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    retrieve_quote = db_customer[customer].find_one({"status": "rfq_sent", "product_Id": p_id,
+    print(p_id, " ", p_vendor, " ", customer)
+    retrieve_quote2 = db_customer[customer].find_one({"status": "rfq_sent", "product_Id": int(p_id),
                                                      "product_Vendor": p_vendor})
-    return render_template('customer-proceed.html', retrieve_quote=retrieve_quote, customer=customer,
-                           date=date)
+    print(retrieve_quote2)
+    return render_template('customer-proceed.html', date=date, customer=customer, retrieve_quote2=retrieve_quote2)
+
+
+@app.route('/pay_order', methods=['POST'])
+def pay_order():
+    global customer
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    button_values = request.form['pay']
+    words = [w.strip() for w in button_values.split()]
+    print(words)
+    prod_id = int(words[0])
+    vend_name = words[1]
+
+    cus_name = request.form['cus_name']
+    card_name = request.form['card_no']
+    card_no = request.form['card_no']
+    card_ex = request.form['card_ex']
+    card_ccv = request.form['card_ccv']
+
+    retrieve_quote2 = db_customer[customer].find_one({"status": "rfq_sent", "product_Id": int(prod_id),
+                                                      "product_Vendor": vend_name})
+
+
+    return "hey"
 
 
 if __name__ == "__main__":
