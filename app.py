@@ -3,7 +3,6 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from flask import url_for
-from flask import jsonify
 from bson.objectid import ObjectId
 import datetime
 from pymongo import *
@@ -19,7 +18,7 @@ collection_products = db_storage["Inventory"]
 db_vendor = cluster['Vendor']
 db_customer = cluster['Customer']
 account_vendor_collection = db_vendor["Accounts"]
-account_customer_collection = db_vendor["Accounts"]
+account_customer_collection = db_customer["Accounts"]
 
 customer = ""
 vendor = ""
@@ -149,8 +148,6 @@ def insert_signup_vendor3():
     cluster_acc_name = request.form['cluster_accName']
     cluster_acc_no = request.form['cluster_accNo']
     cluster_statement = request.form['cluster_statement']
-
-    # vendor_collection = db_vendor[collection_vendor]
 
     post = {
         "Vendor_bankName": cluster_bank_name,
@@ -340,7 +337,7 @@ def create_cluster_customer(collection_name, cluster_number, cluster_email, clus
 
 @app.route('/insert_signup_customer2', methods=['POST'])
 def insert_signup_customer2():
-    global collection_customer, cluster, db_customer
+    global collection_customer, cluster, db_customer, account_customer_collection
     # Get the form data
     cluster_company = request.form['cluster_company']
     cluster_address = request.form['cluster_address']
@@ -363,15 +360,13 @@ def insert_signup_customer2():
 
 @app.route('/insert_signup_customer3', methods=['POST'])
 def insert_signup_customer3():
-    global collection_customer, cluster, db_customer
+    global collection_customer, cluster, db_customer, account_customer_collection
     # Get the form data
     cluster_payment_term = request.form['cluster_paymentTerm']
     cluster_name_card = request.form['cluster_nameCard']
     cluster_card_no = request.form['cluster_cardNo']
     cluster_card_ex = request.form['cluster_cardEx']
     cluster_cvc = request.form['cluster_cvc']
-
-    temp_collection = db_customer[collection_customer]
 
     post = {
         "Customer_Payment_Term": cluster_payment_term,
@@ -640,7 +635,7 @@ def pay_order():
     query_customer = {"status": "rfq_sent", "product_Id": prod_id, "product_Vendor": vend_name}
     query_vendor = {"status": "rfq_sent", "product_id": prod_id, "product_Customer": customer}
 
-    update_values = {"$set": {"status": "purchased", "delivery": "home", "delivery_date": str_delivery_date}}
+    update_values = {"$set": {"status": "purchased", "delivery": "Destination", "delivery_date": str_delivery_date}}
 
     update_customer = db_customer[customer].update_one(query_customer, update_values)
     update_vendor = db_vendor[vend_name].update_one(query_vendor, update_values)

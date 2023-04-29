@@ -86,10 +86,16 @@
                 <div class="delivery-earning">
                     <div class="upcoming">
                         {% for date in invoice %}
-                            <p>{{date}}</p>
+                            <p>Product name : {{date.product_Name}}</p>
+                            <p>Product ID : {{date.product_Id}}</p>
+                            <p>Product Single quantity price : {{date.product_Price}}</p>
+                            <p>Vendor name : {{date.product_Vendor}}</p>
+                            <p>Selected Quantity : {{date.selected_Quantity}}</p>
+                            <p>Total price : {{date.total_price}}</p>
+                            <p>Delivery type: {{date.delivery}}</p>
+                            <p>Delivery Date : {{date.delivery_date}}</p>
+                            <br><br>
                         {% endfor %}
-
-                        <br><br>
                     </div>
                 </div>
             </div>
