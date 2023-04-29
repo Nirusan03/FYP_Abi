@@ -287,7 +287,7 @@ def vendor_sent_quote():
         total_price = request.form['price']
         period = int(request.form['period'])
         query = {"product_Id": p_id, "product_Customer": cus_name}
-        query2 = {"product_id": p_id, "product_Customer" : cus_name}
+        query2 = {"product_id": p_id, "product_Customer": cus_name}
         new_value = {"$set": {"total_price": total_price, "period": period, "status": "rfq_sent"}}
 
         update = db_customer[cus_name].update_one(query, new_value)
@@ -547,7 +547,8 @@ def customer_rfq():
     for document1 in retrieve_rfq_update:
         ref_upt_dick.append(document1)
 
-    return render_template('customer-rfq.html', date=date, rfq_dic=rfq_dic, ref_upt_dick=ref_upt_dick, customer=customer)
+    return render_template('customer-rfq.html', date=date, rfq_dic=rfq_dic, ref_upt_dick=ref_upt_dick,
+                           customer=customer)
 
 
 @app.route("/customer_rfq_proceed", methods=['POST'])
@@ -562,7 +563,7 @@ def customer_rfq_proceed():
     p_name = words[0]
     p_vendor = words[1]
 
-    retrieve_quote = db_customer[customer].find({"status": "rfq_sent", "product_Name":  p_name,
+    retrieve_quote = db_customer[customer].find({"status": "rfq_sent", "product_Name": p_name,
                                                  "product_Vendor": p_vendor})
     rq = []
 
@@ -578,17 +579,37 @@ def customer_rfq_proceed_page(p_name, p_vendor):
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     retrieve_quote = db_customer[customer].find_one({"status": "rfq_sent", "product_Name": p_name,
-                                                 "product_Vendor": p_vendor})
+                                                     "product_Vendor": p_vendor})
 
-    return render_template("customer_rfq_proceed.html", date=date, customer=customer, retrieve_quote=retrieve_quote)
+    return render_template("customer-rfq-proceed.html", date=date, customer=customer, retrieve_quote=retrieve_quote)
 
 
-# @app.route('/customer_proceed_purchase/<retrieve_quote>')
-# def customer_proceed_purchase(retrieve_quote):
-#     global customer
-#     now = datetime.datetime.now()
-#     date = now.strftime("%Y-%m-%d")
-#
+@app.route('/proceed_po', methods=['POST'])
+def proceed_po():
+    global customer
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    if "proc-po" in request.form:
+        button_value = request.form['proc-po']
+        print(button_value + " values")
+        words = [w.strip() for w in button_value.split()]
+        print(words)
+        p_id = int(words[0])
+        p_vendor = words[1]
+        return render_template(url_for('customer_proceed_page', p_id=p_id, p_vendor=p_vendor))
+    elif "dic_po" in request.form:
+        return "decline order"
+
+
+@app.route('/customer_proceed_page/<p_id>/<p_vendor>')
+def customer_proceed_page(p_id, p_vendor):
+    global customer
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    retrieve_quote = db_customer[customer].find_one({"status": "rfq_sent", "product_Id": p_id,
+                                                     "product_Vendor": p_vendor})
+    return render_template('customer-proceed.html', retrieve_quote=retrieve_quote, customer=customer,
+                           date=date)
 
 
 if __name__ == "__main__":

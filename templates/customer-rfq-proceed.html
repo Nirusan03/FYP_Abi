@@ -85,15 +85,15 @@
                         <p>Customer : {{retrieve_quote.product_Vendor}}</p>
                         <p>Period : {{retrieve_quote.period}}</p>
                         <p>Total : {{retrieve_quote .total_price}}</p>
-                        <form method="POST" action="">
+                        <form method="POST" action="/proceed_po">
                             <!-- <label class="label" for="price">Total        </label>
                             <input type="number" name="price" id="price" class="input"> 
                             <br> <br> -->
                             <!-- <label class="label" for="period">Waiting period</label>
                             <input type="number" name="period" id="period" class="input"min="0" max="20" value="0" > -->
                             <br>
-                            <button type="submit" value="{{product_Id}} {{product_Vendor}} {{customer}}" id="" name="">Proceed to Purchase Order</button>
-                            <button type="submit" value="{{product_Id}} {{product_Vendor}} {{customer}}" id="" name="">Decline the order</button>
+                            <button type="submit" value="{{retrieve_quote.product_Id}} {{retrieve_quote.product_Vendor}}" id="proc-po" name="proc-po">Proceed to Purchase Order</button>
+                            <button type="submit" value="{{product_Id}} {{product_Vendor}}" id="dic_po" name="dic_po">Decline the order</button>
                         </form>
                     </div>
                 </div>
