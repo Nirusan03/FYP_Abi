@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Vendors Page</title>
+        <title>Customers Page</title>
         <link rel="stylesheet" href="{{ url_for('static', filename = 'css/customer.css' )}}"
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,10 +60,10 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="{{ url_for('cart')}}">INVOICE</a>
+                        <a href="{{ url_for('customer_invoice')}}">INVOICE</a>
                     </div>
                 </li>
-                
+
             </ul>
 
             <div class="content">
