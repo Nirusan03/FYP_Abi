@@ -8,6 +8,7 @@ from bson.objectid import ObjectId
 import datetime
 from pymongo import *
 from itertools import groupby
+from datetime import date, timedelta
 
 app = Flask(__name__)
 cluster = MongoClient("mongodb://localhost:27017")
@@ -630,13 +631,19 @@ def pay_order():
     card_no = request.form['card_no']
     card_ex = request.form['card_ex']
     card_ccv = request.form['card_ccv']
+    delivery_date = now + timedelta(days=5)
+    str_delivery_date = delivery_date.strftime("%d/%m/%Y")
 
     retrieve_quote2 = db_customer[customer].find_one({"status": "rfq_sent", "product_Id": prod_id,
                                                       "product_Vendor": vend_name})
 
     query_customer = {"status": "rfq_sent", "product_Id": prod_id, "product_Vendor": vend_name}
-    update_values = {"$set": {"status": "purchased"}}
-    update = db_customer[customer].update_one()
+    query_vendor = {"status": "rfq_sent", "product_id": prod_id, "product_Customer": customer}
+
+    update_values = {"$set": {"status": "purchased", "delivery": "home", "delivery_date": str_delivery_date}}
+
+    update_customer = db_customer[customer].update_one(query_customer, update_values)
+    update_vendor = db_vendor[vend_name].update_one(query_vendor, update_values)
 
     return "hey"
 
