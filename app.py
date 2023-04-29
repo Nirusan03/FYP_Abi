@@ -648,5 +648,14 @@ def pay_order():
     return "hey"
 
 
+@app.route('/customer_invoice')
+def customer_invoice():
+    global customer
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    return render_template('customer-invoice.html', date=date, customer=customer)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
