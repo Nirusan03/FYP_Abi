@@ -78,22 +78,22 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <p>Product ID : {{product_Id}}</p>
-                        <p>Product Name: {{product_Name}}</p>
-                        <p>Selected quantity :{{selected_Quantity}}</p>
-                        <p>1 * Price : {{product_Price}}</p>
-                        <p>Customer : {{product_Vendor}}</p>
-                        <p>Period : {{period}}</p>
-                        <p>Total : {{total_price}}</p>
-                        <form method="POST" action="/vendor_sent_quote">
-                            <label class="label" for="price">Total        </label>
+                        <p>Product ID : {{ retrieve_quote.product_Id }}</p>
+                        <p>Product Name: {{retrieve_quote.product_Name}}</p>
+                        <p>Selected quantity :{{retrieve_quote.selected_Quantity}}</p>
+                        <p>1 * Price : {{retrieve_quote.product_Price}}</p>
+                        <p>Customer : {{retrieve_quote.product_Vendor}}</p>
+                        <p>Period : {{retrieve_quote.period}}</p>
+                        <p>Total : {{retrieve_quote .total_price}}</p>
+                        <form method="POST" action="">
+                            <!-- <label class="label" for="price">Total        </label>
                             <input type="number" name="price" id="price" class="input"> 
-                            <br> <br>
-                            <label class="label" for="period">Waiting period</label>
-                            <input type="number" name="period" id="period" class="input"min="0" max="20" value="0" >
+                            <br> <br> -->
+                            <!-- <label class="label" for="period">Waiting period</label>
+                            <input type="number" name="period" id="period" class="input"min="0" max="20" value="0" > -->
                             <br>
-                            <button type="submit" value="{{p_id}} {{p_customer}}" id="send_quote" name="send_quote">Send Quote</button>
-                            <button type="submit" value="{{p_id}} {{p_customer}}" id="decline_quote" name="decline_quote">Decline Quote</button>
+                            <button type="submit" value="{{product_Id}} {{product_Vendor}} {{customer}}" id="" name="">Proceed to Purchase Order</button>
+                            <button type="submit" value="{{product_Id}} {{product_Vendor}} {{customer}}" id="" name="">Decline the order</button>
                         </form>
                     </div>
                 </div>

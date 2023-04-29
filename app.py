@@ -569,24 +569,18 @@ def customer_rfq_proceed():
     for document in retrieve_quote:
         rq.append(document)
         print(document)
-    return redirect(url_for('customer_rfq_proceed', p_name=p_name, p_vendor=p_vendor))
+    return redirect(url_for('customer_rfq_proceed_page', p_name=p_name, p_vendor=p_vendor))
 
 
-@app.route('/customer_rfq_proceed_page/<p_name>/<p_vendor>', methods=['POST'])
-def customer_rfq_proceed(p_name, p_vendor):
+@app.route('/customer_rfq_proceed_page/<p_name>/<p_vendor>')
+def customer_rfq_proceed_page(p_name, p_vendor):
     global customer
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    retrieve_quote = db_customer[customer].find({"status": "rfq_sent", "product_Name": p_name,
+    retrieve_quote = db_customer[customer].find_one({"status": "rfq_sent", "product_Name": p_name,
                                                  "product_Vendor": p_vendor})
-    rq = []
 
-    for document in retrieve_quote:
-        rq.append(document)
-        print(document)
-
-    return render_template("customer_rfq_proceed.html", date=date, customer=customer, rq=rq)
-
+    return render_template("customer_rfq_proceed.html", date=date, customer=customer, retrieve_quote=retrieve_quote)
 
 
 if __name__ == "__main__":
