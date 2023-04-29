@@ -631,9 +631,12 @@ def pay_order():
     card_ex = request.form['card_ex']
     card_ccv = request.form['card_ccv']
 
-    retrieve_quote2 = db_customer[customer].find_one({"status": "rfq_sent", "product_Id": int(prod_id),
+    retrieve_quote2 = db_customer[customer].find_one({"status": "rfq_sent", "product_Id": prod_id,
                                                       "product_Vendor": vend_name})
 
+    query_customer = {"status": "rfq_sent", "product_Id": prod_id, "product_Vendor": vend_name}
+    update_values = {"$set": {"status": "purchased"}}
+    update = db_customer[customer].update_one()
 
     return "hey"
 
