@@ -233,7 +233,7 @@ def vendor_rfq():
     global vendor
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    retrieve_rfq = db_vendor[vendor].find({"status" : "rfq"})
+    retrieve_rfq = db_vendor[vendor].find({"status": "rfq"})
 
     group_data = {}
     for key, group in groupby(retrieve_rfq, key=lambda x: x['product_Customer']):
@@ -244,6 +244,60 @@ def vendor_rfq():
         rfq_dic.append(document)
 
     return render_template('vendor-rfq.html', date=date, data=group_data, vendor=vendor)
+
+
+@app.route('/rfq_pass_data', methods=['POST'])
+def rfq_pass_data():
+    button_value = request.form['my-button']
+    words = [w.strip() for w in button_value.split()]
+    p_name = words[0]
+    p_price = words[1]
+    p_customer = words[2]
+    p_id = words[3]
+    s_quantity = words[4]
+    print("P Name : ", p_name,
+          "\nP price : ", p_price,
+          "\nP customer : ", p_customer,
+          "\nP ID : ", p_id,
+          "\nS Quantity : ", s_quantity)
+    return redirect(url_for('vendor_rfq_product', p_id=p_id, p_name=p_name, s_quantity=s_quantity,
+                            p_price=p_price, p_customer=p_customer))
+
+
+@app.route('/vendor_rfq_product/<p_id>/<p_name>/<s_quantity>/<p_price>/<p_customer>')
+def vendor_rfq_product(p_id, p_name, s_quantity, p_price, p_customer):
+    global vendor
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    return render_template('vendor-rfq-product.html', date=date, vendor=vendor,
+                           p_id=p_id, p_name=p_name, s_quantity=s_quantity
+                           , p_price=p_price, p_customer=p_customer)
+
+
+@app.route('/vendor_sent_quote', methods=['POST'])
+def vendor_sent_quote():
+    global vendor
+    if "send_quote" in request.form:
+        button_value = request.form['send_quote']
+        words = [w.strip() for w in button_value.split()]
+        p_id = words[0]
+        cus_name = words[1]
+        total_price = request.form['price']
+        period = int(request.form['period'])
+        query = {"product_Id": p_id, "product_Customer": cus_name}
+        new_value = {"$set": {"total_price": total_price, "period": period, "status": "rfq_sent"}}
+
+        temp_collection = db_customer[cus_name]
+        results_all = temp_collection.find()
+        for i in results_all:
+            print(i)
+
+        update = temp_collection.update_one(query, new_value)
+        print(update.modified_count)
+        return "send quote"
+
+    elif "decline_quote" in request.form:
+        return "decline quote"
 
 
 @app.route('/create_clusters_customer', methods=['POST'])
@@ -392,7 +446,8 @@ def pass_data():
 
 @app.route('/customer-single-product/<product_name>/<product_price>/<product_quantity>'
            '/<product_vendor>/<product_customer>/<product_id>')
-def customer_single_product(product_name, product_price, product_quantity, product_vendor, product_customer, product_id):
+def customer_single_product(product_name, product_price, product_quantity, product_vendor, product_customer,
+                            product_id):
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     return render_template('customer-single-product.html', date=date, customer=customer,

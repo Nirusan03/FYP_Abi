@@ -168,3 +168,9 @@ tr{
 .notification-holder{
     margin-left: 500px;
 }
+
+.my-button{
+    border: none; 
+    background-color:transparent; 
+    cursor: pointer;
+}
