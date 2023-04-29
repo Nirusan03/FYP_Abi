@@ -7,6 +7,7 @@ from flask import jsonify
 from bson.objectid import ObjectId
 import datetime
 from pymongo import *
+from itertools import groupby
 
 app = Flask(__name__)
 cluster = MongoClient("mongodb://localhost:27017")
@@ -16,6 +17,8 @@ collection_products = db_storage["Inventory"]
 
 db_vendor = cluster['Vendor']
 db_customer = cluster['Customer']
+account_vendor_collection = db_vendor["Accounts"]
+account_customer_collection = db_vendor["Accounts"]
 
 customer = ""
 vendor = ""
@@ -108,7 +111,7 @@ def create_cluster_vendor(collection_name, cluster_code, cluster_phone_no, clust
         "Vendor_email": cluster_email,
         "Vendor_Password": cluster_password
     }
-    temp_collection.insert_one(post)
+    account_vendor_collection.insert_one(post)
 
 
 @app.route('/insert_signup_vendor2', methods=['POST'])
@@ -121,7 +124,7 @@ def insert_signup_vendor2():
     cluster_regis_cert = request.form['cluster_regisCert']
     cluster_product_cert = request.form['cluster_productCert']
 
-    vendor_collection = db_vendor[collection_vendor]
+    # vendor_collection = db_vendor[collection_vendor]
 
     post = {
         "Vendor_RegisterNo": cluster_registration_no,
@@ -130,7 +133,7 @@ def insert_signup_vendor2():
         "Vendor_regisCert": cluster_regis_cert,
         "Vendor_productCert": cluster_product_cert
     }
-    vendor_collection.update_one({"Vendor_name": collection_vendor}, {"$set": post}, upsert=True)
+    account_vendor_collection.update_one({"Vendor_name": collection_vendor}, {"$set": post}, upsert=True)
 
     # Return a success message
     return redirect(url_for('signup_vendor3'))
@@ -146,7 +149,7 @@ def insert_signup_vendor3():
     cluster_acc_no = request.form['cluster_accNo']
     cluster_statement = request.form['cluster_statement']
 
-    vendor_collection = db_vendor[collection_vendor]
+    # vendor_collection = db_vendor[collection_vendor]
 
     post = {
         "Vendor_bankName": cluster_bank_name,
@@ -155,7 +158,7 @@ def insert_signup_vendor3():
         "Vendor_AccNo": cluster_acc_no,
         "Vendor_statement": cluster_statement
     }
-    vendor_collection.update_one({"Vendor_name": collection_vendor}, {"$set": post}, upsert=True)
+    account_vendor_collection.update_one({"Vendor_name": collection_vendor}, {"$set": post}, upsert=True)
 
     # Return a success message
     return redirect(url_for('home_vendor', cluster_name=f"{collection_vendor}"))
@@ -232,11 +235,15 @@ def vendor_rfq():
     date = now.strftime("%Y-%m-%d")
     retrieve_rfq = db_vendor[vendor].find({"status" : "rfq"})
 
+    group_data = {}
+    for key, group in groupby(retrieve_rfq, key=lambda x: x['product_Customer']):
+        group_data[key] = list(group)
+
     rfq_dic = []
     for document in retrieve_rfq:
         rfq_dic.append(document)
 
-    return render_template('vendor-rfq.html', date=date, rfq_dic=rfq_dic, vendor=vendor)
+    return render_template('vendor-rfq.html', date=date, data=group_data, vendor=vendor)
 
 
 @app.route('/create_clusters_customer', methods=['POST'])
@@ -264,7 +271,6 @@ def create_cluster_customer(collection_name, cluster_number, cluster_email, clus
 
     # Create the new cluster
     db_customer.create_collection(collection_name)
-    temp_collection = db_customer[collection_name]
 
     post = {
         "Customer_name": collection_name,
@@ -272,7 +278,7 @@ def create_cluster_customer(collection_name, cluster_number, cluster_email, clus
         "Customer_PhoneNo": cluster_number,
         "Customer_Password": cluster_password
     }
-    temp_collection.insert_one(post)
+    account_customer_collection.insert_one(post)
 
 
 @app.route('/insert_signup_customer2', methods=['POST'])
@@ -285,8 +291,6 @@ def insert_signup_customer2():
     cluster_shipping = request.form['cluster_shipping']
     cluster_business = request.form['cluster_business']
 
-    temp_collection = db_customer[collection_customer]
-
     post = {
         "Customer_company": cluster_company,
         "Customer_ComAddress": cluster_address,
@@ -294,7 +298,7 @@ def insert_signup_customer2():
         "Customer_Shipping": cluster_shipping,
         "Customer_business": cluster_business
     }
-    temp_collection.update_one({"Customer_name": collection_customer}, {"$set": post}, upsert=True)
+    account_customer_collection.update_one({"Customer_name": collection_customer}, {"$set": post}, upsert=True)
 
     # Return a success message
     return redirect(url_for('signup_customer3'))
@@ -319,7 +323,7 @@ def insert_signup_customer3():
         "Customer_cardEx": cluster_card_ex,
         "Customer_cvc": cluster_cvc
     }
-    temp_collection.update_one({"Customer_name": collection_customer}, {"$set": post}, upsert=True)
+    account_customer_collection.update_one({"Customer_name": collection_customer}, {"$set": post}, upsert=True)
 
     # Return a success message
     return redirect(url_for('home_customer', cluster_name=f"{collection_customer}"))

@@ -75,6 +75,21 @@ for result in results:
     print(result["_id"])
     # print(type(results))
 
+# Sort the documents based on a specific field in ascending order
+sorted_cursor = collection.find().sort('productName', 1)
+
+# Create an empty list to store the sorted documents
+sorted_docs = []
+
+# Iterate over the sorted cursor and append each document to the list
+for doc in sorted_cursor:
+    sorted_docs.append(doc)
+
+# Delete all existing documents from the collection
+collection.delete_many({})
+
+# Insert the sorted documents back into the collection
+collection.insert_many(sorted_docs)
 # # Finding one data in database
 # results1 = collection.find_one({"name": "Nirusan"})
 # print(results1)

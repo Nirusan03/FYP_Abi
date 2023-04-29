@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Requesting For Quote</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/rfq-vendor.css' )}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/vendor-rfq.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -81,27 +81,31 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <h2>RFQ Details</h2>
+                    {% for product_Customer, docs in data.items() %}
+                    <h2>{{ product_Customer }}</h2>
                         <table>
                             <tr>
-                              <th>PRODUCT NAME</th>
-                              <th>PRODUCT ID</th>
-                              <th>PRODUCT QU</th>
+                                <th>PRODUCT NAME</th>
+                                <th>PRODUCT ID</th>
+                                <th>PRODUCT QU</th>
+                                <th>PRODUCT PRICE</th>
                             </tr>
-                          {% for post in rfq_dic %}
+                            {% for doc in docs %}
                                 <tr>
-                                  <td>{{post.product_Name}}</td>
-                                  <td>{{post.product_id}}</td>
-                                  <td>{{post.selected_quantity}}</td>
-                                  <td>
-                                    <form method="POST" action="/">
-                                    <button type="submit" style="border: none; background-color:transparent; cursor: pointer;" value="{{post.productName}}  {{post.vendor}}" id="my-button" name="my-button">RFQ</button>
-                                    </form>
-                                </td>
+                                    <td>{{doc.product_Name}}</td>
+                                    <td>{{doc.product_id}}</td>
+                                    <td>{{doc.selected_quantity}}</td>
+                                    <td>{{doc.product_Price}}</td>
+                                    <td>
+                                        <form>
+                                            <button type="submit" style="border: none; background-color:transparent; cursor: pointer;" id="my-button" name="my-button">RFQ</button>
+                                        </form>
+                                    </td>
                                 </tr>
                           {% endfor %}
                         </table>
-                    </div>
+                    {% endfor %}
+                </div>
                 </div>
             </div>
         </div>
