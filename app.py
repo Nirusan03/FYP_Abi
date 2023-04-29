@@ -583,5 +583,13 @@ def customer_rfq_proceed_page(p_name, p_vendor):
     return render_template("customer_rfq_proceed.html", date=date, customer=customer, retrieve_quote=retrieve_quote)
 
 
+# @app.route('/customer_proceed_purchase/<retrieve_quote>')
+# def customer_proceed_purchase(retrieve_quote):
+#     global customer
+#     now = datetime.datetime.now()
+#     date = now.strftime("%Y-%m-%d")
+#
+
+
 if __name__ == "__main__":
     app.run(debug=True)
