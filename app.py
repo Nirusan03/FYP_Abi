@@ -277,24 +277,23 @@ def vendor_rfq_product(p_id, p_name, s_quantity, p_price, p_customer):
 @app.route('/vendor_sent_quote', methods=['POST'])
 def vendor_sent_quote():
     global vendor
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
     if "send_quote" in request.form:
         button_value = request.form['send_quote']
         words = [w.strip() for w in button_value.split()]
-        p_id = words[0]
+        p_id = int(words[0])
         cus_name = words[1]
         total_price = request.form['price']
         period = int(request.form['period'])
         query = {"product_Id": p_id, "product_Customer": cus_name}
+        query2 = {"product_id": p_id, "product_Customer" : cus_name}
         new_value = {"$set": {"total_price": total_price, "period": period, "status": "rfq_sent"}}
 
-        temp_collection = db_customer[cus_name]
-        results_all = temp_collection.find()
-        for i in results_all:
-            print(i)
-
-        update = temp_collection.update_one(query, new_value)
-        print(update.modified_count)
-        return "send quote"
+        update = db_customer[cus_name].update_one(query, new_value)
+        update2 = db_vendor[vendor].update_one(query2, new_value)
+        print(update.modified_count, " ", update2.modified_count)
+        return render_template('vendor.html', date=date, upcoming_orders=product_list, cluster_name=vendor)
 
     elif "decline_quote" in request.form:
         return "decline quote"
@@ -430,7 +429,7 @@ def pass_data():
     product_quantity = words[2]
     product_vendor = "Vendor" + words[3]
     product_customer = words[4]
-    product_id = words[5]
+    product_id = int(words[5])
 
     print("Product_Name : ", product_name,
           "\nProduct_Price : ", product_price,
@@ -463,7 +462,7 @@ def add_cart():
 
     post = {
         "product_Name": product_name,
-        "product_Id": product_id,
+        "product_Id": int(product_id),
         "product_Price": product_price,
         "product_Vendor": product_vendor,
         "selected_Quantity": quantity,
@@ -541,7 +540,53 @@ def customer_rfq():
 
     for document in retrieve_rfq:
         rfq_dic.append(document)
-    return render_template('customer-rfq.html', date=date, rfq_dic=rfq_dic, customer=customer)
+
+    retrieve_rfq_update = db_customer[customer].find({"status": "rfq_sent"})
+    ref_upt_dick = []
+
+    for document1 in retrieve_rfq_update:
+        ref_upt_dick.append(document1)
+
+    return render_template('customer-rfq.html', date=date, rfq_dic=rfq_dic, ref_upt_dick=ref_upt_dick, customer=customer)
+
+
+@app.route("/customer_rfq_proceed", methods=['POST'])
+def customer_rfq_proceed():
+    global vendor
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    button_value = ""
+    words = []
+    button_value = request.form['accept']
+    words = [w.strip() for w in button_value.split()]
+    p_name = words[0]
+    p_vendor = words[1]
+
+    retrieve_quote = db_customer[customer].find({"status": "rfq_sent", "product_Name":  p_name,
+                                                 "product_Vendor": p_vendor})
+    rq = []
+
+    for document in retrieve_quote:
+        rq.append(document)
+        print(document)
+    return redirect(url_for('customer_rfq_proceed', p_name=p_name, p_vendor=p_vendor))
+
+
+@app.route('/customer_rfq_proceed_page/<p_name>/<p_vendor>', methods=['POST'])
+def customer_rfq_proceed(p_name, p_vendor):
+    global customer
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    retrieve_quote = db_customer[customer].find({"status": "rfq_sent", "product_Name": p_name,
+                                                 "product_Vendor": p_vendor})
+    rq = []
+
+    for document in retrieve_quote:
+        rq.append(document)
+        print(document)
+
+    return render_template("customer_rfq_proceed.html", date=date, customer=customer, rq=rq)
+
 
 
 if __name__ == "__main__":
