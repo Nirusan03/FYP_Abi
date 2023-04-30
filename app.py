@@ -300,6 +300,20 @@ def vendor_sent_quote():
         return "decline quote"
 
 
+@app.route('/vendor_purchase_order')
+def vendor_purchase_order():
+    global vendor
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    retrieve_po = db_vendor[vendor].find({"status": "purchased"})
+    rp =[]
+    for i in retrieve_po:
+        rp.append(i)
+
+    return render_template('vendor-purchase-order.html', vendor=vendor, date=date, rp=rp)
+
+
 @app.route('/create_clusters_customer', methods=['POST'])
 def create_clusters_customer():
     global collection_customer, customer
@@ -318,14 +332,6 @@ def create_clusters_customer():
 
     # Return a success message
     return redirect(url_for('signup_customer2'))
-
-
-@app.route('/vendor_purchase_order')
-def vendor_purchase_order():
-    global vendor
-    now = datetime.datetime.now()
-    date = now.strftime("%Y-%m-%d")
-    return render_template('vendor-purchase-order.html', vendor=vendor, date=date)
 
 
 def create_cluster_customer(collection_name, cluster_number, cluster_email, cluster_password):
