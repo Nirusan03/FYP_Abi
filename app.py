@@ -338,7 +338,7 @@ def send_order():
     print("Modified Count at Vendor Collection ", update_ven.modified_count)
     print("Modified Count at Customer Collection ", update_cus.modified_count)
 
-    return render_template('vendor.html', date=date, upcoming_orders=product_list, cluster_name=cluster_name)
+    return render_template('vendor.html', date=date, upcoming_orders=product_list, cluster_name=vendor)
 
 
 @app.route('/create_clusters_customer', methods=['POST'])
