@@ -467,7 +467,7 @@ def pass_data():
     product_name = words[0]
     product_price = words[1]
     product_quantity = words[2]
-    product_vendor = "Vendor" + words[3]
+    product_vendor = words[3]
     product_customer = words[4]
     product_id = int(words[5])
 
@@ -684,6 +684,22 @@ def pay_order():
     print("Modified Count at Vendor Collection ", update_vendor.modified_count)
     print("Modified Count at Customer Collection ", update_customer.modified_count)
     return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=vendor)
+
+
+@app.route('/customer_orders_page')
+def customer_orders_page():
+    global customer, db_customer
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    retrieve_so = db_customer[customer].find({"status": "onto_order"})
+    print(retrieve_so, " values")
+    ro = []
+    for i in retrieve_so:
+        print(i, " ")
+        ro.append(i)
+
+    return render_template('vendor-purchase-order.html', customer=customer, date=date, rp=ro)
 
 
 @app.route('/customer_invoice')

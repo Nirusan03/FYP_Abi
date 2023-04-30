@@ -9,59 +9,66 @@ collection = database["Inventory"]
 # Each collection something known as post. Post means entries
 
 deletingManyDate = collection.delete_many({})
-post = {"_id": 1,
+post = {"_id": 0,
         "quantity": 400,
         "productId": 1,
         "productName": "Soap",
         "price": 200,
-        "vendor": 1}
+        "vendor": "Vendor1"}
 
-post1 = {"_id": 2,
+post1 = {"_id": 1,
          "quantity": 400,
          "productId": 2,
          "productName": "Brush",
          "price": 400,
-         "vendor": 2}
+         "vendor": "Vendor2"}
 
-post2 = {"_id": 3,
+post2 = {"_id": 2,
          "quantity": 800,
          "productId": 3,
          "productName": "Mask",
          "price": 10,
-         "vendor": 1}
+         "vendor": "Vendor1"}
 
-post3 = {"_id": 4,
+post3 = {"_id": 3,
          "quantity": 100,
          "productId": 4,
          "productName": "Sanitizers",
          "price": 300,
-         "vendor": 2}
+         "vendor": "Vendor2"}
 
-post4 = {"_id": 5,
+post4 = {"_id": 4,
          "quantity": 100,
          "productId": 5,
          "productName": "Sanitizers",
          "price": 300,
-         "vendor": 1}
+         "vendor": "Vendor1"}
 
-post5 = {"_id": 6,
+post5 = {"_id": 5,
          "quantity": 50,
          "productId": 6,
          "productName": "Condoms",
          "price": 2.99,
-         "vendor": 2}
+         "vendor": "Vendor2"}
 
-post6 = {"_id": 7,
+post6 = {"_id": 6,
          "quantity": 20,
          "productId": 7,
          "productName": "Medicines",
          "price": 10,
-         "vendor": 1}
+         "vendor": "Vendor1"}
+
+post7 = {"_id": 7,
+         "quantity": 20,
+         "productId": 8,
+         "productName": "Mac",
+         "price": 20,
+         "vendor": "Vendor1"}
 # Inserting single line
 # collection.insert_one(post)
 
 # Inserting multiple lines
-collection.insert_many([post1, post2, post3, post4, post5, post6])
+collection.insert_many([post1, post2, post3, post4, post5, post6, post7])
 
 # Finding data in database
 results = collection.find({"_id": 3})
