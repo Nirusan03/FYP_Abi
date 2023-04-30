@@ -321,6 +321,24 @@ def send_order():
     global vendor
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
+    button_value = request.form['send-button']
+    words = [w.strip() for w in button_value.split()]
+    prd_id = int(words[0])
+    cus_name = words[1]
+    vend_name = words[2]
+    print(prd_id, " ", cus_name, " ", vend_name)
+
+    vendor_query = {"status": "purchased", "product_id": prd_id, "product_Customer": cus_name}
+    customer_query = {"status": "purchased", "product_Id": prd_id, "product_Vendor": vend_name}
+
+    update_values = {"$set": {"status": "onto_order"}}
+    update_ven = db_vendor[vend_name].update_one(vendor_query, update_values)
+    update_cus = db_customer[cus_name].update_one(customer_query, update_values)
+
+    print("Modified Count at Vendor Collection ", update_ven.modified_count)
+    print("Modified Count at Customer Collection ", update_cus.modified_count)
+
+    return render_template('vendor.html', date=date, upcoming_orders=product_list, cluster_name=cluster_name)
 
 
 @app.route('/create_clusters_customer', methods=['POST'])
@@ -665,7 +683,7 @@ def pay_order():
 
     print("Modified Count at Vendor Collection ", update_vendor.modified_count)
     print("Modified Count at Customer Collection ", update_customer.modified_count)
-    return "hey"
+    return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=vendor)
 
 
 @app.route('/customer_invoice')

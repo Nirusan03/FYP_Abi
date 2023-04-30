@@ -103,7 +103,7 @@
                                   <td>{{post.delivery_date}}</td>
                                   <td>
                                     <form method="POST" action="/send_order">
-                                        <button type="submit" value="{{post.product_id}} {{post.product_Customer}}" id="send-button" name="send-button">Send to delivery</button>
+                                        <button type="submit" value="{{post.product_id}} {{post.product_Customer}} {{vendor}}" id="send-button" name="send-button">Send to delivery</button>
                                     </form>
                                   </td>
                                 </tr>
