@@ -704,7 +704,13 @@ def customer_orders_page():
     for document in retrieve_pp:
         pp.append(document)
 
-    return render_template('customer-orders.html', customer=customer, date=date, ro=ro, pp=pp)
+    retrieve_invoice_waiting = db_customer[customer].find({"status": "invoice_needed"})
+    riw = []
+    for document in retrieve_invoice_waiting:
+        riw.append(document)
+        print(document)
+
+    return render_template('customer-orders.html', customer=customer, date=date, ro=ro, pp=pp, riw=riw)
 
 
 @app.route('/customer_order_received', methods=['POST'])
@@ -761,7 +767,7 @@ def customer_order_pay(prod_vendor, prod_id):
                            retrieve_on_product=retrieve_on_product, customer_detail=customer_detail)
 
 
-@app.route('/pay_order', method=['POST'])
+@app.route('/pay_order', methods=['POST'])
 def pay_order():
     global customer, db_customer, db_vendor
 
@@ -776,11 +782,19 @@ def pay_order():
     prd_id = int(words[0])
     prd_vendor = words[1]
 
-    query_customer = {"status": "onto_order", "product_Id": prd_id, "product_Vendor": prd_vendor}
-    query_vendor = {"status": "onto_order", "product_id": prd_id, "product_Customer": customer}
+    query_customer = {"status": "paid_pending", "product_Id": prd_id, "product_Vendor": prd_vendor}
+    query_vendor = {"status": "paid_pending", "product_id": prd_id, "product_Customer": customer}
 
     update_values = {"$set": {"status": "invoice_needed"}}
-    
+
+    up_cus = db_customer[customer].update_one(query_customer, update_values)
+    up_ven = db_vendor[prd_vendor].update_one(query_vendor, update_values)
+
+    print("Invoice modified Count at Vendor Collection ", up_ven.modified_count)
+    print("Invoice modified Count at Customer Collection ", up_cus.modified_count)
+
+    return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=customer)
+
 
 @app.route('/customer_invoice')
 def customer_invoice():

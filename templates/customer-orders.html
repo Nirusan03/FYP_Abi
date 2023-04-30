@@ -147,6 +147,31 @@
                     {% endif %}
 
 
+
+                    {% if riw %}
+                        <h1>Waiting for invoices</h1>
+                        <table>
+                            <tr>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT TOTAL PRICE</th>
+                              <th>PRODUCT QUANTITY</th>
+                              <th>VENDOR</th>
+                            </tr>
+                          {% for post in riw %}
+                                <tr>    
+                                    <td>{{post.product_Name}}</td>
+                                    <td>{{post.total_price}}</td>
+                                    <td>{{post.selected_Quantity}}</td>
+                                    <td>{{post.product_Vendor}}</td>
+                                    <td>Paid - Waiting for Invoice</td>
+                                </tr>
+                          {% endfor %}
+                        </table>
+                    {% else %}
+                    <p>There is no pendings for invoice</p>
+                    {% endif %}
+
+
                     </div>
                 </div>
             </div>
