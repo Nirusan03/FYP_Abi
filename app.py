@@ -320,6 +320,14 @@ def create_clusters_customer():
     return redirect(url_for('signup_customer2'))
 
 
+@app.route('/vendor_purchase_order')
+def vendor_purchase_order():
+    global vendor
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    return render_template('vendor-purchase-order.html', vendor=vendor, date=date)
+
+
 def create_cluster_customer(collection_name, cluster_number, cluster_email, cluster_password):
     global cluster, db_customer
 
@@ -640,6 +648,8 @@ def pay_order():
     update_customer = db_customer[customer].update_one(query_customer, update_values)
     update_vendor = db_vendor[vend_name].update_one(query_vendor, update_values)
 
+    print("Modified Count at Vendor Collection ", update_vendor.modified_count)
+    print("Modified Count at Customer Collection ", update_customer.modified_count)
     return "hey"
 
 
@@ -648,7 +658,7 @@ def customer_invoice():
     global customer
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    retrieve_invoice = db_customer[customer].find({"status": "purchased"})
+    retrieve_invoice = db_customer[customer].find({"status": "proceed_po"})
     invoice = []
     for document in retrieve_invoice:
         invoice.append(document)

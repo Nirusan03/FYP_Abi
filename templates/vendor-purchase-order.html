@@ -25,7 +25,7 @@
                     </div>
                     
     
-                    <ul class="submenu">
+                    <ul class="submenu"> 
                         <li><a href="#">Vendor</a></li>
                         <li><a href="#">Customer</a></li>
                     </ul>
@@ -49,6 +49,13 @@
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
                         <a href="#">INVOICE</a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="menuList">
+                        <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
+                        <a href="{{ url_for('vendor_purchase_order') }}">INVOICE</a>
                     </div>
                 </li>
 
