@@ -92,6 +92,7 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
+                    {% if ro %}
                         <table>
                             <tr>
                               <th>PRODUCT NAME</th>
@@ -113,6 +114,9 @@
                                 </tr>
                           {% endfor %}
                         </table>
+                    {% else %}
+                    <p>There is no data</p>
+                    {% endif %}
                     </div>
                 </div>
             </div>
