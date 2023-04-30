@@ -96,16 +96,16 @@
                           {% for post in rp %}
                                 <tr>
                                   <td>{{post.product_Customer}}</td>
-                                  <td>{{post.product_Id}}</td>
-                                  <td>{{post.product_Price}}</td>
+                                  <td>{{post.product_id}}</td>
+                                  <td>{{post.product_Name}}</td>
                                   <td>{{post.total_price}}</td>
                                   <td>{{post.period}}</td>
                                   <td>{{post.delivery_date}}</td>
-                                <td>
-                                    <form method="POST" action="/pass_information">
-                                    <button type="submit" value="{{post.productId}} {{post.productName}} {{post.quantity}} {{post.price}}" id="product-button" name="product-button">{{post.productName}}</button>
+                                  <td>
+                                    <form method="POST" action="/send_order">
+                                        <button type="submit" value="{{post.product_id}} {{post.product_Customer}}" id="send-button" name="send-button">Send to delivery</button>
                                     </form>
-                                </td>
+                                  </td>
                                 </tr>
                           {% endfor %}
                         </table>

@@ -307,11 +307,20 @@ def vendor_purchase_order():
     date = now.strftime("%Y-%m-%d")
 
     retrieve_po = db_vendor[vendor].find({"status": "purchased"})
+    print(retrieve_po, " values")
     rp = []
     for i in retrieve_po:
+        print(i, " ")
         rp.append(i)
 
     return render_template('vendor-purchase-order.html', vendor=vendor, date=date, rp=rp)
+
+
+@app.route('/send_order', methods=['POST'])
+def send_order():
+    global vendor
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
 
 
 @app.route('/create_clusters_customer', methods=['POST'])
