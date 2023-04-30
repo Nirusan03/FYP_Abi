@@ -59,14 +59,14 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="{{ url_for('vendor_order') }}">ORDERS</a>
+                        <a href="{{ url_for('vendor_order_page') }}">ORDERS</a>
                     </div>
                 </li>
 
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="#">INVOICE</a>
+                        <a href="{{ url_for('vendor_invoice_page') }}">INVOICE</a>
                     </div>
                 </li>
 
@@ -105,7 +105,7 @@
                               <th>TOTAL</th>
                               <th>STATUS</th>
                             </tr>
-                          {% for post in upcoming_orders %}
+                          {% for post in vendor_inventory %}
                                 <tr>
                                   <td>{{post.cusName}}</td>
                                   <td>{{post.orderId}}</td>

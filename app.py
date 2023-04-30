@@ -23,8 +23,12 @@ account_customer_collection = db_customer["Accounts"]
 customer = ""
 vendor = ""
 
-retrieve_products = collection_products.find()
-product_list = []
+# retrieve_vendor_inventory = collection_products.find({"vendor": vendor})
+retrieve_vendor_inventory = {}
+vendor_inventory = []
+
+retrieve_customer_product = collection_products.find()
+customer_products = []
 
 carts = []
 
@@ -38,8 +42,13 @@ product_vendor = ""
 product_customer = ""
 product_id = 0
 
-for documents in retrieve_products:
-    product_list.append(documents)
+for documents in retrieve_vendor_inventory:
+    vendor_inventory.append(documents)
+    print("Vendor name : ", vendor, "\n",
+          documents)
+
+for document in retrieve_customer_product:
+    customer_products.append(document)
 
 
 @app.route('/')
@@ -182,16 +191,25 @@ def login_vendor():
 
 @app.route('/home_vendor/<cluster_name>')
 def home_vendor(cluster_name):
+    global retrieve_vendor_inventory, vendor_inventory
+    retrieve_vendor_inventory = collection_products.find({"vendor": cluster_name})
+
+    for documents in retrieve_vendor_inventory:
+        vendor_inventory.append(documents)
+        print("Vendor name : ", vendor, "\n",
+              documents)
+
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    return render_template('vendor.html', date=date, upcoming_orders=product_list, cluster_name=cluster_name)
+    return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=cluster_name)
 
 
 @app.route('/inventory')
 def inventory():
+    print(vendor_inventory, " vendor inventory")
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    return render_template('vendor-inventory.html', date=date, upcoming_orders=product_list, vendor=vendor)
+    return render_template('vendor-inventory.html', date=date, vendor_inventory=vendor_inventory, vendor=vendor)
 
 
 @app.route('/pass_information', methods=['POST'])
@@ -294,7 +312,7 @@ def vendor_sent_quote():
         update = db_customer[cus_name].update_one(query, new_value)
         update2 = db_vendor[vendor].update_one(query2, new_value)
         print(update.modified_count, " ", update2.modified_count)
-        return render_template('vendor.html', date=date, upcoming_orders=product_list, cluster_name=vendor)
+        return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=vendor)
 
     elif "decline_quote" in request.form:
         return "decline quote"
@@ -332,13 +350,14 @@ def send_order():
     customer_query = {"status": "purchased", "product_Id": prd_id, "product_Vendor": vend_name}
 
     update_values = {"$set": {"status": "onto_order"}}
+
     update_ven = db_vendor[vend_name].update_one(vendor_query, update_values)
     update_cus = db_customer[cus_name].update_one(customer_query, update_values)
 
     print("Modified Count at Vendor Collection ", update_ven.modified_count)
     print("Modified Count at Customer Collection ", update_cus.modified_count)
 
-    return render_template('vendor.html', date=date, upcoming_orders=product_list, cluster_name=vendor)
+    return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=vendor)
 
 
 @app.route('/vendor_order_page')
@@ -391,6 +410,33 @@ def vendor_order_page():
     return render_template('vendor-order.html', date=date, vendor=vendor, to_deliver=to_deliver,
                            onto_delivery=onto_delivery, pending_payment=pending_payment,
                            invoice_to_send=invoice_to_send)
+
+
+@app.route('/vendor_sent_invoice', methods=['POST'])
+def vendor_sent_invoice():
+    global vendor, db_vendor, db_customer
+
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    button_value = request.form['sent-invoice']
+    words = [w.strip() for w in button_value.split()]
+
+    prod_id = int(words[0])
+    prod_customer = words[1]
+
+    vendor_query = {"status": "invoice_needed", "product_id": prod_id, "product_Customer": prod_customer}
+    customer_query = {"status": "invoice_needed", "product_Id": prod_id, "product_Vendor": vendor}
+
+    update_values = {"$set": {"status": "invoice_sent"}}
+
+    update_vendor = db_vendor[vendor].update_one(vendor_query, update_values)
+    update_customer = db_customer[prod_customer].update_one(customer_query, update_values)
+
+    print("Modified Count at Vendor Collection ", update_vendor.modified_count)
+    print("Modified Count at Customer Collection ", update_customer.modified_count)
+
+    return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=vendor)
 
 
 @app.route('/vendor_invoice_page')
@@ -506,14 +552,14 @@ def login_customer():
 def home_customer(cluster_name):
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=cluster_name)
+    return render_template('customer.html', date=date, customer_products=customer_products, cluster_name=cluster_name)
 
 
 @app.route('/products')
 def products():
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    return render_template('customer-products.html', date=date, upcoming_orders=product_list, customer=customer)
+    return render_template('customer-products.html', date=date, customer_products=customer_products, customer=customer)
 
 
 @app.route('/pass_data', methods=['POST'])
@@ -741,7 +787,7 @@ def order_purchase():
 
     print("Modified Count at Vendor Collection ", update_vendor.modified_count)
     print("Modified Count at Customer Collection ", update_customer.modified_count)
-    return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=customer)
+    return render_template('customer.html', date=date, customer_products=customer_products, cluster_name=customer)
 
 
 @app.route('/customer_orders_page')
@@ -795,7 +841,7 @@ def customer_order_received():
     print("Modified Count at Vendor Collection ", update_cus.modified_count)
     print("Modified Count at Customer Collection ", update_vend.modified_count)
 
-    return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=customer)
+    return render_template('customer.html', date=date, customer_products=customer_products, cluster_name=customer)
 
 
 @app.route('/pass_payment_page', methods=['POST'])
@@ -851,7 +897,7 @@ def pay_order():
     print("Invoice modified Count at Vendor Collection ", up_ven.modified_count)
     print("Invoice modified Count at Customer Collection ", up_cus.modified_count)
 
-    return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=customer)
+    return render_template('customer.html', date=date, customer_products=customer_products, cluster_name=customer)
 
 
 @app.route('/customer_invoice')
@@ -859,7 +905,7 @@ def customer_invoice():
     global customer
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    retrieve_invoice = db_customer[customer].find({"status": "proceed_po"})
+    retrieve_invoice = db_customer[customer].find({"status": "invoice_sent"})
     invoice = []
     for document in retrieve_invoice:
         invoice.append(document)

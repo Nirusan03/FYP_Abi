@@ -1,43 +1,41 @@
-import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
 
-# Define a list of items and their features
-items = [
-    {"name": "apple", "color": "red", "taste": "sweet", "price": 0.5},
-    {"name": "banana", "color": "yellow", "taste": "sweet", "price": 0.25},
-    {"name": "orange", "color": "orange", "taste": "tart", "price": 0.75},
-    {"name": "pear", "color": "green", "taste": "sweet", "price": 0.6},
-    {"name": "grape", "color": "purple", "taste": "sweet", "price": 1.2},
-]
+# load data into a pandas dataframe
+data = {
+    "product_name": ["Product A", "Product B", "Product C", "Product D"],
+    "product_id": [1, 2, 3, 4],
+    "product_price": [100, 200, 150, 300],
+    "product_bought_times": [10, 20, 15, 25],
+}
+df = pd.DataFrame(data)
 
+# feature engineering: create new features if needed
+# for example, you can create a feature called "price_per_bought_time"
 
-# Define a function that uses machine learning to suggest an item from the list based on the user's preferences
-def suggest_item(preferences):
-    # Convert the list of items into a matrix
-    item_matrix = np.array([[item["color"], item["taste"], item["price"]] for item in items])
+# define features and target variable
+X = df[["product_price", "product_bought_times"]]
+y = df["product_name"]
 
-    # Convert the user's preferences into a vector
-    preference_vector = np.array(preferences)
+# split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-    # Calculate the similarity between the user's preferences and each item
-    similarity_scores = np.dot(item_matrix, preference_vector)
+# train a random forest classifier
+clf = RandomForestClassifier(n_estimators=100)
+clf.fit(X_train, y_train)
 
-    # Sort the items by their similarity score and return the most similar item
-    most_similar_item_index = np.argmax(similarity_scores)
-    suggested_item = items[most_similar_item_index]["name"]
+# evaluate the model on the testing set
+y_pred = clf.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy}")
 
-    return suggested_item
-
-
-# Ask the user for their preferences
-color_preference = input("What color do you prefer? (red, yellow, orange, green, purple): ")
-taste_preference = input("What taste do you prefer? (sweet, tart): ")
-price_preference = float(input("What is your budget? (in dollars): "))
-
-# Normalize the user's preferences
-preference_vector = [color_preference, taste_preference, price_preference]
-preference_vector = [1 if v == "sweet" else -1 if v == "tart" else v for v in preference_vector]
-preference_vector[2] = (preference_vector[2] - 0.25) / 1.2
-
-# Call the suggest_item() function to get a recommendation and print the suggested item
-suggested_item = suggest_item(preference_vector)
-print("Based on your preferences, we suggest trying", suggested_item, ".")
+# use the trained model to make predictions for new data
+new_data = {
+    "product_price": [250],
+    "product_bought_times": [5],
+}
+X_new = pd.DataFrame(new_data)
+y_pred_new = clf.predict(X_new)
+print(f"Recommended product: {y_pred_new}")

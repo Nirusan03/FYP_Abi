@@ -48,14 +48,21 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="#">INVOICE</a>
+                        <a href="{{ url_for('vendor_purchase_order') }}">PURCHASE ORDER</a>
                     </div>
                 </li>
 
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="{{ url_for('vendor_purchase_order') }}">PURCHASE ORDER</a>
+                        <a href="{{ url_for('vendor_order_page') }}">ORDERS</a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="menuList">
+                        <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
+                        <a href="{{ url_for('vendor_invoice_page') }}">INVOICE</a>
                     </div>
                 </li>
 
@@ -84,7 +91,24 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                       
+                        <table>
+                            <tr>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT ID</th>
+                              <th>PRODUCT QUANTITY</th>
+                            </tr>
+                          {% for post in vendor_inventory %}
+                                <tr>
+                                  <td>{{post.quantity}}</td>
+                                  <td>{{post.productId}}</td>
+                                <td>
+                                    <form method="POST" action="/pass_information">
+                                    <button type="submit" value="{{post.productId}} {{post.productName}} {{post.quantity}} {{post.price}}" id="product-button" name="product-button">{{post.productName}}</button>
+                                    </form>
+                                </td>
+                                </tr>
+                          {% endfor %}
+                        </table>
                     </div>
                 </div>
             </div>

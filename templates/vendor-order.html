@@ -48,17 +48,24 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="#">INVOICE</a>
+                        <a href="{{ url_for('vendor_purchase_order') }}">PURCHASE ORDER</a>
                     </div>
                 </li>
 
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="{{ url_for('vendor_purchase_order') }}">PURCHASE ORDER</a>
+                        <a href="{{ url_for('vendor_order_page') }}">ORDERS</a>
                     </div>
                 </li>
 
+                <li>
+                    <div class="menuList">
+                        <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
+                        <a href="{{ url_for('vendor_invoice_page') }}">INVOICE</a>
+                    </div>
+                </li>
+                
             </ul>
 
             <div class="content">
@@ -84,7 +91,135 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                       
+                        {% if to_deliver %}
+                        <h3>Item to be delivered</h3>
+                        <table>
+                            <tr>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT ID</th>
+                              <th>SELECTED QUANTITY</th>
+                              <th>PERIOD</th>
+                              <th>TOTAL PRICE</th>
+                              <th>CUSTOMER NAME</th>
+                            </tr>
+                          {% for post in to_deliver %}
+                                <tr>    
+                                    <td>{{post.product_Name}}</td>
+                                    <td>{{post.product_id}}</td>
+                                    <td>{{post.selected_quantity}}</td>
+                                    <td>{{post.period}}</td>
+                                    <td>{{post.total_price}}</td>
+                                    <td>{{post.product_Customer}}</td>
+                                  <td>
+                                    <form method="POST" action="">
+                                    <button type="submit" value="" id="" name="">Received</button>
+                                    </form>
+                                </td>
+                                </tr>
+                          {% endfor %}
+                        </table>
+                        {% else %}
+                        <p>There is no product to be sent</p>
+                        {% endif %}
+                        
+                        <br><br>
+
+                        {% if onto_delivery %}
+                        <h3>Items which are on travelling to the customer's destination</h3>
+                        <table>
+                            <tr>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT ID</th>
+                              <th>SELECTED QUANTITY</th>
+                              <th>PERIOD</th>
+                              <th>TOTAL PRICE</th>
+                              <th>CUSTOMER NAME</th>
+                            </tr>
+                          {% for post in onto_delivery %}
+                                <tr>    
+                                    <td>{{post.product_Name}}</td>
+                                    <td>{{post.product_id}}</td>
+                                    <td>{{post.selected_quantity}}</td>
+                                    <td>{{post.period}}</td>
+                                    <td>{{post.total_price}}</td>
+                                    <td>{{post.product_Customer}}</td>
+                                  <td>
+                                    <form method="POST" action="">
+                                    <button type="submit" value="" id="" name="">Received</button>
+                                    </form>
+                                </td>
+                                </tr>
+                          {% endfor %}
+                        </table>
+                        {% else %}
+                        <p>There is no product on delivery</p>
+                        {% endif %}
+
+                        <br><br>
+
+                        {% if pending_payment %}
+                        <h3>Items that needed to paid by customers</h3>
+                        <table>
+                            <tr>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT ID</th>
+                              <th>SELECTED QUANTITY</th>
+                              <th>PERIOD</th>
+                              <th>TOTAL PRICE</th>
+                              <th>CUSTOMER NAME</th>
+                            </tr>
+                          {% for post in pending_payment %}
+                                <tr>    
+                                    <td>{{post.product_Name}}</td>
+                                    <td>{{post.product_id}}</td>
+                                    <td>{{post.selected_quantity}}</td>
+                                    <td>{{post.period}}</td>
+                                    <td>{{post.total_price}}</td>
+                                    <td>{{post.product_Customer}}</td>
+                                  <td>
+                                    <form method="POST" action="">
+                                    <button type="submit" value="" id="" name="">Received</button>
+                                    </form>
+                                </td>
+                                </tr>
+                          {% endfor %}
+                        </table>
+                        {% else %}
+                        <p>There is no product need to be paid</p>
+                        {% endif %}
+
+                        <br><br>
+
+                        {% if invoice_to_send %}
+                        <h3>Items that got paid and invoice need to send for customers</h3>
+                        <table>
+                            <tr>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT ID</th>
+                              <th>SELECTED QUANTITY</th>
+                              <th>PERIOD</th>
+                              <th>TOTAL PRICE</th>
+                              <th>CUSTOMER NAME</th>
+                            </tr>
+                          {% for post in invoice_to_send %}
+                                <tr>    
+                                    <td>{{post.product_Name}}</td>
+                                    <td>{{post.product_id}}</td>
+                                    <td>{{post.selected_quantity}}</td>
+                                    <td>{{post.period}}</td>
+                                    <td>{{post.total_price}}</td>
+                                    <td>{{post.product_Customer}}</td>
+                                  <td>
+                                    <form method="POST" action="/vendor_sent_invoice">
+                                    <button type="submit" value="{{post.product_id}} {{post.product_Customer}}" id="sent-invoice" name="sent-invoice">Sent invoice</button>
+                                    </form>
+                                </td>
+                                </tr>
+                          {% endfor %}
+                        </table>
+                        {% else %}
+                        <p>There is no invoice need to be sent</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
