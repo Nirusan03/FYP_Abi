@@ -106,8 +106,8 @@
                                     <td>{{post.selected_Quantity}}</td>
                                     <td>{{post.product_Vendor}}</td>
                                   <td>
-                                    <form method="POST" action="">
-                                    <button type="submit" value="{{post.productName}} {{post.price}} {{post.quantity}} {{post.vendor}} {{customer}} {{post.productId}}" id="my-button" name="my-button">Received</button>
+                                    <form method="POST" action="/customer_order_received">
+                                    <button type="submit" value="{{post.product_Vendor}} {{post.product_Id}}" id="order-received" name="order-received">Received</button>
                                     </form>
                                 </td>
                                 </tr>

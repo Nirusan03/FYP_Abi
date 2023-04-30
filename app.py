@@ -651,8 +651,8 @@ def customer_proceed_page(p_id, p_vendor):
     return render_template('customer-proceed.html', date=date, customer=customer, retrieve_quote2=retrieve_quote2)
 
 
-@app.route('/pay_order', methods=['POST'])
-def pay_order():
+@app.route('/order_purchase', methods=['POST'])
+def order_purchase():
     global customer
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
@@ -683,7 +683,7 @@ def pay_order():
 
     print("Modified Count at Vendor Collection ", update_vendor.modified_count)
     print("Modified Count at Customer Collection ", update_customer.modified_count)
-    return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=vendor)
+    return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=customer)
 
 
 @app.route('/customer_orders_page')
@@ -700,6 +700,33 @@ def customer_orders_page():
         ro.append(i)
 
     return render_template('customer-orders.html', customer=customer, date=date, ro=ro)
+
+
+@app.route('/customer_order_received', methods=['POST'])
+def customer_order_received():
+    global customer, db_customer, db_vendor
+
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    button_value = request.form['order-received']
+    words = [w.strip() for w in button_value.split()]
+
+    prd_vendor = words[0]
+    prd_id = int(words[1])
+
+    query_customer = {"status": "onto_order", "product_Id": prd_id, "product_Vendor": prd_vendor}
+    query_vendor = {"status": "onto_order", "product_id": prd_id, "product_Customer": customer}
+
+    update_values = {"$set": {"status": "paid_pending"}}
+
+    update_cus = db_customer[customer].update_one(query_customer, update_values)
+    update_vend = db_vendor[prd_vendor].update_one(query_vendor, update_values)
+
+    print("Modified Count at Vendor Collection ", update_cus.modified_count)
+    print("Modified Count at Customer Collection ", update_vend.modified_count)
+
+    return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=customer)
 
 
 @app.route('/customer_invoice')
