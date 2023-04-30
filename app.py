@@ -699,7 +699,7 @@ def customer_orders_page():
         print(i, " ")
         ro.append(i)
 
-    return render_template('vendor-purchase-order.html', customer=customer, date=date, rp=ro)
+    return render_template('customer-orders.html', customer=customer, date=date, ro=ro)
 
 
 @app.route('/customer_invoice')
