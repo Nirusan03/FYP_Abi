@@ -86,14 +86,21 @@
                     <div class="upcoming">
                         <table>
                             <tr>
-                              <th>PRODUCT NAME</th>
+                              <th>CUSTOMER</th>
                               <th>PRODUCT ID</th>
-                              <th>PRODUCT QUANTITY</th>
+                              <th>PRODUCT NAME</th>
+                              <th>TOTAL PRICE</th>
+                              <th>PERIOD</th>
+                              <th>DELIVERY DATE</th>
                             </tr>
-                          {% for post in upcoming_orders %}
+                          {% for post in rp %}
                                 <tr>
-                                  <td>{{post.quantity}}</td>
-                                  <td>{{post.productId}}</td>
+                                  <td>{{post.product_Customer}}</td>
+                                  <td>{{post.product_Id}}</td>
+                                  <td>{{post.product_Price}}</td>
+                                  <td>{{post.total_price}}</td>
+                                  <td>{{post.period}}</td>
+                                  <td>{{post.delivery_date}}</td>
                                 <td>
                                     <form method="POST" action="/pass_information">
                                     <button type="submit" value="{{post.productId}} {{post.productName}} {{post.quantity}} {{post.price}}" id="product-button" name="product-button">{{post.productName}}</button>

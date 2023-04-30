@@ -307,7 +307,7 @@ def vendor_purchase_order():
     date = now.strftime("%Y-%m-%d")
 
     retrieve_po = db_vendor[vendor].find({"status": "purchased"})
-    rp =[]
+    rp = []
     for i in retrieve_po:
         rp.append(i)
 
