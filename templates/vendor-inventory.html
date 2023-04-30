@@ -84,24 +84,7 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <table>
-                            <tr>
-                              <th>PRODUCT NAME</th>
-                              <th>PRODUCT ID</th>
-                              <th>PRODUCT QUANTITY</th>
-                            </tr>
-                          {% for post in upcoming_orders %}
-                                <tr>
-                                  <td>{{post.quantity}}</td>
-                                  <td>{{post.productId}}</td>
-                                <td>
-                                    <form method="POST" action="/pass_information">
-                                    <button type="submit" value="{{post.productId}} {{post.productName}} {{post.quantity}} {{post.price}}" id="product-button" name="product-button">{{post.productName}}</button>
-                                    </form>
-                                </td>
-                                </tr>
-                          {% endfor %}
-                        </table>
+                       
                     </div>
                 </div>
             </div>

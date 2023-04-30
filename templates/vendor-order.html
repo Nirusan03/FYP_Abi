@@ -84,31 +84,7 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <table>
-                            <tr>
-                              <th>CUSTOMER</th>
-                              <th>PRODUCT ID</th>
-                              <th>PRODUCT NAME</th>
-                              <th>TOTAL PRICE</th>
-                              <th>PERIOD</th>
-                              <th>DELIVERY DATE</th>
-                            </tr>
-                          {% for post in rp %}
-                                <tr>
-                                  <td>{{post.product_Customer}}</td>
-                                  <td>{{post.product_id}}</td>
-                                  <td>{{post.product_Name}}</td>
-                                  <td>{{post.total_price}}</td>
-                                  <td>{{post.period}}</td>
-                                  <td>{{post.delivery_date}}</td>
-                                  <td>
-                                    <form method="POST" action="/send_order">
-                                        <button type="submit" value="{{post.product_id}} {{post.product_Customer}} {{vendor}}" id="send-button" name="send-button">Send to delivery</button>
-                                    </form>
-                                  </td>
-                                </tr>
-                          {% endfor %}
-                        </table>
+                       
                     </div>
                 </div>
             </div>

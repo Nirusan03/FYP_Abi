@@ -341,6 +341,68 @@ def send_order():
     return render_template('vendor.html', date=date, upcoming_orders=product_list, cluster_name=vendor)
 
 
+@app.route('/vendor_order_page')
+def vendor_order_page():
+    global vendor, db_vendor
+
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    # For items to be delivered
+    retrieve_po = db_vendor[vendor].find({"status": "purchased"})
+
+    to_deliver = []
+    print("\nItems to be delivered")
+
+    for document in retrieve_po:
+        to_deliver.append(document)
+        print(document)
+
+    # Items which were on delivery - travelling
+    retrieve_oo = db_vendor[vendor].find({"status": "onto_order"})
+
+    onto_delivery = []
+    print("\n\nItems That are travelling")
+
+    for document in retrieve_oo:
+        onto_delivery.append(document)
+        print(document)
+
+    # Items that go received but not paid
+    retrieve_pp = db_vendor[vendor].find({"status": "paid_pending"})
+
+    pending_payment = []
+    print("\n\nItems got received but not get paid")
+
+    for document in retrieve_pp:
+        pending_payment.append(document)
+        print(document)
+
+    # Items that got paid and invoice needed to be send
+    retrieve_is = db_vendor[vendor].find({"status": "invoice_needed"})
+
+    invoice_to_send = []
+    print("\n\nItems got paid and Invoice need to be sent")
+
+    for document in retrieve_is:
+        invoice_to_send.append(document)
+        print(document)
+
+    return render_template('vendor-order.html', date=date, vendor=vendor, to_deliver=to_deliver,
+                           onto_delivery=onto_delivery, pending_payment=pending_payment,
+                           invoice_to_send=invoice_to_send)
+
+
+@app.route('/vendor_invoice_page')
+def vendor_invoice_page():
+    global vendor, db_vendor
+
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    return render_template('vendor-inventory.html', date=date, vendor=vendor)
+
+
 @app.route('/create_clusters_customer', methods=['POST'])
 def create_clusters_customer():
     global collection_customer, customer
@@ -464,6 +526,7 @@ def pass_data():
     date = now.strftime("%Y-%m-%d")
     button_value = request.form['my-button']
     words = [w.strip() for w in button_value.split()]
+    print(words)
     product_name = words[0]
     product_price = words[1]
     product_quantity = words[2]
@@ -662,11 +725,6 @@ def order_purchase():
     prod_id = int(words[0])
     vend_name = words[1]
 
-    cus_name = request.form['cus_name']
-    card_name = request.form['card_no']
-    card_no = request.form['card_no']
-    card_ex = request.form['card_ex']
-    card_ccv = request.form['card_ccv']
     delivery_date = now + timedelta(days=5)
     str_delivery_date = delivery_date.strftime("%d/%m/%Y")
 
