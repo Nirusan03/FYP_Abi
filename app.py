@@ -656,7 +656,7 @@ def order_purchase():
     global customer
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    button_values = request.form['pay']
+    button_values = request.form['proceed-po']
     words = [w.strip() for w in button_values.split()]
     print(words)
     prod_id = int(words[0])
@@ -760,6 +760,27 @@ def customer_order_pay(prod_vendor, prod_id):
     return render_template('customer-order-pay.html', customer=customer, date=date,
                            retrieve_on_product=retrieve_on_product, customer_detail=customer_detail)
 
+
+@app.route('/pay_order', method=['POST'])
+def pay_order():
+    global customer, db_customer, db_vendor
+
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    button_values = request.form['pay']
+    words = [w.strip() for w in button_values.split()]
+
+    print(words, " testing values")
+
+    prd_id = int(words[0])
+    prd_vendor = words[1]
+
+    query_customer = {"status": "onto_order", "product_Id": prd_id, "product_Vendor": prd_vendor}
+    query_vendor = {"status": "onto_order", "product_id": prd_id, "product_Customer": customer}
+
+    update_values = {"$set": {"status": "invoice_needed"}}
+    
 
 @app.route('/customer_invoice')
 def customer_invoice():

@@ -101,7 +101,7 @@
                         <br><br><br>
 
                         <h3>PAYMENT OPTION</h3>
-                        <form method="POST" action="">
+                        <form method="POST" action="/pay_order">
 
                             <label for="cus_name">Name on card</label>
                             <input type="text" name="cus_name" id="cus_name" value="{{customer_detail.Customer_NameCard}}" required>
@@ -119,7 +119,7 @@
                             <input type="number" name="card_ccv" id="card_ccv" value="{{customer_detail.Customer_cvc}}" required>
                             <br><br>
 
-                            <button type="submit" value="" id="payNow" name="payNow">Pay</button>
+                            <button type="submit" value="{{retrieve_on_product.product_Id}} {{retrieve_on_product.product_Vendor}}" id="pay" name="pay">Pay</button>
                         </form>
                     </div>
                 </div>
