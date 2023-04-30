@@ -701,7 +701,7 @@ def customer_orders_page():
 
     retrieve_pp = db_customer[customer].find({"status": "paid_pending"})
     pp = []
-    for document in pp:
+    for document in retrieve_pp:
         pp.append(document)
 
     return render_template('customer-orders.html', customer=customer, date=date, ro=ro, pp=pp)
@@ -732,6 +732,33 @@ def customer_order_received():
     print("Modified Count at Customer Collection ", update_vend.modified_count)
 
     return render_template('customer.html', date=date, upcoming_orders=product_list, cluster_name=customer)
+
+
+@app.route('/pass_payment_page', methods=['POST'])
+def pass_payment_page():
+    button_value = request.form['proceed-pay']
+    words = [w.strip() for w in button_value.split()]
+
+    prod_vendor = words[0]
+    prod_id = int(words[1])
+    return redirect(url_for('customer_order_pay', prod_vendor=prod_vendor, prod_id=prod_id))
+
+
+@app.route('/customer_order_pay/<prod_vendor>/<prod_id>')
+def customer_order_pay(prod_vendor, prod_id):
+    global customer, db_customer, account_customer_collection
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    prod_id = int(prod_id)
+    print(prod_vendor, " ", prod_id, " ", customer)
+    retrieve_on_product = db_customer[customer].find_one({"product_Id": prod_id, "product_Vendor": prod_vendor,
+                                                          "status": "paid_pending"})
+    print(retrieve_on_product, " details product")
+    customer_detail = account_customer_collection.find_one({"Customer_name": customer})
+    print(customer_detail, " details customer")
+
+    return render_template('customer-order-pay.html', customer=customer, date=date,
+                           retrieve_on_product=retrieve_on_product, customer_detail=customer_detail)
 
 
 @app.route('/customer_invoice')
