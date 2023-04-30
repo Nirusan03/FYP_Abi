@@ -699,7 +699,12 @@ def customer_orders_page():
         print(i, " ")
         ro.append(i)
 
-    return render_template('customer-orders.html', customer=customer, date=date, ro=ro)
+    retrieve_pp = db_customer[customer].find({"status": "paid_pending"})
+    pp = []
+    for document in pp:
+        pp.append(document)
+
+    return render_template('customer-orders.html', customer=customer, date=date, ro=ro, pp=pp)
 
 
 @app.route('/customer_order_received', methods=['POST'])

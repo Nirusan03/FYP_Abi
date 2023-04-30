@@ -93,6 +93,7 @@
                 <div class="delivery-earning">
                     <div class="upcoming">
                     {% if ro %}
+                        <h1>Orders To Be Received</h1>
                         <table>
                             <tr>
                               <th>PRODUCT NAME</th>
@@ -115,8 +116,37 @@
                           {% endfor %}
                         </table>
                     {% else %}
-                    <p>There is no data</p>
+                    <p>There is no product to be received</p>
                     {% endif %}
+
+                    {% if ro %}
+                        <h1>Orders To Be Received</h1>
+                        <table>
+                            <tr>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT TOTAL PRICE</th>
+                              <th>PRODUCT QUANTITY</th>
+                              <th>VENDOR</th>
+                            </tr>
+                          {% for post in ro %}
+                                <tr>    
+                                    <td>{{post.product_Name}}</td>
+                                    <td>{{post.total_price}}</td>
+                                    <td>{{post.selected_Quantity}}</td>
+                                    <td>{{post.product_Vendor}}</td>
+                                  <td>
+                                    <form method="POST" action="/customer_order_received">
+                                    <button type="submit" value="{{post.product_Vendor}} {{post.product_Id}}" id="order-received" name="order-received">Received</button>
+                                    </form>
+                                </td>
+                                </tr>
+                          {% endfor %}
+                        </table>
+                    {% else %}
+                    <p>There is no product to be received</p>
+                    {% endif %}
+
+
                     </div>
                 </div>
             </div>
