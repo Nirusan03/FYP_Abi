@@ -603,6 +603,17 @@ def home_customer(cluster_name):
     return render_template('customer.html', date=date, customer_products=customer_products, cluster_name=cluster_name)
 
 
+@app.route('/customer_account')
+def customer_account():
+    global customer, account_customer_collection
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    cus_account_dick = account_customer_collection.find_one({"Customer_name": customer})
+
+    return render_template('vendor-account.html', date=date, vendor=vendor, cus_account_dick=cus_account_dick)
+
+
 @app.route('/products')
 def products():
     now = datetime.datetime.now()
