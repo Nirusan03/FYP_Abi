@@ -206,9 +206,16 @@ def home_vendor(cluster_name):
     return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=cluster_name)
 
 
+@app.route('/vendor_account')
+def vendor_account():
+    global vendor
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    return render_template('vendor-account.html', date=date, vendor=vendor)
+
+
 @app.route('/inventory')
 def inventory():
-    print(vendor_inventory, " vendor inventory")
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     return render_template('vendor-inventory.html', date=date, vendor_inventory=vendor_inventory, vendor=vendor)
