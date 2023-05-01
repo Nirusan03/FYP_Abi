@@ -16,7 +16,7 @@ post = {"_id": 0,
         "price": 200,
         "category": "Personal Protective Equipment (PPE)",
         "vendor": "Vendor1",
-        "added_count": 0}
+        "added_count": 20}
 
 post1 = {"_id": 1,
          "quantity": 400,
@@ -25,7 +25,7 @@ post1 = {"_id": 1,
          "price": 400,
          "category": "Surgical Supplies",
          "vendor": "Vendor2",
-         "added_count": 0}
+         "added_count": 10}
 
 post2 = {"_id": 2,
          "quantity": 800,
@@ -34,7 +34,7 @@ post2 = {"_id": 2,
          "price": 10,
          "category": "Laboratory Supplies",
          "vendor": "Vendor1",
-         "added_count": 0}
+         "added_count": 15}
 
 post3 = {"_id": 3,
          "quantity": 100,
@@ -43,7 +43,7 @@ post3 = {"_id": 3,
          "price": 300,
          "category": "Sterile instruments",
          "vendor": "Vendor2",
-         "added_count": 0}
+         "added_count": 2}
 
 post4 = {"_id": 4,
          "quantity": 100,
@@ -52,7 +52,7 @@ post4 = {"_id": 4,
          "price": 300,
          "category": "Pharmaceuticals",
          "vendor": "Vendor1",
-         "added_count": 0}
+         "added_count": 1}
 
 post5 = {"_id": 5,
          "quantity": 50,
@@ -61,7 +61,7 @@ post5 = {"_id": 5,
          "price": 2.99,
          "category": "Diagnostic Equipment",
          "vendor": "Vendor2",
-         "added_count": 0}
+         "added_count": 6}
 
 post6 = {"_id": 6,
          "quantity": 20,
@@ -70,7 +70,7 @@ post6 = {"_id": 6,
          "price": 10,
          "category": "Wound Care Supplies",
          "vendor": "Vendor1",
-         "added_count": 0}
+         "added_count": 7}
 
 post7 = {"_id": 7,
          "quantity": 20,
@@ -79,7 +79,7 @@ post7 = {"_id": 7,
          "price": 20,
          "category": "Laboratory Supplies",
          "vendor": "Vendor1",
-         "added_count": 0}
+         "added_count": 8}
 # Inserting single line
 # collection.insert_one(post)
 
