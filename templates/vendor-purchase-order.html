@@ -35,8 +35,12 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/vendor.png' )}}" alt="dashboard" width="30px" height="38px">
-                        <a href="{{ url_for('products', cluster_name=vendors) }}">INVENTORY</a>
+                        <a href="{{ url_for('inventory') }}">INVENTORY</a>
                     </div>
+                    <ul class="submenu">
+                        <li><a href="#">Quote Requests</a></li>
+                        <li><a href="#">Inventory</a></li>
+                    </ul>
                 </li>
                 <li>
                     <div class="menuList">

@@ -21,7 +21,7 @@
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/dashboard.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="#">DASHBOARD</a>
+                        <a href="{{ url_for('home_vendor', cluster_name=vendor) }}">DASHBOARD</a>
                     </div>
                     
     
@@ -48,18 +48,24 @@
                         <a href="{{ url_for('vendor_rfq')}}">RFQ (Requesting for Quote)</a>
                     </div>
                 </li>
-
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="#">INVOICE</a>
+                        <a href="{{ url_for('vendor_purchase_order') }}">PURCHASE ORDER</a>
                     </div>
                 </li>
 
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="{{ url_for('vendor_purchase_order') }}">PURCHASE ORDER</a>
+                        <a href="{{ url_for('vendor_order_page') }}">ORDERS</a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="menuList">
+                        <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
+                        <a href="{{ url_for('vendor_invoice_page') }}">INVOICE</a>
                     </div>
                 </li>
                 
