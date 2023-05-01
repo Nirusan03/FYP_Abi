@@ -611,7 +611,7 @@ def customer_account():
 
     cus_account_dick = account_customer_collection.find_one({"Customer_name": customer})
 
-    return render_template('vendor-account.html', date=date, vendor=vendor, cus_account_dick=cus_account_dick)
+    return render_template('customer-account.html.html', date=date, vendor=vendor, cus_account_dick=cus_account_dick)
 
 
 @app.route('/products')
