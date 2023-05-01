@@ -494,7 +494,13 @@ def vendor_invoice_page():
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
-    return render_template('vendor-inventory.html', date=date, vendor=vendor)
+    retrieve_invoices = db_vendor[vendor].find({"status": "invoice_sent"})
+    ri = []
+
+    for document in retrieve_invoices:
+        ri.append(document)
+
+    return render_template('vendor-invoice.html', date=date, vendor=vendor, ri=ri)
 
 
 @app.route('/create_clusters_customer', methods=['POST'])
