@@ -16,7 +16,9 @@
             <ul class="menu">
                 <div class="admin">
                     <img src="{{ url_for('static', filename = 'images/INSL_IEEE.jpg' )}}" width="90px"  alt="" style="float:left; border-radius: 50%;">
-                    <span style="padding: 30px 0px 0px 10px; font-size: 20px;">{{customer}}</span>
+                    <a href="{{ url_for('customer_account')}}" id="account-link">
+                        <span style="padding: 30px 0px 0px 10px; font-size: 20px;">{{ customer }}</span>
+                    </a>
                 </div>
                 <li>
                     <div class="menuList">

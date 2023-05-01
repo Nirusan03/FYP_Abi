@@ -143,3 +143,9 @@ td {
 tr:hover {
     background-color: #ddd;
 }
+
+#account-link{
+    color: white;
+    text-decoration: none;
+    margin-top: 30px;
+}
