@@ -41,6 +41,7 @@ product_quantity = ""
 product_vendor = ""
 product_customer = ""
 product_id = 0
+category = ""
 
 for documents in retrieve_vendor_inventory:
     vendor_inventory.append(documents)
@@ -565,7 +566,7 @@ def products():
 @app.route('/pass_data', methods=['POST'])
 def pass_data():
     global product_name, product_price, product_quantity, \
-        product_vendor, product_customer, product_id
+        product_vendor, product_customer, product_id, category
     button_value = ""
     words = []
     now = datetime.datetime.now()
@@ -610,7 +611,7 @@ def customer_single_product(product_name, product_price, product_quantity, produ
 @app.route("/add_cart", methods=['POST'])
 def add_cart():
     global db_customer, product_name, product_price \
-        , product_vendor, customer, product_id
+        , product_vendor, customer, product_id, category
     quantity = request.form["quantity"]
 
     post = {
@@ -620,6 +621,7 @@ def add_cart():
         "product_Vendor": product_vendor,
         "selected_Quantity": quantity,
         "product_Customer": customer,
+        "category": category,
         "status": "cart"
     }
     temp_collection = db_customer[customer]
@@ -643,7 +645,7 @@ def cart():
 
 @app.route("/rfq", methods=['POST'])
 def rfq():
-    global carts
+    global carts, collection_products
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     button_value = ""
@@ -664,6 +666,10 @@ def rfq():
 
     customer_str = "" + customer_name
 
+    count_query = collection_products.find_one({"productName": name})
+    added_count = int(count_query["added_count"]) + 1
+
+    collection_products.update_one({"productId": p_id}, {"$set": {"added_count": added_count}})
     temp_collection_vendor = db_vendor[vendor_name]
     temp_collection_customer = db_customer[customer_name]
 
