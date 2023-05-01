@@ -94,8 +94,43 @@
                 </div>
 
                 <div class="delivery-earning">
-                    <div class="upcoming">
+                    <div class="upcoming" style="border: none;">
+                        <form method="POST" action="/vendor_add_product">
 
+                              <label for="product_name">Product name : </label>
+                              <input type="text" name="product_name" id="product_name" placeholder="Keyboard" required>
+                            
+                              <br><br>
+                            
+                              <label for="product_id">Product ID : </label>
+                              <input type="text" name="product_id" id="product_id" placeholder="xx" required>
+                    
+                              <br><br>
+
+                              <label for="quantity">Stock Quantity : </label>
+                              <input type="number" name="quantity" id="quantity" required>
+                    
+                              <br><br>
+                            
+                              <label for="price">Per unit cost : </label>
+                              <input type="number" name="price" id="price" placeholder="100" required>
+                              
+                              <br><br>
+
+                              <label for="category">Product Category:</label>
+                              <select id="category" name="category">
+                                <option value="Personal Protective Equipment (PPE)">Personal Protective Equipment (PPE)</option>
+                                <option value="Surgical Supplies">Surgical Supplies</option>
+                                <option value="Sterile instruments">Sterile instruments</option>
+                                <option value="Pharmaceuticals">Pharmaceuticals</option>
+                                <option value="Diagnostic Equipment">Diagnostic Equipment</option>
+                                <option value="Wound Care Supplies">Wound Care Supplies</option>
+                                <option value="Laboratory Supplies">Laboratory Supplies</option>
+                              </select>
+
+                              <br><br>
+                              <button type="submit" value="Add Product" id="add-prod" name="add-prod">Add Product</button>
+                          </form>
                     </div>
                 </div>
                 

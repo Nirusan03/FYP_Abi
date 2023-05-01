@@ -246,12 +246,40 @@ def vendor_single_inventory(p_id, name, quantity, price):
                            p_id=p_id, name=name, quantity=quantity, price=price)
 
 
-@app.route('/vendor_add_product')
-def vendor_add_product():
+@app.route('/vendor_add_product_page')
+def vendor_add_product_page():
     global vendor
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     return render_template('vendor-add-product.html', date=date, vendor=vendor)
+
+
+@app.route('/vendor_add_product', methods=['POST'])
+def vendor_add_product():
+    global vendor, collection_products, vendor_inventory
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    prod_name = request.form['product_name']
+    prod_id = int(request.form['product_id'])
+    prod_quantity = int(request.form['quantity'])
+    prod_price = request.form['price']
+    prod_category = request.form.get("category")
+
+    print(prod_name, " ", prod_id, " ", prod_quantity, " ", prod_price,
+          " ", prod_category)
+
+    post = {
+        "_id": prod_id,
+        "quantity": prod_quantity,
+        "productId": prod_id,
+        "productName": prod_name,
+        "price": prod_price,
+        "category": prod_category,
+        "vendor": vendor,
+        "added_count": 0
+    }
+    collection_products.insert_one(post)
+    return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=vendor)
 
 
 @app.route('/vendor_rfq')
