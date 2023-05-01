@@ -14,56 +14,71 @@ post = {"_id": 0,
         "productId": 1,
         "productName": "Soap",
         "price": 200,
-        "vendor": "Vendor1"}
+        "category": "Personal Protective Equipment (PPE)",
+        "vendor": "Vendor1",
+        "added_count": 0}
 
 post1 = {"_id": 1,
          "quantity": 400,
          "productId": 2,
          "productName": "Brush",
          "price": 400,
-         "vendor": "Vendor2"}
+         "category": "Surgical Supplies",
+         "vendor": "Vendor2",
+         "added_count": 0}
 
 post2 = {"_id": 2,
          "quantity": 800,
          "productId": 3,
          "productName": "Mask",
          "price": 10,
-         "vendor": "Vendor1"}
+         "vendor": "Vendor1",
+         "added_count": 0}
 
 post3 = {"_id": 3,
          "quantity": 100,
          "productId": 4,
          "productName": "Sanitizers",
          "price": 300,
-         "vendor": "Vendor2"}
+         "category": "Sterile instruments",
+         "vendor": "Vendor2",
+         "added_count": 0}
 
 post4 = {"_id": 4,
          "quantity": 100,
          "productId": 5,
          "productName": "Sanitizers",
          "price": 300,
-         "vendor": "Vendor1"}
+         "category": "Pharmaceuticals",
+         "vendor": "Vendor1",
+         "added_count": 0}
 
 post5 = {"_id": 5,
          "quantity": 50,
          "productId": 6,
          "productName": "Condoms",
          "price": 2.99,
-         "vendor": "Vendor2"}
+         "category": "Diagnostic Equipment",
+         "vendor": "Vendor2",
+         "added_count": 0}
 
 post6 = {"_id": 6,
          "quantity": 20,
          "productId": 7,
          "productName": "Medicines",
          "price": 10,
-         "vendor": "Vendor1"}
+         "category": "Wound Care Supplies",
+         "vendor": "Vendor1",
+         "added_count": 0}
 
 post7 = {"_id": 7,
          "quantity": 20,
          "productId": 8,
          "productName": "Mac",
          "price": 20,
-         "vendor": "Vendor1"}
+         "category": "Laboratory Supplies",
+         "vendor": "Vendor1",
+         "added_count": 0}
 # Inserting single line
 # collection.insert_one(post)
 

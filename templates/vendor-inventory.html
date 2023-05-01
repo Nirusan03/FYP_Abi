@@ -96,16 +96,19 @@
                               <th>PRODUCT NAME</th>
                               <th>PRODUCT ID</th>
                               <th>PRODUCT QUANTITY</th>
+                              <th>CATEGORY</th>
                             </tr>
                           {% for post in vendor_inventory %}
                                 <tr>
-                                  <td>{{post.quantity}}</td>
-                                  <td>{{post.productId}}</td>
-                                <td>
-                                    <form method="POST" action="/pass_information">
-                                    <button type="submit" value="{{post.productId}} {{post.productName}} {{post.quantity}} {{post.price}}" id="product-button" name="product-button">{{post.productName}}</button>
-                                    </form>
-                                </td>
+                                    <td>{{post.productName}}</td>
+                                    <td>{{post.productId}}</td>
+                                    <td>{{post.quantity}}</td>
+                                    <td>{{post.category}}</td>
+                                    <td>
+                                        <form method="POST" action="/pass_information">
+                                        <button type="submit" value="{{post.productId}} {{post.productName}} {{post.quantity}} {{post.price}}" id="product-button" name="product-button">{{post.productName}}</button>
+                                        </form>
+                                    </td>
                                 </tr>
                           {% endfor %}
                         </table>

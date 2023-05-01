@@ -579,28 +579,32 @@ def pass_data():
     product_vendor = words[3]
     product_customer = words[4]
     product_id = int(words[5])
+    category = words[6]
 
     print("Product_Name : ", product_name,
           "\nProduct_Price : ", product_price,
           "\nProduct_Quantity : ", product_quantity,
           "\nProduct_Vendor : ", product_vendor,
           "\nProduct_Customer : ", product_customer,
-          "\nProduct_Id : ", product_id)
+          "\nProduct_Id : ", product_id,
+          "Category :", category)
 
     return redirect(url_for('customer_single_product', date=date, customer=customer,
                             product_name=product_name, product_price=product_price, product_quantity=product_quantity,
-                            product_vendor=product_vendor, product_customer=product_customer, product_id=product_id))
+                            product_vendor=product_vendor, product_customer=product_customer, product_id=product_id,
+                            category=category))
 
 
 @app.route('/customer-single-product/<product_name>/<product_price>/<product_quantity>'
-           '/<product_vendor>/<product_customer>/<product_id>')
+           '/<product_vendor>/<product_customer>/<product_id>/<category>')
 def customer_single_product(product_name, product_price, product_quantity, product_vendor, product_customer,
-                            product_id):
+                            product_id, category):
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     return render_template('customer-single-product.html', date=date, customer=customer,
                            product_name=product_name, product_price=product_price, product_quantity=product_quantity,
-                           product_vendor=product_vendor, product_customer=product_customer, product_id=product_id)
+                           product_vendor=product_vendor, product_customer=product_customer, product_id=product_id,
+                           category=category)
 
 
 @app.route("/add_cart", methods=['POST'])
