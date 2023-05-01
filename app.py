@@ -211,7 +211,10 @@ def vendor_account():
     global vendor
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    return render_template('vendor-account.html', date=date, vendor=vendor)
+
+    vend_account_dick = account_vendor_collection.find_one({"Vendor_name": vendor})
+    
+    return render_template('vendor-account.html', date=date, vendor=vendor, vend_account_dick=vend_account_dick)
 
 
 @app.route('/inventory')

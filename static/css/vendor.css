@@ -165,3 +165,9 @@ tr:hover {
 .notification-holder{
     margin-left: 500px;
 }
+
+#account-link{
+    color: white;
+    text-decoration: none;
+    margin-top: 30px;
+}
