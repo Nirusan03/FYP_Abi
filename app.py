@@ -193,6 +193,7 @@ def login_vendor():
 @app.route('/home_vendor/<cluster_name>')
 def home_vendor(cluster_name):
     global retrieve_vendor_inventory, vendor_inventory
+    vendor_inventory = []
     retrieve_vendor_inventory = collection_products.find({"vendor": cluster_name})
 
     for documents in retrieve_vendor_inventory:
@@ -243,6 +244,14 @@ def vendor_single_inventory(p_id, name, quantity, price):
     date = now.strftime("%Y-%m-%d")
     return render_template('vendor-single-inventory.html', date=date, vendor=vendor,
                            p_id=p_id, name=name, quantity=quantity, price=price)
+
+
+@app.route('/vendor_add_product')
+def vendor_add_product():
+    global vendor
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    return render_template('vendor-add-product.html', date=date, vendor=vendor)
 
 
 @app.route('/vendor_rfq')
