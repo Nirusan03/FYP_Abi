@@ -97,24 +97,93 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <h2>UPCOMING DELIVERIES</h2>
-                        <table>
+                        <h2>NEW QUOTES</h2>
+                        <table class="table1">
                             <tr>
                               <th>CUSTOMER NAME</th>
-                              <th>ORDER ID</th>
-                              <th>DATE</th>
-                              <th>QUANTITY</th>
-                              <th>TOTAL</th>
+                              <th>PROUDUCT ID</th>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT QUANTITY</th>
+                              <th>PRODUCT PRICE</th>
                               <th>STATUS</th>
                             </tr>
-                          {% for post in vendor_inventory %}
+                          {% for post in vendor_rfq_list %}
                                 <tr>
-                                  <td>{{post.cusName}}</td>
-                                  <td>{{post.orderId}}</td>
-                                  <td>{{post.date}}</td>
-                                  <td>{{post.quantity}}</td>
-                                  <td>{{post.total}}</td>
-                                  <td>{{post.status}}</td>
+                                  <td>{{post.product_Customer}}</td>
+                                  <td>{{post.product_id}}</td>
+                                  <td>{{post.product_Name}}</td>
+                                  <td>{{post.selected_quantity}}</td>
+                                  <td>{{post.product_Price}}</td>
+                                  <td>Requesting for quote</td>
+                                </tr>
+                          {% endfor %}
+                        </table>
+                        <br>
+                        <hr>
+                        <h2>NEW PURCHASE ORDERS</h2>
+                        <table class="table1">
+                            <tr>
+                              <th>CUSTOMER NAME</th>
+                              <th>PROUDUCT ID</th>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT QUANTITY</th>
+                              <th>PRODUCT PRICE</th>
+                              <th>STATUS</th>
+                            </tr>
+                          {% for post in vendor_po %}
+                                <tr>
+                                  <td>{{post.product_Customer}}</td>
+                                  <td>{{post.product_id}}</td>
+                                  <td>{{post.product_Name}}</td>
+                                  <td>{{post.selected_quantity}}</td>
+                                  <td>{{post.product_Price}}</td>
+                                  <td>Purchased order</td>
+                                </tr>
+                          {% endfor %}
+                        </table>
+
+                        <br>
+                        <hr>
+                        <h2>PRODUCTS ONTO DELIVERY</h2>
+                        <table class="table1">
+                            <tr>
+                              <th>PRODUCT NAME</th>
+                              <th>PROUDUCT ID</th>
+                              <th>CUSTOMER NAME</th>
+                              <th>PRODUCT QUANTITY</th>
+                              <th>STATUS</th>
+                            </tr>
+                          {% for post in vendor_onto_order %}
+                                <tr>
+                                  <td>{{post.product_Name}}</td>
+                                  <td>{{post.product_id}}</td>
+                                  <td>{{post.product_Customer}}</td>
+                                  <td>{{post.selected_quantity}}</td>
+                                  <td>Purchased order</td>
+                                </tr>
+                          {% endfor %}
+                        </table>
+
+                        <br>
+                        <hr>
+                        <h2>TO BE INVOICED</h2>
+                        <table class="table1">
+                            <tr>
+                              <th>CUSTOMER NAME</th>
+                              <th>PROUDUCT ID</th>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT QUANTITY</th>
+                              <th>PRODUCT PRICE</th>
+                              <th>STATUS</th>
+                            </tr>
+                          {% for post in vendor_invoice_needed %}
+                                <tr>
+                                  <td>{{post.product_Customer}}</td>
+                                  <td>{{post.product_id}}</td>
+                                  <td>{{post.product_Name}}</td>
+                                  <td>{{post.selected_quantity}}</td>
+                                  <td>{{post.product_Price}}</td>
+                                  <td>To be invoiced</td>
                                 </tr>
                           {% endfor %}
                         </table>

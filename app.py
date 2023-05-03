@@ -43,13 +43,13 @@ product_customer = ""
 product_id = 0
 category = ""
 
-for documents in retrieve_vendor_inventory:
-    vendor_inventory.append(documents)
+for data in retrieve_vendor_inventory:
+    vendor_inventory.append(data)
     print("Vendor name : ", vendor, "\n",
           documents)
 
-for document in retrieve_customer_product:
-    customer_products.append(document)
+for data in retrieve_customer_product:
+    customer_products.append(data)
 
 
 @app.route('/')
@@ -192,18 +192,39 @@ def login_vendor():
 
 @app.route('/home_vendor/<cluster_name>')
 def home_vendor(cluster_name):
-    global retrieve_vendor_inventory, vendor_inventory
+    global retrieve_vendor_inventory, vendor_inventory, db_vendor
     vendor_inventory = []
+    vendor_rfq_list = []
+    vendor_po = []
+    vendor_onto_order = []
+    vendor_invoice_needed = []
+
     retrieve_vendor_inventory = collection_products.find({"vendor": cluster_name})
+    retrieve_rfq = db_vendor[cluster_name].find({"status": "rfq"})
+    retrieve_po = db_vendor[cluster_name].find({"status": "purchased"})
+    retrieve_oo = db_vendor[cluster_name].find({"status": "onto_order"})
+    retrieve_in = db_vendor[cluster_name].find({"status": "invoice_needed"})
 
     for documents in retrieve_vendor_inventory:
         vendor_inventory.append(documents)
-        print("Vendor name : ", vendor, "\n",
-              documents)
+
+    for documents in retrieve_rfq:
+        vendor_rfq_list.append(documents)
+
+    for documents in retrieve_po:
+        vendor_po.append(documents)
+
+    for documents in retrieve_oo:
+        vendor_onto_order.append(documents)
+
+    for documents in retrieve_in:
+        vendor_invoice_needed.append(documents)
 
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
-    return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=cluster_name)
+    return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=cluster_name,
+                           vendor_rfq_list=vendor_rfq_list, vendor_po=vendor_po,
+                           vendor_onto_order=vendor_onto_order, vendor_invoice_needed=vendor_invoice_needed)
 
 
 @app.route('/vendor_account')
