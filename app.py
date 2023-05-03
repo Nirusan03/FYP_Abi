@@ -198,12 +198,17 @@ def home_vendor(cluster_name):
     vendor_po = []
     vendor_onto_order = []
     vendor_invoice_needed = []
+    vendor_pp = []
+    total_income = 0
+    due_payment = 0
 
     retrieve_vendor_inventory = collection_products.find({"vendor": cluster_name})
     retrieve_rfq = db_vendor[cluster_name].find({"status": "rfq"})
     retrieve_po = db_vendor[cluster_name].find({"status": "purchased"})
     retrieve_oo = db_vendor[cluster_name].find({"status": "onto_order"})
     retrieve_in = db_vendor[cluster_name].find({"status": "invoice_needed"})
+    retrieve_pp = db_vendor[cluster_name].find({"status": "paid_pending"})
+    retrieve_is = db_vendor[cluster_name].find({"status": "invoice_sent"})
 
     for documents in retrieve_vendor_inventory:
         vendor_inventory.append(documents)
@@ -220,11 +225,23 @@ def home_vendor(cluster_name):
     for documents in retrieve_in:
         vendor_invoice_needed.append(documents)
 
+    for documents in retrieve_is:
+        str_price = int(documents["total_price"])
+        total_income += str_price
+        print(total_income)
+
+    for documents in retrieve_pp:
+        str_price = int(documents["total_price"])
+        due_payment += due_payment
+        vendor_pp.append(documents)
+
+    print(total_income, " Total ")
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=cluster_name,
                            vendor_rfq_list=vendor_rfq_list, vendor_po=vendor_po,
-                           vendor_onto_order=vendor_onto_order, vendor_invoice_needed=vendor_invoice_needed)
+                           vendor_onto_order=vendor_onto_order, vendor_invoice_needed=vendor_invoice_needed,
+                           total_income=total_income, vendor_pp=vendor_pp, due_payment=due_payment)
 
 
 @app.route('/vendor_account')

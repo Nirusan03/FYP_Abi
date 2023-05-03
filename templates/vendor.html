@@ -104,7 +104,7 @@
                               <th>PROUDUCT ID</th>
                               <th>PRODUCT NAME</th>
                               <th>PRODUCT QUANTITY</th>
-                              <th>PRODUCT PRICE</th>
+                              <th>PER UNIT PRICE</th>
                               <th>STATUS</th>
                             </tr>
                           {% for post in vendor_rfq_list %}
@@ -127,7 +127,7 @@
                               <th>PROUDUCT ID</th>
                               <th>PRODUCT NAME</th>
                               <th>PRODUCT QUANTITY</th>
-                              <th>PRODUCT PRICE</th>
+                              <th>PER UNIT PRICE</th>
                               <th>STATUS</th>
                             </tr>
                           {% for post in vendor_po %}
@@ -173,7 +173,7 @@
                               <th>PROUDUCT ID</th>
                               <th>PRODUCT NAME</th>
                               <th>PRODUCT QUANTITY</th>
-                              <th>PRODUCT PRICE</th>
+                              <th>PER UNIT PRICE</th>
                               <th>STATUS</th>
                             </tr>
                           {% for post in vendor_invoice_needed %}
@@ -187,11 +187,41 @@
                                 </tr>
                           {% endfor %}
                         </table>
+
+                        <br>
+                        <hr>
+                        <h2>PENDING PAYMENT FROM CUSTOMER</h2>
+                        <table class="table1" style="width: 600px;">
+                            <tr>
+                              <th>CUSTOMER NAME</th>
+                              <th>PROUDUCT ID</th>
+                              <th>PRODUCT NAME</th>
+                              <th>PRODUCT QUANTITY</th>
+                              <th>PRODUCT PRICE</th>
+                              <th>TOTAL COST</th>
+                              <th>STATUS</th>
+                            </tr>
+                          {% for post in vendor_pp %}
+                                <tr>
+                                  <td>{{post.product_Customer}}</td>
+                                  <td>{{post.product_id}}</td>
+                                  <td>{{post.product_Name}}</td>
+                                  <td>{{post.selected_quantity}}</td>
+                                  <td>{{post.product_Price}}</td>
+                                  <td>{{post.total_price}}</td>
+                                  <td>Payment Pending</td>
+                                </tr>
+                          {% endfor %}
+                        </table>
                     </div>
 
                     <div class="earning">
                         <h2>EARNINGS</h2>
-                        <div class="circle"> <h2>$12, 560</h2></div>
+                        <div class="circle"> 
+                            <h2>RS: {{total_income}}</h2>
+                            <h2 style="position: relative; right: 20px;">Payment to be received : {{due_payment}}</h2>
+                            <h2 style="margin-right:20px;">Target : 30000 rs</h2>
+                        </div>
                     </div>
                 </div>
             </div>
