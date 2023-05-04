@@ -96,7 +96,7 @@ input[type = "text"]{
 .noticications{
     width:  40px;
     height: 42px;
-    margin-left: 30px;
+    margin: 40px 0 0 30px;
     float: right;
 }
 
@@ -106,7 +106,7 @@ input[type = "text"]{
 
 .cart{
     margin-left: 30px;
-    width: 1000px;
+    width: 700px;
 }
 
 h2{
@@ -119,7 +119,7 @@ h1{
 
 #product-details{
     border: 1px solid black;
-    width: 59%;
+    width: 600px;
 }
 
 #product{
@@ -171,9 +171,9 @@ h1{
 }
 
 #vendor-details{
-    margin: 10px 0 0 30px;
+    margin: -200px 0 0 30px;
     border: 1px solid black;
-    width: 41.7%;
+    width: 600px;
 }
 
 .vend{
@@ -185,4 +185,19 @@ h1{
     color: darkblue;
     font-weight: 700;
     margin-left: 50px;
+}
+
+.tc-container{
+    margin-top: -60px;
+}
+
+.term-para{
+    border: 1px solid black;
+    height: 510px;
+    width: 550px;
+    overflow: auto;
+}
+
+#tc{
+    margin: 10px;
 }

@@ -101,28 +101,6 @@
                         <p>Period : {{retrieve_quote2.period}}</p>
                         <p>Total : {{retrieve_quote2 .total_price}}</p>
                         <br><br><br>
-
-                        <h3>PAYMENT OPTION</h3>
-                        <form method="POST" action="/order_purchase">
-
-                            <label for="cus_name">Name on card</label>
-                            <input type="text" name="cus_name" id="cus_name" placeholder="Danie David" required>
-                            <br><br>
-
-                            <label for="card_no">Card Number </label>
-                            <input type="number" name="card_no" id="card_no"  placeholder="1999129123123" required>
-                            <br><br>
-                            
-                            <label for="card_ex">Expiration Month and year</label>
-                            <input type="date"  name="card_ex" id="card_ex" placeholder="01/45" required>
-                            <br><br>
-                            
-                            <label for="card_ccv">CVC</label>
-                            <input type="number" name="card_ccv" id="card_ccv" placeholder="111" required>
-                            <br><br>
-
-                            <button type="submit" value="{{retrieve_quote2.product_Id}} {{retrieve_quote2.product_Vendor}}" id="proceed-po" name="proceed-po">Purchase Order</button>
-                        </form>
                     </div>
                 </div>
             </div>
