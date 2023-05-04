@@ -92,8 +92,8 @@
                     
                 </div>
 
-                <div class="delivery-earning">
-                    <div class="upcoming">
+                <div class="product-details">
+                    <div class="cart">
                         <div id="product-details">
                             <div id="back">
                                 <p id="product">Product : {{product_name}}</p>
@@ -110,11 +110,17 @@
                         </div>
                     </div>
                 </div>
-                
-        </div>
-        <footer>
 
-        </footer>
+                <div id="vendor-details">
+                    <h3 style="margin-left: 20px;">Vendor Information</h3>
+
+                    <p class="vend">Vendor &nbsp&nbsp: <span class="name">{{vendor_data.Vendor_name}}</span> </p>
+                    <p class="vend">Code &nbsp&nbsp&nbsp&nbsp&nbsp: <span class="name">{{vendor_data.Vendor_Code}}</span></p>
+                    <p class="vend">Email &nbsp&nbsp&nbsp&nbsp&nbsp: <span class="name">{{vendor_data.Vendor_email}}</span></p>
+                    <p class="vend">Address &nbsp: <span class="name">{{vendor_data.Vendor_Address}}</span></p>
+                </div>  
+            </div>
+        </div>
     </body>
     
 </html>

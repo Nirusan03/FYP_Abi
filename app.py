@@ -668,7 +668,9 @@ def products():
 @app.route('/pass_data', methods=['POST'])
 def pass_data():
     global product_name, product_price, product_quantity, \
-        product_vendor, product_customer, product_id, category
+        product_vendor, product_customer, product_id, category, \
+        account_vendor_collection
+
     button_value = ""
     words = []
     now = datetime.datetime.now()
@@ -704,10 +706,11 @@ def customer_single_product(product_name, product_price, product_quantity, produ
                             product_id, category):
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
+    vendor_data = account_vendor_collection.find_one({"Vendor_name": product_vendor})
     return render_template('customer-single-product.html', date=date, customer=customer,
                            product_name=product_name, product_price=product_price, product_quantity=product_quantity,
                            product_vendor=product_vendor, product_customer=product_customer, product_id=product_id,
-                           category=category)
+                           category=category, vendor_data=vendor_data)
 
 
 @app.route("/add_cart", methods=['POST'])

@@ -18,10 +18,6 @@ body{
     height: 100%;
 }
 
-/* .menu li {
-    border-bottom: 1px solid #ddd;
-} */
-
 .menu li a {
     display: block;
     padding: 10px 12px;
@@ -245,3 +241,22 @@ tr{
     cursor: not-allowed;
 }
   
+#account-link{
+    color: white;
+    text-decoration: none;
+    margin-top: 30px;
+    transition-duration: 0.4s;
+}
+
+#account-link:hover{
+    color: yellow;
+}
+
+#account-link:active {
+    transform: translateY(2px);
+}
+
+#account-link:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
