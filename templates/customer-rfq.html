@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Customer - RFQ</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/products.css' )}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/customer-rfq.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,21 +37,36 @@
                 
                 <li>
                     <div class="menuList">
-                        <img src="{{ url_for('static', filename = 'images/vendor.png' )}}" alt="dashboard" width="30px" height="38px">
+                        <img src="{{ url_for('static', filename = 'images/products.png' )}}" alt="dashboard" width="30px" height="35px">
                         <a href="{{ url_for('products') }}">PRODUCTS</a>
-                    </div>
-                </li>
-                <li>
-                    <div class="menuList">
-                        <img src="{{ url_for('static', filename = 'images/staff.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="{{ url_for('customer_rfq') }}">RFQ (Requesting for Quote)</a>
                     </div>
                 </li>
 
                 <li>
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="{{ url_for('cart') }}">CART</a>
+                        <a href="{{url_for('cart')}}">CART</a>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="menuList">
+                        <img src="{{ url_for('static', filename = 'images/vendor.png' )}}" alt="dashboard" width="30px" height="38px">
+                        <a href="{{ url_for('customer_rfq') }}">RFQ</a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="menuList">
+                        <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
+                        <a href="{{ url_for('customer_invoice')}}">INVOICE</a>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="menuList">
+                        <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
+                        <a href="{{ url_for('customer_orders_page')}}">ORDERS</a>
                     </div>
                 </li>
 

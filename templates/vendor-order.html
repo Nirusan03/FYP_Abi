@@ -116,7 +116,7 @@
                           {% endfor %}
                         </table>
                         {% else %}
-                        <p>There is no product to be sent</p>
+                        <!-- <h3>There is no product to be sent</h3> -->
                         {% endif %}
                         
                         <br><br>
@@ -140,16 +140,11 @@
                                     <td>{{post.period}}</td>
                                     <td>{{post.total_price}}</td>
                                     <td>{{post.product_Customer}}</td>
-                                  <td>
-                                    <form method="POST" action="">
-                                    <button type="submit" value="" id="" name="">Received</button>
-                                    </form>
-                                </td>
                                 </tr>
                           {% endfor %}
                         </table>
                         {% else %}
-                        <p>There is no product on delivery</p>
+                        <!-- <h3>There is no product on delivery</h3> -->
                         {% endif %}
 
                         <br><br>
@@ -173,16 +168,11 @@
                                     <td>{{post.period}}</td>
                                     <td>{{post.total_price}}</td>
                                     <td>{{post.product_Customer}}</td>
-                                  <td>
-                                    <form method="POST" action="">
-                                    <button type="submit" value="" id="" name="">Received</button>
-                                    </form>
-                                </td>
                                 </tr>
                           {% endfor %}
                         </table>
                         {% else %}
-                        <p>There is no product need to be paid</p>
+                        <!-- <h3>There is no product need to be paid</h3> -->
                         {% endif %}
 
                         <br><br>
@@ -197,6 +187,7 @@
                               <th>PERIOD</th>
                               <th>TOTAL PRICE</th>
                               <th>CUSTOMER NAME</th>
+                              <th>INVOICE</th>
                             </tr>
                           {% for post in invoice_to_send %}
                                 <tr>    
@@ -215,7 +206,7 @@
                           {% endfor %}
                         </table>
                         {% else %}
-                        <p>There is no invoice need to be sent</p>
+                        <!-- <h3>There is no invoice need to be sent</h3> -->
                         {% endif %}
                     </div>
                 </div>

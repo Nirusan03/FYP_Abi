@@ -63,11 +63,11 @@ body{
     margin: 20px;
 }
 
-#account-link{
-    color: white;
-    text-decoration: none;
-    margin-top: 30px;
-}
+/* hr {
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+    width: 100%;
+} */
 
 .header1{
     display: flex;
@@ -181,19 +181,18 @@ tr{
     margin-left: 500px;
 }
 
-#sent-invoice{
-    padding: 15px 40px;
-    font-size: 15px;
-    font-weight: 700;
-    background-color: rgb(173, 243, 173);
-    border: none;
-    border-radius: 5px;
-    box-shadow: 2px 2px 2px black;
+#my-button:hover{
+    background-color: #2d698c;
+    color: white;
     cursor: pointer;
 }
 
-#sent-invoice:hover{
-    background-color: #2d698c;
-    color: white;
+#my-button{
+    height: 40px;
+    width: 60px;
+    background-color: rgb(193, 221, 193);
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px black;
     cursor: pointer;
 }
