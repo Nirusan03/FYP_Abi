@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>RFQ - Product - Vendor</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/vendor.css' )}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/vendor-rfq-proceed.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,25 +95,29 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <p>Product ID : {{p_id}}</p>
-                        <form action="/pass_information" method="POST">
-                            <button type="submit" value="{{p_id}} {{p_name}} 
-                            {{s_quantity}} {{p_price}}" id="product-button" name="product-button">Product Name: {{p_name}}</button>
-                        </form>
+                        <div id="product-details">
+                            <div id="back">
+                                <p id="product-id">Product ID : {{p_id}}</p>
+                                <form action="/pass_information" method="POST">
+                                    <button type="submit" value="{{p_id}} {{p_name}} 
+                                    {{s_quantity}} {{p_price}}" id="product-button" name="product-button">Product Name: {{p_name}}</button>
+                                </form>
 
-                        <p>Selected quantity :{{s_quantity}}</p>
-                        <p>1 * Price : {{p_price}}</p>
-                        <p>Customer : {{p_customer}}</p>
-                        <form method="POST" action="/vendor_sent_quote">
-                            <label class="label" for="price">Total        </label>
-                            <input type="number" name="price" id="price" class="input"> 
-                            <br> <br>
-                            <label class="label" for="period">Waiting period</label>
-                            <input type="number" name="period" id="period" class="input"min="0" max="20" value="0" >
-                            <br>
-                            <button type="submit" value="{{p_id}} {{p_customer}}" id="send_quote" name="send_quote">Send Quote</button>
-                            <button type="submit" value="{{p_id}} {{p_customer}}" id="decline_quote" name="decline_quote">Decline Quote</button>
-                        </form>
+                                <p>Selected quantity :{{s_quantity}}</p>
+                                <p>1 * Price : {{p_price}}</p>
+                                <p>Customer : {{p_customer}}</p>
+                                <form method="POST" action="/vendor_sent_quote">
+                                    <label class="label" for="price">Total        </label>
+                                    <input type="number" name="price" id="price" class="input"> 
+                                    <br> <br>
+                                    <label class="label" for="period">Waiting period</label>
+                                    <input type="number" name="period" id="period" class="input"min="0" max="20" value="0" >
+                                    <br>
+                                    <button type="submit" value="{{p_id}} {{p_customer}}" id="send_quote" name="send_quote">Send Quote</button>
+                                    <button type="submit" value="{{p_id}} {{p_customer}}" id="decline_quote" name="decline_quote">Decline Quote</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

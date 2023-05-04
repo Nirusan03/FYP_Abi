@@ -112,32 +112,44 @@ h2{
     margin: 20px 0 10px 30px;
 }
 
+
 table {
-    border-collapse: collapse;
+    border: 1px solid black;
+    border-collapse:separate;
+    background-color: white;
     width: 100%;
-    height: 500px;
+    /* height: 380px; */
     font-family: Arial, sans-serif;
     font-size: 14px;
     text-align: center;
     font-size: 1.2em;
 }
-  
+
 th, td {
     padding: 30px;
     vertical-align: middle;
+    border: 1px solid black;
 }
   
 th {
     font-weight: bold;
-    text-align: left;
+    text-align: center;
+    background-color: #4587ad;
+    color: white;
+    border: none;
 }
+
+tr:hover {
+    background-color: #ece8e8;
+}
+
 
 tr:hover {
     background-color: #ddd;
 }
 
 tr{
-    border: 1px solid black;
+    border: 1px solid #2d698c;
 }
 .circle {
     width: 250px;
@@ -169,8 +181,18 @@ tr{
     margin-left: 500px;
 }
 
-.my-button{
-    border: none; 
-    background-color:transparent; 
+#my-button:hover{
+    background-color: #2d698c;
+    color: white;
+    cursor: pointer;
+}
+
+#my-button{
+    height: 40px;
+    width: 60px;
+    background-color: rgb(193, 221, 193);
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px black;
     cursor: pointer;
 }

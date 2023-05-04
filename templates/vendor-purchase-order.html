@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Purchase Order</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/inventory.css' )}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/vendor-purchase.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -105,6 +105,7 @@
                               <th>TOTAL PRICE</th>
                               <th>PERIOD</th>
                               <th>DELIVERY DATE</th>
+                              <th>Merging</th>
                             </tr>
                           {% for post in rp %}
                                 <tr>

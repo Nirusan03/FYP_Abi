@@ -98,16 +98,20 @@
 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <p>Product : {{product_name}}</p>
-                        <p>1X Price : {{product_price}}</p>
-                        <p>Available quantity :{{product_quantity}}</p>
-                        <p>category : {{category}}</p>
-                        <p>Vendor : {{product_vendor}}</p>
-                        <form method="POST" action="/add_cart">
-                            <label class="label" for="quantity">Quantity</label>
-                            <input type="number" name="quantity" id="quantity" class="input" placeholder="100" min="100" max="300" required>                    
-                            <button type="submit" value="Add to cart" id="my-button" name="my-button">Add to cart</button>
-                        </form>
+                        <div id="product-details">
+                            <div id="back">
+                                <p id="product">Product : {{product_name}}</p>
+                                <p>Per unit Price : {{product_price}}rs</p>
+                                <p>Available quantity : {{product_quantity}}</p>
+                                <p>Category : {{category}}</p>
+                                <p>Vendor : <span style="font-weight: 600;">{{product_vendor}}</span></p>
+                                <form method="POST" action="/add_cart">
+                                    <label class="label" for="quantity">Quantity</label>
+                                    <input type="number" name="quantity" id="quantity" class="input" placeholder="100" min="100" max="300" required>                    
+                                    <button type="submit" value="Add to cart" id="my-button" name="my-button">Add to cart</button>
+                                </form>
+                                </div>
+                        </div>
                     </div>
                 </div>
                 

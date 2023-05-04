@@ -104,6 +104,7 @@
                                 <th>PRODUCT ID</th>
                                 <th>PRODUCT QU</th>
                                 <th>PRODUCT PRICE</th>
+                                <th>CHECK RFQ</th>
                             </tr>
                             {% for doc in docs %}
                                 <tr>
@@ -114,7 +115,7 @@
                                     <td>
                                         <form method="POST" action="/rfq_pass_data">
                                             <button type="submit" id="my-button" name="my-button" value="{{doc.product_Name}} {{doc.product_Price}} 
-                                            {{product_Customer}} {{doc.product_id}} {{doc.selected_quantity}}">RFQ</button>
+                                            {{product_Customer}} {{doc.product_id}} {{doc.selected_quantity}}">CHECK</button>
                                         </form>
                                     </td>
                                 </tr>
