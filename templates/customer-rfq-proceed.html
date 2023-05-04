@@ -95,23 +95,19 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <p>Product ID : {{ retrieve_quote.product_Id }}</p>
-                        <p>Product Name: {{retrieve_quote.product_Name}}</p>
-                        <p>Selected quantity :{{retrieve_quote.selected_Quantity}}</p>
-                        <p>1 * Price : {{retrieve_quote.product_Price}}</p>
-                        <p>Customer : {{retrieve_quote.product_Vendor}}</p>
-                        <p>Period : {{retrieve_quote.period}}</p>
-                        <p>Total : {{retrieve_quote .total_price}}</p>
-                        <form method="POST" action="/proceed_po">
-                            <!-- <label class="label" for="price">Total        </label>
-                            <input type="number" name="price" id="price" class="input"> 
-                            <br> <br> -->
-                            <!-- <label class="label" for="period">Waiting period</label>
-                            <input type="number" name="period" id="period" class="input"min="0" max="20" value="0" > -->
-                            <br>
-                            <button type="submit" value="{{retrieve_quote.product_Id}} {{retrieve_quote.product_Vendor}}" id="proc-po" name="proc-po">Proceed to Purchase Order</button>
-                            <button type="submit" value="{{product_Id}} {{product_Vendor}}" id="dic_po" name="dic_po">Decline the order</button>
-                        </form>
+                        <div id="product-details">
+                            <p class="prod">Product ID &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <span class="name">{{ retrieve_quote.product_Id }}</span></p>
+                            <p class="prod">Product Name &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp :<span class="name">{{retrieve_quote.product_Name}}</span></p>
+                            <p class="prod">Selected quantity  &nbsp&nbsp:<span class="name">{{retrieve_quote.selected_Quantity}}</span></p>
+                            <p class="prod">Per unit price &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp : <span class="name">{{retrieve_quote.product_Price}}</span></p>
+                            <p class="prod">Vendor &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp : <span class="name">{{retrieve_quote.product_Vendor}}</span></p>
+                            <p class="prod">Period  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <span class="name">{{retrieve_quote.period}}</span></p>
+                            <p class="prod">Total  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <span class="name">{{retrieve_quote .total_price}}</span></p>
+                            <form method="POST" action="/proceed_po">
+                                <button type="submit" value="{{retrieve_quote.product_Id}} {{retrieve_quote.product_Vendor}}" id="proc-po" name="proc-po">Proceed to Purchase Order</button>
+                                <button type="submit" value="{{product_Id}} {{product_Vendor}}" id="dic_po" name="dic_po">Decline the order</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

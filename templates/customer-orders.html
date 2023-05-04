@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Inventory</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/products.css' )}}">
+        <title>{{ customer }} -  Orders</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/customer-order.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,6 +103,7 @@
                               <th>PRODUCT TOTAL PRICE</th>
                               <th>PRODUCT QUANTITY</th>
                               <th>VENDOR</th>
+                              <th>STATUS</th>
                             </tr>
                           {% for post in ro %}
                                 <tr>    
@@ -112,14 +113,13 @@
                                     <td>{{post.product_Vendor}}</td>
                                   <td>
                                     <form method="POST" action="/customer_order_received">
-                                    <button type="submit" value="{{post.product_Vendor}} {{post.product_Id}}" id="order-received" name="order-received">Received</button>
+                                    <button type="submit" value="{{post.product_Vendor}} {{post.product_Id}}" id="order-received" name="order-received" class="buttons">Received</button>
                                     </form>
                                 </td>
                                 </tr>
                           {% endfor %}
                         </table>
                     {% else %}
-                    <p>There is no product to be received</p>
                     {% endif %}
 
                     {% if pp %}
@@ -130,6 +130,7 @@
                               <th>PRODUCT TOTAL PRICE</th>
                               <th>PRODUCT QUANTITY</th>
                               <th>VENDOR</th>
+                              <th>STATUS</th>
                             </tr>
                           {% for post in pp %}
                                 <tr>    
@@ -139,14 +140,13 @@
                                     <td>{{post.product_Vendor}}</td>
                                   <td>
                                     <form method="POST" action="/pass_payment_page">
-                                    <button type="submit" value="{{post.product_Vendor}} {{post.product_Id}}" id="proceed-pay" name="proceed-pay">Pay</button>
+                                    <button type="submit" value="{{post.product_Vendor}} {{post.product_Id}}" id="proceed-pay" name="proceed-pay" class="buttons">Pay</button>
                                     </form>
                                 </td>
                                 </tr>
                           {% endfor %}
                         </table>
                     {% else %}
-                    <p>There is no payment pending so far</p>
                     {% endif %}
 
 
@@ -159,6 +159,7 @@
                               <th>PRODUCT TOTAL PRICE</th>
                               <th>PRODUCT QUANTITY</th>
                               <th>VENDOR</th>
+                              <th>STATUS</th>
                             </tr>
                           {% for post in riw %}
                                 <tr>    
@@ -171,7 +172,6 @@
                           {% endfor %}
                         </table>
                     {% else %}
-                    <p>There is no pendings for invoice</p>
                     {% endif %}
 
 

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Inventory</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/products.css' )}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/customer-proceed.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,7 +51,7 @@
                     <div class="menuList">
                         <img src="{{ url_for('static', filename = 'images/vendor.png' )}}" alt="dashboard" width="30px" height="38px">
                         <a href="{{ url_for('customer_rfq') }}">RFQ</a>
-                    </div>>
+                    </div>
                 </li>
 
                 <li>
@@ -93,14 +93,20 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <p>Product ID : {{ retrieve_quote2.product_Id }}</p>
-                        <p>Product Name: {{retrieve_quote2.product_Name}}</p>
-                        <p>Selected quantity :{{retrieve_quote2.selected_Quantity}}</p>
-                        <p>1 * Price : {{retrieve_quote2.product_Price}}</p>
-                        <p>Vendor : {{retrieve_quote2.product_Vendor}}</p>
-                        <p>Period : {{retrieve_quote2.period}}</p>
-                        <p>Total : {{retrieve_quote2 .total_price}}</p>
-                        <br><br><br>
+                        <div id="product-details">
+                            <p class="prod">Product ID &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <span class="name">{{ retrieve_quote2.product_Id }}</span></p>
+                            <p class="prod">Product Name &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp :<span class="name">{{retrieve_quote2.product_Name}}</span></p>
+                            <p class="prod">Selected quantity  &nbsp&nbsp:<span class="name">{{retrieve_quote2.selected_Quantity}}</span></p>
+                            <p class="prod">Per unit price &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp : <span class="name">{{retrieve_quote2.product_Price}}</span></p>
+                            <p class="prod">Vendor &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp : <span class="name">{{retrieve_quote2.product_Vendor}}</span></p>
+                            <p class="prod">Period  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <span class="name">{{retrieve_quote2.period}}</span></p>
+                            <p class="prod">Total  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <span class="name">{{retrieve_quote2.total_price}}</span></p>
+                            
+
+                            <form method="POST" action="/order_purchase">
+                                <button type="submit" value="{{retrieve_quote2.product_Id}} {{retrieve_quote2.product_Vendor}}" id="proceed-po" name="proceed-po">Purchase Order</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
