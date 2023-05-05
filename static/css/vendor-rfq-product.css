@@ -178,6 +178,42 @@ h1{
     height: 20px;
     color: black;
 }
+
+#product-button {
+    background-color: #82d482; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition-duration: 0.4s;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  }
+  
+#product-button:hover {
+    background-color: #2d698c; /* Dark green */
+}
+
+#product-button:active {
+    background-color: #2d698c;
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.2);
+    transform: translateY(2px);
+}
+
+#product-button:focus {
+    outline: none;
+}
+
+#product-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 #name{
     margin-left: 50px;
 }
