@@ -143,17 +143,6 @@ tr{
     border: 1px solid #2d698c;
 }
 
-.noticications{
-    width:  40px;
-    height: 42px;
-    margin-left: 30px;
-    float: right;
-}
-
-.notification-holder{
-    margin-left: 500px;
-}
-
 #my-button:hover{
     background-color: #2d698c;
     color: white;
