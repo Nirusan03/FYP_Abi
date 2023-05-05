@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Product - {{name}}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/customer-single-product.css' )}}"
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/vendor-single-inventory.css' )}}"
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,10 +97,16 @@
 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <p>Product : {{name}}</p>
-                        <p>Product id : {{p_id}}</p>
-                        <p>1X Price : {{price}}</p>
-                        <p>In Stock :{{quantity}}</p>
+                        <div id="product-details">
+                            <p class="prod">Product &nbsp&nbsp&nbsp&nbsp
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  :  <span class="data">{{name}}</span></p>
+                            <p class="prod">Product id &nbsp&nbsp&nbsp&nbsp
+                                            &nbsp&nbsp&nbsp: <span class="data">{{p_id}}</span></p>
+                            <p class="prod">Per unit price 
+                                            &nbsp&nbsp : <span class="data">{{price}}</span></p>
+                            <p class="prod">In Stock count 
+                                            &nbsp&nbsp: <span class="data">{{quantity}}</span></p>
+                        </div>
                     </div>
                 </div>
                 
