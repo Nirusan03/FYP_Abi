@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{{ customer }} - {{retrieve_on_product.product_Name}} - Pay </title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/products.css' )}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/customer-order-pay.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,35 +95,47 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
-                        <p>Product ID : {{retrieve_on_product.product_Id}}</p>
-                        <p>Product Name : {{retrieve_on_product.product_Name}}</p>
-                        <p>Selected quantity : {{retrieve_on_product.selected_Quantity}}</p>
-                        <p>1 * Price : {{retrieve_on_product.product_Price}}</p>
-                        <p>Vendor : {{retrieve_on_product.product_Vendor}}</p>
-                        <p>Total : Rs. {{retrieve_on_product.total_price}}</p>
+                        <div id="product-details">
+                            <div id="back">
+
+                                <h3>PRODUCT DETAILS</h3>
+                                <p>Product ID : {{retrieve_on_product.product_Id}}</p>
+                                <p>Product Name : {{retrieve_on_product.product_Name}}</p>
+                                <p>Selected quantity : {{retrieve_on_product.selected_Quantity}}</p>
+                                <p>Per unit price : {{retrieve_on_product.product_Price}}</p>
+                                <p>Vendor : {{retrieve_on_product.product_Vendor}}</p>
+                                <p>Total : Rs. {{retrieve_on_product.total_price}}</p>
+                            
+                            </div>
+                        </div>
+
                         <br><br><br>
+                        
+                        <div id="product-details">
+                            <div id="back">
+                                <h3>PAYMENT OPTION</h3>
+                                <form method="POST" action="/pay_order">
 
-                        <h3>PAYMENT OPTION</h3>
-                        <form method="POST" action="/pay_order">
+                                    <label for="cus_name">Name on card</label>
+                                    <input type="text" name="cus_name" id="cus_name" value="{{customer_detail.Customer_NameCard}}" required>
+                                    <br><br>
 
-                            <label for="cus_name">Name on card</label>
-                            <input type="text" name="cus_name" id="cus_name" value="{{customer_detail.Customer_NameCard}}" required>
-                            <br><br>
+                                    <label for="card_no">Card Number </label>
+                                    <input type="number" name="card_no" id="card_no"  value="{{customer_detail.Customer_cardNo}}" required>
+                                    <br><br>
+                                    
+                                    <label for="card_ex">Expiration Month and year</label>
+                                    <input type="date"  name="card_ex" id="card_ex" value="{{customer_detail.Customer_cardEx}}" required>
+                                    <br><br>
+                                    
+                                    <label for="card_ccv">CVC</label>
+                                    <input type="number" name="card_ccv" id="card_ccv" value="{{customer_detail.Customer_cvc}}" required>
+                                    <br><br>
 
-                            <label for="card_no">Card Number </label>
-                            <input type="number" name="card_no" id="card_no"  value="{{customer_detail.Customer_cardNo}}" required>
-                            <br><br>
-                            
-                            <label for="card_ex">Expiration Month and year</label>
-                            <input type="date"  name="card_ex" id="card_ex" value="{{customer_detail.Customer_cardEx}}" required>
-                            <br><br>
-                            
-                            <label for="card_ccv">CVC</label>
-                            <input type="number" name="card_ccv" id="card_ccv" value="{{customer_detail.Customer_cvc}}" required>
-                            <br><br>
-
-                            <button type="submit" value="{{retrieve_on_product.product_Id}} {{retrieve_on_product.product_Vendor}}" id="pay" name="pay">Pay</button>
-                        </form>
+                                    <button type="submit" value="{{retrieve_on_product.product_Id}} {{retrieve_on_product.product_Vendor}}" id="pay" name="pay">Pay</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
