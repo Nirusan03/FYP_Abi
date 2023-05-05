@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Inventory</title>
+        <title>{{ customer }} - RFQ proceed</title>
         <link rel="stylesheet" href="{{ url_for('static', filename = 'css/customer-rfq-proceed.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,8 +44,8 @@
 
                 <li>
                     <div class="menuList">
-                        <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
-                        <a href="{{url_for('cart')}}">CART</a>
+                        <img src="{{ url_for('static', filename = 'images/product-list.png' )}}" alt="dashboard" width="30px" height="35px">
+                        <a href="{{url_for('cart')}}">PRODUCT LIST</a>
                     </div>
                 </li>
                 
@@ -65,7 +65,7 @@
                 
                 <li>
                     <div class="menuList">
-                        <img src="{{ url_for('static', filename = 'images/invoice.png' )}}" alt="dashboard" width="30px" height="35px">
+                        <img src="{{ url_for('static', filename = 'images/order.png' )}}" alt="dashboard" width="30px" height="35px">
                         <a href="{{ url_for('customer_orders_page')}}">ORDERS</a>
                     </div>
                 </li>
