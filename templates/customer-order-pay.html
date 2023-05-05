@@ -148,19 +148,28 @@
                                     <h3>PAYMENT OPTION</h3>
                                     <form method="POST" action="/pay_order">
 
-                                        <label for="cus_name" class="label">Name on card : </label>
+                                        <b> <label for="cus_name" class="label">Name on card 
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: </label> </b>
                                         <input type="text" name="cus_name" id="cus_name" value="{{customer_detail.Customer_NameCard}}" required>
                                         <br><br>
 
-                                        <label for="card_no" class="label">Card Number :  </label>
+                                        <b><label for="card_no" class="label">Card Number 
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp:  </label> </b>
+                                    
                                         <input type="number" name="card_no" id="card_no"  value="{{customer_detail.Customer_cardNo}}" required>
                                         <br><br>
                                         
-                                        <label for="card_ex" class="label">Expiration Month and year : </label>
+                                        <b><label for="card_ex" class="label">Expiration Month and year :  </label> </b>
                                         <input type="month"  name="card_ex" id="card_ex" value="{{customer_detail.Customer_cardEx}}" required>
                                         <br><br>
                                         
-                                        <label for="card_ccv" class="label">CVC : </label>
+                                        <b><label for="card_ccv" class="label">CVC 
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                            &nbsp&nbsp: </label> </b>
                                         <input type="number" name="card_ccv" id="card_ccv" value="{{customer_detail.Customer_cvc}}" required>
                                         <br><br>
 
