@@ -690,11 +690,11 @@ def home_customer(cluster_name):
     print("Suggested products:")
     for p in suggested_products:
         print(p)
-        
+
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
-    return render_template('customer.html', date=date, customer_products=customer_products, cluster_name=cluster_name)
+    return render_template('customer.html', date=date, suggested_products=suggested_products, cluster_name=cluster_name)
 
 
 @app.route('/customer_account')
