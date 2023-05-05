@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Vendor - Add product</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/customer-single-product.css' )}}"
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/vendor-add-product.css' )}}"
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,27 +99,14 @@
                     <div class="upcoming" style="border: none;">
                         <form method="POST" action="/vendor_add_product">
 
-                              <label for="product_name">Product name : </label>
+                              <label for="product_name">Product name &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                        &nbsp&nbsp: </label>
                               <input type="text" name="product_name" id="product_name" placeholder="Keyboard" required>
                             
                               <br><br>
-                            
-                              <label for="product_id">Product ID : </label>
-                              <input type="text" name="product_id" id="product_id" placeholder="xx" required>
-                    
-                              <br><br>
 
-                              <label for="quantity">Stock Quantity : </label>
-                              <input type="number" name="quantity" id="quantity" required>
-                    
-                              <br><br>
-                            
-                              <label for="price">Per unit cost : </label>
-                              <input type="number" name="price" id="price" placeholder="100" required>
-                              
-                              <br><br>
-
-                              <label for="category">Product Category:</label>
+                              <label for="category">Product Category
+                                                    &nbsp&nbsp&nbsp:</label>
                               <select id="category" name="category">
                                 <option value="Personal Protective Equipment (PPE)">Personal Protective Equipment (PPE)</option>
                                 <option value="Surgical Supplies">Surgical Supplies</option>
@@ -131,7 +118,23 @@
                               </select>
 
                               <br><br>
-                              <button type="submit" value="Add Product" id="add-prod" name="add-prod">Add Product</button>
+                            
+                              <label for="product_id">Product ID &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: </label>
+                              <input type="number" name="product_id" id="product_id" placeholder="0" required>
+                    
+                              <br><br>
+
+                              <label for="quantity">Stock Quantity&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: </label>
+                              <input type="number" name="quantity" id="quantity" placeholder="0" required>
+                    
+                              <br><br>
+                            
+                              <label for="price">Per unit cost &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: </label>
+                              <input type="number" name="price" id="price" placeholder="100" required>
+
+                              <br><br>
+                              <button type="submit" value="Add Product" id="add-prod" name="add-prod">Add product to inventory</button>
                           </form>
                     </div>
                 </div>
