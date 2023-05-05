@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Invoice</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/products.css' )}}">
+        <title>{{ customer }} - Invoice</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/customer-invoice.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,16 +95,71 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
+                        <h2>Invoices of Transaction</h2> <br>
                         {% for date in invoice %}
-                            <p>Product name : {{date.product_Name}}</p>
-                            <p>Product ID : {{date.product_Id}}</p>
-                            <p>Product Single quantity price : {{date.product_Price}}</p>
-                            <p>Vendor name : {{date.product_Vendor}}</p>
-                            <p>Selected Quantity : {{date.selected_Quantity}}</p>
-                            <p>Total price : {{date.total_price}}</p>
-                            <p>Delivery type: {{date.delivery}}</p>
-                            <p>Delivery Date : {{date.delivery_date}}</p>
-                            <br><br>
+                        <div id="product-details">
+
+                            <p class="vend">Product name 
+                                
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 
+
+                                <span class="name">{{date.product_Name}}</span>
+                            </p>
+
+                            <p class="vend">Product ID 
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+                                : <span class="name">{{date.product_Id}}</span>
+                            </p>
+                                
+                            <p class="vend">
+                                Product Single quantity price : 
+                                <span class="name">{{date.product_Price}}</span>
+                            </p>
+
+                            <p class="vend">Vendor name 
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 
+                                
+                                <span class="name">{{date.product_Vendor}}</span>
+                            
+                            </p>
+
+                            <p class="vend">Selected Quantity 
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 
+
+                                <span class="name">{{date.selected_Quantity}}</span>
+                            
+                            </p>
+                            
+                            <p class="vend">Total price 
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                &nbsp: 
+
+                                <span class="name">{{date.total_price}}</span>
+                            
+                            </p>
+                            
+                            <p class="vend">Delivery type
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 
+
+                                <span class="name">{{date.delivery}}</span></p>
+                            
+                            <p class="vend" >Delivery Date : 
+                                <span class="name">{{date.delivery_date}}</span>
+                            </p>
+
+                        </div>
+                        <br><br>
                         {% endfor %}
                     </div>
                 </div>
