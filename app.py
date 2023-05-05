@@ -4,10 +4,14 @@ from flask import request
 from flask import redirect
 from flask import url_for
 from bson.objectid import ObjectId
-import datetime
 from pymongo import *
 from itertools import groupby
+import numpy as np
+from sklearn.neighbors import NearestNeighbors
+from sklearn.preprocessing import OneHotEncoder
 from datetime import date, timedelta
+import datetime
+import random
 
 app = Flask(__name__)
 cluster = MongoClient("mongodb://localhost:27017")
@@ -642,8 +646,54 @@ def login_customer():
 
 @app.route('/home_customer/<cluster_name>')
 def home_customer(cluster_name):
+    storage_db = cluster["Storage"]
+    product_collection = storage_db["Inventory"]
+    retrieve_products = product_collection.find()
+
+    product_list = []
+
+    for documents in retrieve_products:
+        product_list.append(documents)
+
+    # One-hot encode the categorical variables
+    categories = set(p["category"] for p in product_list)
+    vendors = set(p["vendor"] for p in product_list)
+    enc = OneHotEncoder(categories=[list(categories), list(vendors)])
+    x_cat = [[p["category"], p["vendor"]] for p in product_list]
+    x_cat_enc = enc.fit_transform(x_cat).toarray()
+
+    # Combine the one-hot encoded categorical variables with the numerical variables
+    x_num = [[p["added_count"]] for p in product_list]
+    x = np.hstack([x_cat_enc, x_num])
+
+    # Create the k-NN model
+    n_neighbors = 3
+    knn = NearestNeighbors(n_neighbors=n_neighbors)
+
+    # Fit the model to the data
+    knn.fit(x)
+
+    # Choose a random product as the query
+    query_index = random.randint(0, len(product_list) - 1)
+    query = x[query_index]
+
+    # Find the k nearest neighbors to the query
+    distances, indices = knn.kneighbors([query])
+
+    # Get the suggested products
+    suggested_products = []
+    for index in indices[0]:
+        p = product_list[index]
+        suggested_products.append(p)
+
+    # Print the suggested products
+    print("Suggested products:")
+    for p in suggested_products:
+        print(p)
+        
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
+
     return render_template('customer.html', date=date, customer_products=customer_products, cluster_name=cluster_name)
 
 
