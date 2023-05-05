@@ -99,7 +99,6 @@ body{
     margin-left: 500px;
 }
 
-
 input[type = "text"]{
     height: 40px;
     width: 600px;
@@ -138,13 +137,13 @@ h2{
 }
 
 
-#product-details{
+.product-details{
     border: 1px solid black;
     width: 600px;
     margin-left: 10px;
 }
 
-#back{
+.back{
     margin-left: 20px;
 }
 
@@ -153,12 +152,7 @@ h2{
     font-size: 19px;
 }
 
-.prod{
-    color: red;
-    margin-left: 20px;
-}
-
-#total, #waiting{
+.prod, .label{
     color: red;
     margin-left: 20px;
 }
@@ -166,6 +160,24 @@ h2{
 .data{
     color: darkblue;
     font-weight: 700;
+    margin-left: 30px;
+}
+
+#cus_name{
+    height: 30px;
+    width: 300px;
+    border-radius: 3px;
+    color: black;
+    border: 1px solid black;
+    margin-left: 30px;
+}
+
+input[type = "number"], input[type="month"]{
+    height: 30px;
+    width: 300px;
+    border-radius: 3px;
+    color: black;
+    border: 1px solid black;
     margin-left: 30px;
 }
 
