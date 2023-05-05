@@ -1,0 +1,187 @@
+body{
+    font-family: optima, sans-serif;
+}
+
+.container {
+    display: flex;
+}
+  
+.menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 200px;
+    background-color: #2d698c;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+
+.menu li a {
+    display: block;
+    padding: 10px 12px;
+    color: white;
+    text-decoration: none;
+}
+
+.menu li a:hover {
+    background-color: #ddd;
+    color: #333;
+}
+
+.submenu {
+    display: none; /* hide the submenu by default */
+    list-style-type: none;
+}
+  
+.menu li:hover .submenu {
+    display: block; /* show the submenu when the parent li is hovered */
+}
+
+.submenu li{
+    text-decoration: none;
+}
+
+.admin{
+    color: white;
+    padding: 50px 50px 50px 10px;
+    display: flex;
+}
+
+.content {
+    margin: 0 0 0 200px;
+    max-width: 100%
+}
+
+.menuList{
+    display: flex;
+    margin: 20px;
+}
+
+.header1{
+    display: flex;
+    margin-top: -40px;
+}
+
+input[type = "text"]{
+    height: 40px;
+    width: 600px;
+    border-radius: 5px;
+    color: grey;
+    border: 1px solid grey;
+    margin-left: 30px;
+}
+
+.flex-content{
+    display: flex;
+    margin-top: 30px;
+}
+
+
+#filter{
+    width:  40px;
+    height: 42px;
+    border: 1px solid grey; 
+    border-radius: 5px;
+    margin-left: 30px;
+}
+
+.delivery-earning{
+    display: flex;
+    margin-top: 60px;
+}
+
+.upcoming{
+    margin-left: 30px;
+    width: 1000px;
+}
+
+h2{
+    margin: 20px 0 0 130px;
+}
+
+.noticications{
+    width:  40px;
+    height: 42px;
+    margin-left: 30px;
+    float: right;
+}
+
+.notification-holder{
+    margin-left: 500px;
+}
+
+h1{
+    margin-left: 30px;
+}
+
+#product-id{
+    font-weight: 800;
+    font-size: 19px;
+    color: red;
+    margin-left: 18px;
+}
+
+#product-button:hover{
+    background-color: #2d698c;
+    color: white;
+    cursor: pointer;
+}
+
+#product-button{
+    height: 30px;
+    width: 100px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 25px;
+    background-color: rgb(193, 221, 193);
+    border: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px black;
+    cursor: pointer;
+}
+
+
+#product-details{
+    border: 1px solid black;
+    width: 600px;
+    margin-left: 10px;
+}
+
+#product{
+    font-weight: 800;
+    font-size: 19px;
+}
+
+.prod{
+    color: red;
+    margin-left: 20px;
+}
+
+#total, #waiting{
+    color: red;
+    margin-left: 20px;
+}
+
+.data{
+    color: darkblue;
+    font-weight: 700;
+    margin-left: 30px;
+}
+
+#price, #period{
+    border-radius: 5px;
+    margin-left: 30px;
+    font-size: 18px;
+    width: 100px;
+    height: 20px;
+    color: black;
+}
+#name{
+    margin-left: 50px;
+}
+
+#back{
+    margin-left: 20px;
+}
