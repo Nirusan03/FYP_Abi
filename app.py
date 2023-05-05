@@ -385,6 +385,8 @@ def vendor_sent_quote():
     global vendor
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
+    contract_renewal = ""
+
     if "send_quote" in request.form:
         button_value = request.form['send_quote']
         words = [w.strip() for w in button_value.split()]
@@ -394,10 +396,15 @@ def vendor_sent_quote():
         total_price = request.form['price']
         period = int(request.form['period'])
 
+        if period > 0:
+            contract_renewal = "deadline"
+        else:
+            contract_renewal = "deadline_not"
+
         query = {"product_Id": p_id, "product_Customer": cus_name}
         query2 = {"product_id": p_id, "product_Customer": cus_name}
 
-        new_value = {"$set": {"total_price": total_price, "period": period, "status": "rfq_sent"}}
+        new_value = {"$set": {"total_price": total_price, "period": period, "status": "rfq_sent", "contract_renewal": contract_renewal}}
 
         update = db_customer[cus_name].update_one(query, new_value)
         update2 = db_vendor[vendor].update_one(query2, new_value)
@@ -646,6 +653,10 @@ def login_customer():
 
 @app.route('/home_customer/<cluster_name>')
 def home_customer(cluster_name):
+    global db_customer
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
     storage_db = cluster["Storage"]
     product_collection = storage_db["Inventory"]
     retrieve_products = product_collection.find()
@@ -691,10 +702,33 @@ def home_customer(cluster_name):
     for p in suggested_products:
         print(p)
 
-    now = datetime.datetime.now()
-    date = now.strftime("%Y-%m-%d")
+    retrieve_ar = db_customer[cluster_name].find({"status": "rfq_sent"})
+    request_accept = []
 
-    return render_template('customer.html', date=date, suggested_products=suggested_products, cluster_name=cluster_name)
+    for document in retrieve_ar:
+        request_accept.append(document)
+
+    retrieve_ud = db_customer[cluster_name].find({"status": "onto_order"})
+    upcoming_delivery = []
+
+    for document in retrieve_ud:
+        upcoming_delivery.append(document)
+
+    retrieve_pd = db_customer[cluster_name].find({"status": "paid_pending"})
+    payment_du = []
+
+    for document in retrieve_pd:
+        payment_du.append(document)
+
+    retrieve_cr = db_customer[cluster_name].find({"contract_renewal": "deadline"})
+    contract_renewal = []
+
+    for document in retrieve_cr:
+        contract_renewal.append(document)
+
+    return render_template('customer.html', date=date, suggested_products=suggested_products, cluster_name=cluster_name,
+                           request_accept=request_accept, upcoming_delivery=upcoming_delivery, payment_du=payment_du,
+                           contract_renewal=contract_renewal)
 
 
 @app.route('/customer_account')

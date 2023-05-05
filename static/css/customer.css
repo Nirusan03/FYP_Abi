@@ -59,12 +59,6 @@ body{
     margin: 20px;
 }
 
-/* hr {
-    border-top: 1px solid #ccc;
-    margin: 20px 0;
-    width: 100%;
-} */
-
 .header1{
     display: flex;
     margin-top: -40px;
@@ -77,17 +71,6 @@ input[type = "text"]{
     color: grey;
     border: 1px solid grey;
     margin-left: 30px;
-}
-
-.noticications{
-    width:  40px;
-    height: 42px;
-    margin-left: 30px;
-    float: right;
-}
-
-.notification-holder{
-    margin-left: 500px;
 }
 
 .flex-content{
@@ -106,56 +89,83 @@ input[type = "text"]{
 
 .delivery-earning{
     display: flex;
-    margin-top: 60px;
+    margin-top: 50px;
 }
 
 .upcoming{
-    border: 1px solid black;
     margin-left: 30px;
     width: 1000px;
 }
 
 h2{
-    margin: 20px 0 0 130px;
+    margin: 20px 0 0 20px;
 }
 
 table {
+    border-collapse:separate;
+    background-color: white;
     width: 100%;
-    height: 100%;
+    height: 90px;
     font-family: Arial, sans-serif;
+    font-size: 14px;
     text-align: center;
-    font-size: 1.0em;
+    font-size: 1.2em;
+}
+
+th, td {
+    padding: 30px;
+    vertical-align: middle;
+    border: 1px solid black;
 }
   
-td {
-    padding: 20px ;
+th {
+    font-weight: bold;
     text-align: left;
-    border:1px solid #2d698c;
-    border-radius: 5px;
-    margin: 10px;
+    background-color: #4587ad;
+    color: white;
+    border: none;
 }
-  
 
 tr:hover {
-    background-color: #ddd;
+    background-color: #ece8e8;
+}
+
+.circle {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 3px solid black;
+    border-color: black yellow ;
+    margin: 10px 10px 0 60px;
+}
+
+.earning{
+    border: 1px solid black;
+    margin-left: 30px;
+    margin-top: 50px;
+    width: 400px;
+    height: 700px;
+    overflow: auto;
+}
+
+.circle h2{
+    margin-left: 75px;
+}
+
+.noticications{
+    width:  40px;
+    height: 42px;
+    margin-left: 30px;
+    float: right;
+}
+
+.notification-holder{
+    margin-left: 500px;
 }
 
 #account-link{
     color: white;
     text-decoration: none;
     margin-top: 30px;
-    transition-duration: 0.4s;
 }
 
-#account-link:hover{
-    color: yellow;
-}
-
-#account-link:active {
-    transform: translateY(2px);
-}
-
-#account-link:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}

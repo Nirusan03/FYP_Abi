@@ -85,19 +85,133 @@
                     
                 </div>
                 
-                <div>
-                    <div>
-                        <table>
+                <div class="delivery-earning">
+                    <div class="upcoming">
+
+                        <h2>For your suggestion</h2>
+                        <table class="table1">
+                            <th>PRODUCT NAME</th>
+                            <th>CATEGORY</th>
+                            <th>VENDOR</th>
+
                           {% for post in suggested_products %}
                             <tr class="data">
-                                <td>CUSTOMER NAME: {{post.cusName}} <br> DATE: {{post.date}}</td>
-                                <br>
-                                <td>ORDER ID: {{post.orderId}} <br>  QUANTITY: {{post.quantity}}</td>
-                                <td> <button value="hey"> DELETE</button> </td>
-                              </tr>
+                                <td>{{post.productName}}</td>
+                                <td>{{post.category}}</td>
+                                <td>{{post.vendor}}</td>
+                            </tr>
+
+                          {% endfor %}
+                        </table>
+
+                        <br><br>
+                        
+                        <h2>NEW RFQ TO ACCEPT</h2>
+                        <table class="table1">
+                            <th>PRODUCT NAME</th>
+                            <th>PRODUCT ID</th>
+                            <th>1 X</th>
+                            <th>QUANTITY</th>
+                            <th>TOTAL</th>
+                            <th>VENDOR</th>
+                            <th>STATUS</th>
+
+                          {% for post in request_accept %}
+                            <tr class="data">
+                                <td>{{post.product_Name}}</td>
+                                <td>{{post.product_Id}}</td>
+                                <td>{{post.product_Price}}</td>
+                                <td>{{post.selected_Quantity}}</td>
+                                <td>{{post.total_price}}</td>
+                                <td>{{post.product_Vendor}}</td>
+                                <td>To Accept</td>
+                            </tr>
+
+                          {% endfor %}
+                        </table>
+
+                        <br><br>
+
+                        <h2>UPCOMING DELIVERIES</h2>
+                        <table class="table1">
+                            <th>PRODUCT NAME</th>
+                            <th>QUANTITY</th>
+                            <th>TOTAL</th>
+                            <th>CATEGORY</th>
+                            <th>VENDOR</th>
+                            <th>STATUS</th>
+
+                            {% for post in upcoming_delivery %}
+                            <tr class="data">
+                                <td>{{post.product_Name}}</td>
+                                <td>{{post.selected_Quantity}}</td>
+                                <td>{{post.total_price}}</td>
+                                <td>{{post.category}}</td>
+                                <td>{{post.product_Vendor}}</td>
+                                <td>Upcoming deliver</td>
+                            </tr>
+
+                          {% endfor %}
+                        </table>
+                        
+                        <br><br>
+
+                        <h2>PAYMENT DUE</h2>
+                        <table class="table1">
+                            <th>PRODUCT NAME</th>
+                            <th>QUANTITY</th>
+                            <th>TOTAL</th>
+                            <th>CATEGORY</th>
+                            <th>VENDOR</th>
+                            <th>DELIVERED DATE</th>
+                            <th>STATUS</th>
+
+                            {% for post in payment_du %}
+                            <tr class="data">
+                                <td>{{post.product_Name}}</td>
+                                <td>{{post.selected_Quantity}}</td>
+                                <td>{{post.total_price}}</td>
+                                <td>{{post.category}}</td>
+                                <td>{{post.product_Vendor}}</td>
+                                <td>{{post.delivery_date}}</td>
+                                <td>Upcoming deliver</td>
+                            </tr>
+
+                          {% endfor %}
+                        </table>
+                        <br><br>
+
+                        <h2>CONTRACT RENEWAL</h2>
+                        <table class="table1">
+                            <th>PRODUCT NAME</th>
+                            <th>QUANTITY</th>
+                            <th>TOTAL</th>
+                            <th>CATEGORY</th>
+                            <th>VENDOR</th>
+                            <th>CONTRACT DEADLINE</th>
+                            <th>STATUS</th>
+
+                            {% for post in contract_renewal %}
+                            <tr class="data">
+                                <td>{{post.product_Name}}</td>
+                                <td>{{post.selected_Quantity}}</td>
+                                <td>{{post.total_price}}</td>
+                                <td>{{post.category}}</td>
+                                <td>{{post.product_Vendor}}</td>
+                                <td>{{post.period}}</td>
+                                <td>To accept and deadline</td>
+                            </tr>
+
                           {% endfor %}
                         </table>
                     </div>
+
+                    <div class="earning">
+                        <h2>ORDER SUMMARY REPORT</h2>
+                        
+                    </div>
+                    
+                </div>
             </div>
         </div>
         
