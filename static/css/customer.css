@@ -140,14 +140,16 @@ tr:hover {
 }
 
 .earning{
-    border: 1px solid black;
+    /* border: 1px solid black; */
     margin-left: 30px;
     margin-top: 50px;
+}
+.reports{
+    border: 1px solid black;
     width: 400px;
     height: 700px;
     overflow: auto;
 }
-
 .circle h2{
     margin-left: 75px;
 }
@@ -169,3 +171,19 @@ tr:hover {
     margin-top: 30px;
 }
 
+.vend{
+    color: red;
+    margin-left: 20px;
+}
+
+.name{
+    color: darkblue;
+    font-weight: 700;
+    margin-left: 50px;
+}
+
+#product-details{
+    /* border: 1px solid black; */
+    width: 600px;
+    margin-left: 10px;
+}

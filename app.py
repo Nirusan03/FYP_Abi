@@ -525,7 +525,7 @@ def vendor_sent_invoice():
     vendor_query = {"status": "invoice_needed", "product_id": prod_id, "product_Customer": prod_customer}
     customer_query = {"status": "invoice_needed", "product_Id": prod_id, "product_Vendor": vendor}
 
-    update_values = {"$set": {"status": "invoice_sent"}}
+    update_values = {"$set": {"status": "invoice_sent", "contract_renewal": "not"}}
 
     update_vendor = db_vendor[vendor].update_one(vendor_query, update_values)
     update_customer = db_customer[prod_customer].update_one(customer_query, update_values)
@@ -726,9 +726,26 @@ def home_customer(cluster_name):
     for document in retrieve_cr:
         contract_renewal.append(document)
 
+    retrieve_orders = db_customer[cluster_name].find({"status": "invoice_sent"})
+    invoice = []
+
+    for document in retrieve_orders:
+        invoice.append(document)
+
+    ro = db_customer[cluster_name].find({"status": "invoice_sent"})
+
+    group_data = {}
+    for key, group in groupby(ro, key=lambda x: x['category']):
+        group_data[key] = list(group)
+
+    invoice2 = []
+
+    for document in ro:
+        invoice2.append(document)
+
     return render_template('customer.html', date=date, suggested_products=suggested_products, cluster_name=cluster_name,
                            request_accept=request_accept, upcoming_delivery=upcoming_delivery, payment_du=payment_du,
-                           contract_renewal=contract_renewal)
+                           contract_renewal=contract_renewal, invoice=invoice, data=group_data)
 
 
 @app.route('/customer_account')

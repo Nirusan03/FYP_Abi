@@ -161,7 +161,7 @@
                             <th>PRODUCT NAME</th>
                             <th>QUANTITY</th>
                             <th>TOTAL</th>
-                            <th>CATEGORY</th>
+                            <!-- <th>CATEGORY</th> -->
                             <th>VENDOR</th>
                             <th>DELIVERED DATE</th>
                             <th>STATUS</th>
@@ -171,7 +171,7 @@
                                 <td>{{post.product_Name}}</td>
                                 <td>{{post.selected_Quantity}}</td>
                                 <td>{{post.total_price}}</td>
-                                <td>{{post.category}}</td>
+                                <!-- <td>{{post.category}}</td> -->
                                 <td>{{post.product_Vendor}}</td>
                                 <td>{{post.delivery_date}}</td>
                                 <td>Upcoming deliver</td>
@@ -185,7 +185,7 @@
                         <table class="table1">
                             <th>PRODUCT NAME</th>
                             <th>QUANTITY</th>
-                            <th>TOTAL</th>
+                            <!-- <th>TOTAL</th> -->
                             <th>CATEGORY</th>
                             <th>VENDOR</th>
                             <th>CONTRACT DEADLINE</th>
@@ -195,7 +195,7 @@
                             <tr class="data">
                                 <td>{{post.product_Name}}</td>
                                 <td>{{post.selected_Quantity}}</td>
-                                <td>{{post.total_price}}</td>
+                                <!-- <td>{{post.total_price}}</td> -->
                                 <td>{{post.category}}</td>
                                 <td>{{post.product_Vendor}}</td>
                                 <td>{{post.period}}</td>
@@ -207,10 +207,119 @@
                     </div>
 
                     <div class="earning">
-                        <h2>ORDER SUMMARY REPORT</h2>
-                        
+                        <div class="reports" style="margin-bottom: 40px;">
+                            <h2>ORDER SUMMARY REPORT</h2>
+                            {% for date in invoice %}
+                            <hr>
+                            <div id="product-details">
+
+                                <p class="vend">Product name 
+                                    
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 
+
+                                    <span class="name">{{date.product_Name}}</span>
+                                </p>
+
+                                <p class="vend">Product ID 
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+                                    : <span class="name">{{date.product_Id}}</span>
+                                </p>
+                                    
+                                <p class="vend">
+                                    Product Single quantity price : 
+                                    <span class="name">{{date.product_Price}}</span>
+                                </p>
+
+                                <p class="vend">Vendor name 
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 
+                                    
+                                    <span class="name">{{date.product_Vendor}}</span>
+                                
+                                </p>
+
+                                <p class="vend">Selected Quantity 
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 
+
+                                    <span class="name">{{date.selected_Quantity}}</span>
+                                
+                                </p>
+                                
+                                <p class="vend">Total price 
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp: 
+
+                                    <span class="name">{{date.total_price}}</span>
+                                
+                                </p>
+                                
+                                <p class="vend">Delivery type
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 
+
+                                    <span class="name">{{date.delivery}}</span></p>
+                                
+                                <p class="vend" >Delivery Date : 
+                                    <span class="name">{{date.delivery_date}}</span>
+                                </p>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="reports">
+                            {% for category, docs in data.items() %}
+                            <h2>{{ category }}</h2>
+                            <hr style="border: 3px solid red;">
+                                {% for doc in invoice %}
+                                <div id="product-details" style="border: 1px solid black; width: 350px; margin-right: 10px;">
+                                    <p class="vend">Product name 
+                                        
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                        &nbsp&nbsp&nbsp&nbsp
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 
+
+                                        <span class="name">{{doc.product_Name}}</span>
+                                    </p>
+
+                                    <p class="vend">Product ID 
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                        &nbsp&nbsp&nbsp&nbsp
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+                                        : <span class="name">{{doc.product_Id}}</span>
+                                    </p>
+
+                                    <p class="vend">Selected Quantity 
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: 
+
+                                        <span class="name">{{doc.selected_Quantity}}</span>
+                                    
+                                    </p>
+
+                                    <p class="vend">Total price 
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                        &nbsp: 
+
+                                        <span class="name">{{doc.total_price}}</span>
+                                    
+                                    </p>
+                                </div>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
-                    
                 </div>
             </div>
         </div>

@@ -98,31 +98,31 @@
                     <div class="upcoming">
                     {% for product_Customer, docs in data.items() %}
                     <h2>{{ product_Customer }}</h2>
-                        <table>
+                    <table>
+                        <tr>
+                            <th>PRODUCT NAME</th>
+                            <th>PRODUCT ID</th>
+                            <th>PRODUCT QU</th>
+                            <th>PRODUCT PRICE</th>
+                            <th>CHECK RFQ</th>
+                        </tr>
+                        {% for doc in docs %}
                             <tr>
-                                <th>PRODUCT NAME</th>
-                                <th>PRODUCT ID</th>
-                                <th>PRODUCT QU</th>
-                                <th>PRODUCT PRICE</th>
-                                <th>CHECK RFQ</th>
+                                <td>{{doc.product_Name}}</td>
+                                <td>{{doc.product_id}}</td>
+                                <td>{{doc.selected_quantity}}</td>
+                                <td>{{doc.product_Price}}</td>
+                                <td>
+                                    <form method="POST" action="/rfq_pass_data">
+                                        <button type="submit" id="my-button" name="my-button" value="{{doc.product_Name}} {{doc.product_Price}} 
+                                        {{product_Customer}} {{doc.product_id}} {{doc.selected_quantity}}">CHECK</button>
+                                    </form>
+                                </td>
                             </tr>
-                            {% for doc in docs %}
-                                <tr>
-                                    <td>{{doc.product_Name}}</td>
-                                    <td>{{doc.product_id}}</td>
-                                    <td>{{doc.selected_quantity}}</td>
-                                    <td>{{doc.product_Price}}</td>
-                                    <td>
-                                        <form method="POST" action="/rfq_pass_data">
-                                            <button type="submit" id="my-button" name="my-button" value="{{doc.product_Name}} {{doc.product_Price}} 
-                                            {{product_Customer}} {{doc.product_id}} {{doc.selected_quantity}}">CHECK</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                          {% endfor %}
-                        </table>
+                        {% endfor %}
+                    </table>
                     {% endfor %}
-                </div>
+                    </div>
                 </div>
             </div>
         </div>
