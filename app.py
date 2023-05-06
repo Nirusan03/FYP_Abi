@@ -96,10 +96,18 @@ def admin_page():
 
 @app.route('/admin_vendor_page')
 def admin_vendor_page():
+    global account_vendor_collection
+
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
-    return render_template('admin-vendor.html', date=date)
+    all_vendor = account_vendor_collection.find({})
+    vendors = []
+
+    for document in all_vendor:
+        vendors.append(document)
+
+    return render_template('admin-vendor.html', date=date, vendors=vendors)
 
 
 @app.route('/admin_customer_page')
@@ -111,7 +119,7 @@ def admin_customer_page():
 
 
 @app.route('/admin_inventory_page')
-def admin_customer_page():
+def admin_inventory_page():
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
