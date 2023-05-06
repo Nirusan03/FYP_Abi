@@ -3,7 +3,6 @@ body {
   padding: 0;
   background-color: white;
   font-family: "lato", sans-serif;
-  /* background-color: blue; */
 }
 
 .container {
@@ -18,8 +17,6 @@ body {
 .image {
   flex: 1;
   text-align: center;
-  /* margin: 0; */
-  /* padding: 0; */
 }
 
 .image img {
@@ -38,7 +35,6 @@ body {
 }
 
 .form input[type="text"], .form input[type="password"] {
-  /* width: 100%; */
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;

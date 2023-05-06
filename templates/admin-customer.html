@@ -74,6 +74,35 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
+                        <h2>ALL CUSTOMERS</h2>
+                        <table class="table1" style="width: 600px;">
+                            <tr>
+                              <th>NAME</th>
+                              <th>ID</th>
+                              <th>PHONE NO</th>
+                              <th>ADDRESS</th>
+                              <th>EMAIL</th>
+                              <th>PASSWORD</th>
+                              <th>BUSINESS</th>
+                              <th>COMPANY</th>
+                              <th>TAX NO</th>
+                              <th>SHIPPING Address</th>
+                            </tr>
+                          {% for post in customers %}
+                                <tr>
+                                  <td>{{post.Customer_name}}</td>
+                                  <td>{{post._id}}</td>
+                                  <td>{{post.Customer_PhoneNo}}</td>
+                                  <td>{{post.Customer_ComAddress}}</td>
+                                  <td>{{post.Customer_email}}</td>
+                                  <td>{{post.Customer_Password}}</td>
+                                  <td>{{post.Customer_business}}</td>
+                                  <td>{{post.Customer_company}}</td>
+                                  <td>{{post.Customer_TaxNo}}</td>
+                                  <td>{{post.Customer_Shipping}}</td>
+                                </tr>
+                          {% endfor %}
+                        </table>
                     </div>
                 </div>
             </div>

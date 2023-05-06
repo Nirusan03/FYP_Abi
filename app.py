@@ -71,6 +71,16 @@ def signup_vendor3():
     return render_template('signup-vendor3.html')
 
 
+@app.route('/signup_vendor4')
+def signup_vendor4():
+    return render_template('signup-vendor4.html')
+
+
+@app.route('/signup_vendor5')
+def signup_vendor5():
+    return render_template('signup-vendor5.html')
+
+
 @app.route('/signup_customer')
 def signup_customer():
     return render_template('signup-customer.html')
@@ -112,18 +122,34 @@ def admin_vendor_page():
 
 @app.route('/admin_customer_page')
 def admin_customer_page():
+    global account_customer_collection
+
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
-    return render_template('admin-customer.html', date=date)
+    all_customer = account_customer_collection.find({})
+    customers = []
+
+    for document in all_customer:
+        customers.append(document)
+
+    return render_template('admin-customer.html', date=date, customers=customers)
 
 
 @app.route('/admin_inventory_page')
 def admin_inventory_page():
+    global collection_products
+
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
-    return render_template('admin-inventory.html', date=date)
+    all_products = collection_products.find({})
+    product = []
+
+    for document in all_products:
+        product.append(document)
+
+    return render_template('admin-inventory.html', date=date, product=product)
 
 
 @app.route('/create_clusters_vendor', methods=['POST'])
@@ -195,6 +221,44 @@ def insert_signup_vendor2():
 
 @app.route('/insert_signup_vendor3', methods=['POST'])
 def insert_signup_vendor3():
+    global collection_customer, cluster, db_vendor
+    # Get the form data
+    cluster_manager_name = request.form['cluster_manager_name']
+    cluster_proj_leader = request.form['cluster_proj_leader']
+    cluster_proj_contact = request.form['cluster_proj_contact']
+
+    post = {
+        "Vendor_manager": cluster_manager_name,
+        "Vendor_project_leader": cluster_proj_leader,
+        "Vendor_project_contact": cluster_proj_contact,
+    }
+    account_vendor_collection.update_one({"Vendor_name": collection_vendor}, {"$set": post}, upsert=True)
+
+    # Return a success message
+    return redirect(url_for('signup_vendor4', cluster_name=f"{collection_vendor}"))
+
+
+@app.route('/insert_signup_vendor4', methods=['POST'])
+def insert_signup_vendor4():
+    global collection_customer, cluster, db_vendor
+    # Get the form data
+    cluster_tech_lead = request.form['cluster_tech_lead']
+    cluster_tech_contact_no = request.form['cluster_tech_contact_no']
+    cluster_tech_os = request.form['cluster_tech_os']
+
+    post = {
+        "Vendor_technical_leader": cluster_tech_lead,
+        "Vendor_technical_contact_no": cluster_tech_contact_no,
+        "Vendor_tech_os": cluster_tech_os,
+    }
+    account_vendor_collection.update_one({"Vendor_name": collection_vendor}, {"$set": post}, upsert=True)
+
+    # Return a success message
+    return redirect(url_for('signup_vendor5', cluster_name=f"{collection_vendor}"))
+
+
+@app.route('/insert_signup_vendor5', methods=['POST'])
+def insert_signup_vendor5():
     global collection_customer, cluster, db_vendor
     # Get the form data
     cluster_bank_name = request.form['cluster_bankName']

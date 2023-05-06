@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/logIn.css' )}}">
-</head>
-<body>
-    <div class="signupFrm">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Vendor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/logIn.css' )}}">
+  </head>
+  <body>
+    <div class = "container">
+
+      <div class="image">
+        <img src="{{ url_for('static', filename = 'images/SignLogin.png' )}}" alt="Image">
+      </div>
+      
+      <div class="form-class">
+      <h1 class="title">Log In Vendor</h1>
+
         <form class="form" method = 'POST' action="{{ url_for('login_vendor') }}">
-            <h1 class="title">Log In</h1>
+
           <div class="inputContainer">
-            <input type="text" id="vendor_name" class="input" name="vendor_name" placeholder="a">
-		    <label for="password" class="label">User Name</label>
+            <label for="password" class="label">User Name</label>
+            <input type="text" id="vendor_name" class="input" name="vendor_name" placeholder="Rocks X xebec">
           </div>
     
           <div class="inputContainer">
-            <input type="password" class="input" placeholder="a" name = "password">
             <label for="email" class="label">Password</label>
+            <input type="password" class="input" placeholder="Enter the password here" name = "password">
           </div>
     
           <input type="submit" class="submitBtn" value="LOG IN">
         </form>
       </div>
-</body>
+    </div>
+  </body>
 </html>

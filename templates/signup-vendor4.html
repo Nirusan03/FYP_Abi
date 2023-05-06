@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MedEase - Sign Up Customer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/SignUp.css' )}}">
+</head>
+<body>
+  <div class = "container">
+      <div class="image">
+        <img src="{{ url_for('static', filename = 'images/SignLogin.png' )}}" alt="Image">
+      </div>
+
+      <form class="form" method="POST" action="/insert_signup_vendor4">
+        <h1><u>TECHNICAL DETAILS</u></h1>
+
+        <div class="inputContainer">
+          <label class  ="label" for="cluster_tech_lead">Tech Lead name</label>
+          <input type="text" name="cluster_tech_lead" id="cluster_tech_lead" class="input" placeholder="Monkey D Garp" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_tech_contact_no">Contact number</label>
+          <input type="number" name="cluster_tech_contact_no" id="cluster_tech_contact_no" class="input" placeholder="+94 " required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_tech_os">OS Technologoy</label>
+          <input type="text" name="cluster_tech_os" id="cluster_tech_os" class="input" placeholder="Windows/Mac/Ubuntu/Chrom/Arc" required>
+        </div>
+        
+        <input type="submit" class="submitBtn" value="Continue">
+      </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MedEase - Sign Up Customer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/SignUp.css' )}}">
+</head>
+<body>
+  <div class = "container">
+      <div class="image">
+        <img src="{{ url_for('static', filename = 'images/SignLogin.png' )}}" alt="Image">
+      </div>
+
+      <form class="form" method="POST" action="/insert_signup_vendor5">
+        <h1 style="margin-left: -6px;""><u>PAYMENT DETAILS </u></h1>
+
+        <div class="inputContainer">
+          <label class  ="label" for="cluster_paymentTerm">Payment Terms</label>
+          <input type="text" name="cluster_paymentTerm" id="cluster_paymentTerm" class="input" placeholder="Terms" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_bankName">Bank Name</label>
+          <input type="text" name="cluster_bankName" id="cluster_bankName" class="input" placeholder="Danie David" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_bankAdd">Bank Address</label>
+          <input type="text" name="cluster_bankAdd" id="cluster_bankAdd" class="input" placeholder="1999129123123" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_accName">Account Name</label>
+          <input type="text" class="input" name="cluster_accName" id="cluster_accName" placeholder="01/45" required>
+        </div>
+
+        <div class="inputContainer">
+            <label class="label" for="cluster_accNo">Account Number</label>
+            <input type="number" class="input" name="cluster_accNo" id="cluster_accNo" placeholder="111" required>
+        </div>
+
+        <div class="inputContainer">
+          <label class="label" for="cluster_statement">Statment of Finance for the last 02 years</label>
+          <input type="text" class="input" name="cluster_statement" id="cluster_statement" placeholder="111" required>
+        </div>
+        
+        <input type="submit" class="submitBtn" value="Create Account">
+      </form>
+  </div>
+</body>
+</html>

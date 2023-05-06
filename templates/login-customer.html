@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/logIn.css' )}}">
-</head>
-<body>
-    <div class="signupFrm">
-        <form class="form" method = 'POST' action="{{ url_for('login_customer') }}">
-            <h1 class="title">Log In</h1>
-          <div class="inputContainer">
-            <input type="text" id="customer_name" class="input" name="customer_name" placeholder="a">
-		    <label for="password" class="label">User Name</label>
-          </div>
-    
-          <div class="inputContainer">
-            <input type="password" class="input" placeholder="a" name = "password">
-            <label for="email" class="label">Password</label>
-          </div>
-    
-          <input type="submit" class="submitBtn" value="LOG IN">
-        </form>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Customer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/logIn.css' )}}">
+  </head>
+  
+  <body>
+    <div class = "container">
+
+      <div class="image">
+        <img src="{{ url_for('static', filename = 'images/SignLogin.png' )}}" alt="Image">
       </div>
-</body>
+      
+      <div class="form-class">
+        <h1 class="title">Log In Cutomer</h1>
+        
+        <form class="form" method = 'POST' action="{{ url_for('login_customer') }}" >
+              
+            <div class="inputContainer">
+              <label for="password" class="label">User Name</label>
+              <input type="text" id="customer_name" class="input" name="customer_name" placeholder="Edward Newgate">
+            </div>
+      
+            <div class="inputContainer">
+              <label for="email" class="label">Password</label>
+              <input type="password" class="input" placeholder="Enter the password here" name = "password">
+            </div>
+      
+            <input type="submit" class="submitBtn" value="LOG IN">
+          </form>
+        </div>
+    </div>
+  </body>
 </html>

@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Vendors Page</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/admin.css' )}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/admin-inventory.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,6 +73,31 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
+
+                        <h2>ALL PRODUCTS</h2>
+                        <table class="table1">
+                            <tr>
+                              <th>PRODUCTY NAME</th>
+                              <th>ID</th>
+                              <th>VENDOR</th>
+                              <th>PER UNIT PRICE</th>
+                              <th>QUANTITY</th>
+                              <th>CATEGORY</th>
+                              <th>BOUGHT TIMES</th>
+                            </tr>
+                          {% for post in product %}
+                                <tr>
+                                  <td>{{post.productName}}</td>
+                                  <td>{{post.productId}}</td>
+                                  <td>{{post.vendor}}</td>
+                                  <td>{{post.price}}</td>
+                                  <td>{{post.quantity}}</td>
+                                  <td>{{post.category}}</td>
+                                  <td>{{post.added_count}}</td>
+                                </tr>
+                          {% endfor %}
+                        </table>
+
                     </div>
                 </div>
             </div>
