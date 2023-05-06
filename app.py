@@ -81,6 +81,11 @@ def signup_vendor5():
     return render_template('signup-vendor5.html')
 
 
+@app.route('/signup_vendor6')
+def signup_vendor6():
+    return render_template('signup-vendor6.html')
+
+
 @app.route('/signup_customer')
 def signup_customer():
     return render_template('signup-customer.html')
@@ -98,10 +103,55 @@ def signup_customer3():
 
 @app.route('/admin_page')
 def admin_page():
+    global account_vendor_collection
+
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
-    return render_template('admin.html', date=date)
+    requesting_vendors = account_vendor_collection.find({"Vendor_request": "proceeding"})
+    rv = []
+
+    for i in requesting_vendors:
+        rv.append(i)
+
+    return render_template('admin.html', date=date, rv=rv)
+
+
+@app.route('/check_data', methods=['POST'])
+def check_data():
+    button_value = request.form['my-button']
+    words = [w.strip() for w in button_value.split()]
+    ven_name = words[0]
+    print("vendor name ", ven_name)
+    return redirect(url_for('admin_request_vendor', ven_name=ven_name))
+
+
+@app.route('/admin_request_vendor/<ven_name>')
+def admin_request_vendor(ven_name):
+    global account_vendor_collection
+
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    req_vend = account_vendor_collection.find_one({"Vendor_name": ven_name})
+
+    return render_template('admin-request-vendor.html', date=date, req_vend=req_vend)
+
+
+@app.route('/verify', methods=['POST'])
+def verify():
+    global account_vendor_collection, collection_vendor
+
+    ver_number = request.form['ver_number']
+    button_values = request.form['my-button']
+    words = [w.strip() for w in button_values.split()]
+
+    vend_name = words[0]
+
+    account_vendor_collection.update_one({"Vendor_name": vend_name}, {"$set": {"request_dig": ver_number}},
+                                         upsert=True)
+
+    return render_template('admin.html')
 
 
 @app.route('/admin_vendor_page')
@@ -221,7 +271,7 @@ def insert_signup_vendor2():
 
 @app.route('/insert_signup_vendor3', methods=['POST'])
 def insert_signup_vendor3():
-    global collection_customer, cluster, db_vendor
+    global collection_vendor, cluster, db_vendor
     # Get the form data
     cluster_manager_name = request.form['cluster_manager_name']
     cluster_proj_leader = request.form['cluster_proj_leader']
@@ -240,7 +290,7 @@ def insert_signup_vendor3():
 
 @app.route('/insert_signup_vendor4', methods=['POST'])
 def insert_signup_vendor4():
-    global collection_customer, cluster, db_vendor
+    global collection_vendor, cluster, db_vendor
     # Get the form data
     cluster_tech_lead = request.form['cluster_tech_lead']
     cluster_tech_contact_no = request.form['cluster_tech_contact_no']
@@ -259,7 +309,7 @@ def insert_signup_vendor4():
 
 @app.route('/insert_signup_vendor5', methods=['POST'])
 def insert_signup_vendor5():
-    global collection_customer, cluster, db_vendor
+    global collection_vendor, cluster, db_vendor
     # Get the form data
     cluster_bank_name = request.form['cluster_bankName']
     cluster_bank_add = request.form['cluster_bankAdd']
@@ -272,12 +322,39 @@ def insert_signup_vendor5():
         "Vendor_bankAddress": cluster_bank_add,
         "Vendor_AccName": cluster_acc_name,
         "Vendor_AccNo": cluster_acc_no,
-        "Vendor_statement": cluster_statement
+        "Vendor_statement": cluster_statement,
+        "Vendor_request": "proceeding",
     }
     account_vendor_collection.update_one({"Vendor_name": collection_vendor}, {"$set": post}, upsert=True)
 
     # Return a success message
-    return redirect(url_for('home_vendor', cluster_name=f"{collection_vendor}"))
+    return redirect(url_for('signup_vendor6', cluster_name=f"{collection_vendor}"))
+
+
+@app.route('/insert_signup_vendor6', methods=['POST'])
+def insert_signup_vendor6():
+    global collection_vendor, cluster, db_vendor, account_vendor_collection, db_vendor
+    # Get the form data
+    ver_number = int(request.form['ver_number'])
+
+    account_vendor_collection.update_one({"Vendor_name": collection_vendor}, {"$set": {"Vendor_request": "proceeding"}},
+                                         upsert=True)
+    print(collection_vendor)
+    request_query = account_vendor_collection.find_one({"Vendor_name": collection_vendor})
+    print(request_query)
+    digit = int(request_query['request_dig'])
+    print(digit, " the digit in database ", type(digit))
+    print(ver_number, " the digit user entered ", type(ver_number))
+    if ver_number == digit:
+        account_vendor_collection.update_one({"Vendor_name": collection_vendor},
+                                             {"$set": {"Vendor_request": "Accepted"}})
+        # Return a success message
+        return redirect(url_for('home_vendor', cluster_name=f"{collection_vendor}"))
+    else:
+        account_vendor_collection.delete_one({"Vendor_name": collection_vendor})
+        collection = db_vendor[collection_vendor]
+        collection.drop()
+        return "Your registration got canceled"
 
 
 @app.route('/login_page_vendor')

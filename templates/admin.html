@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Vendors Page</title>
+        <title>Admin</title>
         <link rel="stylesheet" href="{{ url_for('static', filename = 'css/admin.css' )}}">
         <link rel="stylesheet" href="/FYP_Abi/static/css/vendor.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,6 +74,17 @@
                 
                 <div class="delivery-earning">
                     <div class="upcoming">
+                        <h2>Vendor account registration request</h2>
+                          {% for post in rv %}
+                                  <h4>User Name : {{post.Vendor_name}}</h4>
+                                  <p>User Code :{{post.Vendor_Code}}</p>
+                                  <p>User phone number{{post.Vendor_phoneNo}}</p>
+                                  <p>User Address{{post.Vendor_Address}}</p>
+                                  <p>User Email : {{post.Vendor_email}}</p>
+                                  <form method="POST" action="/check_data">
+                                    <button type="submit" id="my-button" name="my-button" value="{{post.Vendor_name}}">CHECK</button>
+                                </form>
+                          {% endfor %}
                     </div>
                 </div>
             </div>
