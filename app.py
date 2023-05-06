@@ -86,6 +86,38 @@ def signup_customer3():
     return render_template('signup-customer3.html')
 
 
+@app.route('/admin_page')
+def admin_page():
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    return render_template('admin.html', date=date)
+
+
+@app.route('/admin_vendor_page')
+def admin_vendor_page():
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    return render_template('admin-vendor.html', date=date)
+
+
+@app.route('/admin_customer_page')
+def admin_customer_page():
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    return render_template('admin-customer.html', date=date)
+
+
+@app.route('/admin_inventory_page')
+def admin_customer_page():
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
+    return render_template('admin-inventory.html', date=date)
+
+
 @app.route('/create_clusters_vendor', methods=['POST'])
 def create_clusters_vendor():
     global collection_vendor, vendor
@@ -197,6 +229,10 @@ def login_vendor():
 @app.route('/home_vendor/<cluster_name>')
 def home_vendor(cluster_name):
     global retrieve_vendor_inventory, vendor_inventory, db_vendor
+
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+
     vendor_inventory = []
     vendor_rfq_list = []
     vendor_po = []
@@ -240,8 +276,6 @@ def home_vendor(cluster_name):
         vendor_pp.append(documents)
 
     print(total_income, " Total ")
-    now = datetime.datetime.now()
-    date = now.strftime("%Y-%m-%d")
     return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=cluster_name,
                            vendor_rfq_list=vendor_rfq_list, vendor_po=vendor_po,
                            vendor_onto_order=vendor_onto_order, vendor_invoice_needed=vendor_invoice_needed,

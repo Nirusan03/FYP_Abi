@@ -1,0 +1,173 @@
+body{
+    font-family: optima, sans-serif;
+}
+
+.container {
+    display: flex;
+}
+  
+.menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 200px;
+    background-color: #2d698c;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+}
+
+.menu li a {
+    display: block;
+    padding: 10px 12px;
+    color: white;
+    text-decoration: none;
+}
+
+.menu li a:hover {
+    background-color: #ddd;
+    color: #333;
+}
+
+.submenu {
+    display: none; /* hide the submenu by default */
+    list-style-type: none;
+}
+  
+.menu li:hover .submenu {
+    display: block; /* show the submenu when the parent li is hovered */
+}
+
+.submenu li{
+    text-decoration: none;
+}
+
+.admin{
+    color: white;
+    padding: 50px 50px 50px 10px;
+    display: flex;
+}
+
+.content {
+    margin: 0 0 0 200px;
+    max-width: 100%
+}
+
+.menuList{
+    display: flex;
+    margin: 20px;
+}
+
+.header1{
+    display: flex;
+    margin-top: -40px;
+}
+
+input[type = "text"]{
+    height: 40px;
+    width: 600px;
+    border-radius: 5px;
+    color: grey;
+    border: 1px solid grey;
+    margin-left: 30px;
+}
+
+.flex-content{
+    display: flex;
+    margin-top: 30px;
+}
+
+
+#filter{
+    width:  40px;
+    height: 42px;
+    border: 1px solid grey; 
+    border-radius: 5px;
+    margin-left: 30px;
+}
+
+.delivery-earning{
+    display: flex;
+    margin-top: 50px;
+}
+
+.upcoming{
+    margin-left: 30px;
+    width: 1000px;
+}
+
+h2{
+    margin: 20px 0 0 20px;
+}
+
+table {
+    border-collapse:separate;
+    background-color: white;
+    width: 100%;
+    height: 500px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+th, td {
+    padding: 30px;
+    vertical-align: middle;
+    border: 1px solid black;
+}
+  
+th {
+    font-weight: bold;
+    text-align: left;
+    background-color: #4587ad;
+    color: white;
+    border: none;
+}
+
+tr:hover {
+    background-color: #ece8e8;
+}
+
+.circle {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    border: 3px solid black;
+    border-color: black yellow ;
+    margin: 10px 10px 0 60px;
+}
+
+.earning{
+    border: 1px solid black;
+    margin-left: 30px;
+    margin-top: 30px;
+    width: 400px;
+    height: 400px;
+}
+
+.circle h2{
+    margin-left: 75px;
+}
+
+.noticications{
+    width:  40px;
+    height: 42px;
+    margin-left: 30px;
+    float: right;
+}
+
+.notification-holder{
+    margin-left: 500px;
+}
+
+#account-link{
+    color: white;
+    text-decoration: none;
+    margin-top: 30px;
+}
+
+.table1{
+    height: 100px;
+}
