@@ -1,44 +1,64 @@
-from flask import Flask
-from flask import render_template
-from flask import request
-from flask import redirect
-from flask import url_for
-from bson.objectid import ObjectId
-from pymongo import *
-from itertools import groupby
-import numpy as np
-from sklearn.neighbors import NearestNeighbors
-from sklearn.preprocessing import OneHotEncoder
-from datetime import date, timedelta
-import datetime
-import random
+# Importing the required libraries
 
+from flask import Flask, render_template, request, redirect, url_for  # To run flask server
+
+from bson.objectid import ObjectId  # To detect the object id of the products
+
+from pymongo import *  # To handle database
+
+from itertools import groupby  # To group the item in mongoDB
+
+import numpy as np  # To add products to vectors for machine learning
+from sklearn.neighbors import NearestNeighbors  # For machine learning part - KNN
+from sklearn.preprocessing import OneHotEncoder
+
+from datetime import date, timedelta  # To show time and date
+import datetime
+
+import random  # To selected all the products in random sort and selecting the data
+
+# Creating Flask object
 app = Flask(__name__)
+
+# Creating the object to connect python and mongodb
 cluster = MongoClient("mongodb://localhost:27017")
 
+# Connection of storage database in mongoDB
 db_storage = cluster["Storage"]
+
+# Connecting the inventory collection of inventory in the storage db
 collection_products = db_storage["Inventory"]
 
+# Connecting the vendor database
 db_vendor = cluster['Vendor']
+
+# Connecting the customer database
 db_customer = cluster['Customer']
+
+# Connecting both account database in customer, vendor to store user information
 account_vendor_collection = db_vendor["Accounts"]
 account_customer_collection = db_customer["Accounts"]
 
+# Global variable to store customer, vendor name
 customer = ""
 vendor = ""
 
-# retrieve_vendor_inventory = collection_products.find({"vendor": vendor})
+# Dictionary to find the single vendor's inventory details
 retrieve_vendor_inventory = {}
-vendor_inventory = []
+vendor_inventory = []  # List to store the single vendor's inventory details
 
+# Finding all inventory product, storing inside the dictionary
 retrieve_customer_product = collection_products.find()
-customer_products = []
+customer_products = []  # List to store the dictionary data separately
 
+# To store cart details
 carts = []
 
+# Temp variable to store vendor, customer name
 collection_vendor = ""
 collection_customer = ""
 
+# Temp variable to pass the data from product list to request for quote
 product_name = ""
 product_price = ""
 product_quantity = ""
@@ -47,186 +67,304 @@ product_customer = ""
 product_id = 0
 category = ""
 
+# Appending vendor_inventory list to store Database data
 for data in retrieve_vendor_inventory:
     vendor_inventory.append(data)
-    print("Vendor name : ", vendor, "\n",
-          documents)
 
+# Appending customer_products list to store Database data
 for data in retrieve_customer_product:
     customer_products.append(data)
 
 
+# Home route of the html page - Sign up page of vendor
 @app.route('/')
 def signup_vendor():
     return render_template('signup-vendor.html')
 
 
+# Route for second sign page of vendor - Organization details
 @app.route('/signup_vendor2')
 def signup_vendor2():
     return render_template('signup-vendor2.html')
 
 
+# Route for third sign page of vendor - Project team details
 @app.route('/signup_vendor3')
 def signup_vendor3():
     return render_template('signup-vendor3.html')
 
 
+# Route for forth sign page of vendor - Technical details
 @app.route('/signup_vendor4')
 def signup_vendor4():
     return render_template('signup-vendor4.html')
 
 
+# Route for fifth sign page of vendor - Payment details
 @app.route('/signup_vendor5')
 def signup_vendor5():
     return render_template('signup-vendor5.html')
 
 
+# Route for sixth (final ) sign page of vendor - Verification
 @app.route('/signup_vendor6')
 def signup_vendor6():
     return render_template('signup-vendor6.html')
 
 
+# Route for the firs sign page of customer -
 @app.route('/signup_customer')
 def signup_customer():
     return render_template('signup-customer.html')
 
 
+# Route for second sign page of customer - Organization details
 @app.route('/signup_customer2')
 def signup_customer2():
     return render_template('signup-customer2.html')
 
 
+# Route for third sign page of vendor - Payment details
 @app.route('/signup_customer3')
 def signup_customer3():
     return render_template('signup-customer3.html')
 
 
+# Route for the admin page
 @app.route('/admin_page')
 def admin_page():
-    global account_vendor_collection
+    """
+        This admin_page function is for routing to the admin page and show the requests of
+        vendors who are about to create accounts
 
+        :return: admin.html page, argument: requesting vendor
+    """
+
+    # Accessing the global variables inside the local method
+    global account_vendor_collection  # To update account collection in vendor
+
+    # Getting the date and time
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
+    # Finding the collection data which has the value proceeding
     requesting_vendors = account_vendor_collection.find({"Vendor_request": "proceeding"})
-    rv = []
+    rv = []  # List to store the value proceeding documents
 
+    # Appending the list
     for i in requesting_vendors:
         rv.append(i)
 
     return render_template('admin.html', date=date, rv=rv)
 
 
+# The method which will get call when user enters admin click to check in admin_page
 @app.route('/check_data', methods=['POST'])
 def check_data():
+    """
+    Method to get the vendors data from button value and pass it
+
+    :return: admin_request_vendor method, argument : vendor name
+    """
+
+    # Variable to store button value
     button_value = request.form['my-button']
+
+    # Splitting the button values, storing them inside the list called word
+    # Stripping the word to remove the additional spaces in the string value
     words = [w.strip() for w in button_value.split()]
+
+    # Vendor name
     ven_name = words[0]
-    print("vendor name ", ven_name)
+
+    # Returning to the admin_request_vendor method
     return redirect(url_for('admin_request_vendor', ven_name=ven_name))
 
 
+# Routing method to call admin-request-vendor.html
 @app.route('/admin_request_vendor/<ven_name>')
 def admin_request_vendor(ven_name):
-    global account_vendor_collection
+    """
+    This method will find the particular of the vendor, who likes to create an
+    account and pass it to the admin-request-vendor.html page
+    :param ven_name:
+    :return: admin-request-vendor.html, arguments : date, request vendor data dic
+    """
 
+    # Accessing the global variables inside the local method
+    global account_vendor_collection  # To update account collection in vendor
+
+    # Getting the date and time
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
+    # Finding the single vendor and storing inside the dictionary
     req_vend = account_vendor_collection.find_one({"Vendor_name": ven_name})
 
+    # Returning to the html page
     return render_template('admin-request-vendor.html', date=date, req_vend=req_vend)
 
 
+# Method will get call when vendor click verify button admin-request-vendor.html page
 @app.route('/verify', methods=['POST'])
 def verify():
-    global account_vendor_collection, collection_vendor
+    """
+    A method to store and pass the verification digit that vendor passes
+    :return: admin starting page
+    """
 
+    # Accessing the global variables inside the local method
+    global account_vendor_collection, collection_vendor   # To update account collection in vendor, storing tem vendor
+
+    # Reading the request digit that vendor entered inform
     ver_number = request.form['ver_number']
+
+    # Variable to store button value
     button_values = request.form['my-button']
+
+    # Splitting the button values, storing them inside the list called word
+    # Stripping the word to remove the additional spaces in the string value
     words = [w.strip() for w in button_values.split()]
 
+    # Vendor name
     vend_name = words[0]
 
+    # Updating the vendors account collection by updating the verification digit
     account_vendor_collection.update_one({"Vendor_name": vend_name}, {"$set": {"request_dig": ver_number}},
                                          upsert=True)
 
+    # Return to admin home page
     return render_template('admin.html')
 
 
+# Routing to admin vendor page
 @app.route('/admin_vendor_page')
 def admin_vendor_page():
-    global account_vendor_collection
+    """
+    Function to route for admin-vendor page and show all the vendor details
+    :return: admin-vendor.html, argument : date, vendor list
+    """
 
+    # Accessing the global variables inside the local method
+    global account_vendor_collection  # vendor collection
+
+    # Getting the date and time
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
+    # Fetching all the vendor data in dictionary
     all_vendor = account_vendor_collection.find({})
-    vendors = []
+    vendors = []  # List to store vendor data
 
+    # Appending the vendor list
     for document in all_vendor:
         vendors.append(document)
 
+    # Returning the admin-vendor
     return render_template('admin-vendor.html', date=date, vendors=vendors)
 
 
+# Routing to admin-customer.html
 @app.route('/admin_customer_page')
 def admin_customer_page():
-    global account_customer_collection
+    """
+    Function to route for admin-customer page and show all the customer details
+    :return: admin-customer.html, argument : date, customer list
+    """
 
+    # Accessing the global variables inside the local method
+    global account_customer_collection  # customer collection
+
+    # Getting the date and time
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
+    # Fetching all the customer data in dictionary
     all_customer = account_customer_collection.find({})
-    customers = []
+    customers = []  # List to store customer data
 
+    # Appending the customers list
     for document in all_customer:
         customers.append(document)
 
+    # Returning the admin-customer
     return render_template('admin-customer.html', date=date, customers=customers)
 
 
+# Routing to admin-inventory.html
 @app.route('/admin_inventory_page')
 def admin_inventory_page():
-    global collection_products
+    """
+    Function to route for admin-inventory page and show all the inventory details
+    :return: admin-inventory.html, argument : date, product list
+    """
 
+    # Accessing the global variables inside the local method
+    global collection_products  # inventory collection
+
+    # Getting the date and time
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
+    # Fetching all the product data in dictionary
     all_products = collection_products.find({})
-    product = []
+    product = []  # List to store product data
 
+    # Appending the product list
     for document in all_products:
         product.append(document)
 
+    # Returning the admin-inventory.html
     return render_template('admin-inventory.html', date=date, product=product)
 
 
+# Creating cluster for vendor
 @app.route('/create_clusters_vendor', methods=['POST'])
 def create_clusters_vendor():
-    global collection_vendor, vendor
-    # Get the form data
-    collection_vendor = request.form['cluster_vendor_name']
-    cluster_code = request.form['cluster_code']
-    cluster_phone_no = request.form['cluster_phoneNo']
-    cluster_address = request.form['cluster_address']
-    cluster_email = request.form['cluster_email']
-    cluster_password = request.form['cluster_password']
+    """
+    Method to read input value from vendor sign up page and pas them to
+    create_cluster_vendor method
+    :return: signup_vendor2 method
+    """
 
+    # Accessing the global variables inside the local method
+    global collection_vendor, vendor
+
+    # Get the form data
+    collection_vendor = request.form['cluster_vendor_name']  # Vendor name
+    cluster_code = request.form['cluster_code']  # Vendor code
+    cluster_phone_no = request.form['cluster_phoneNo']  # Vendor phone number
+    cluster_address = request.form['cluster_address']  # Vendor address
+    cluster_email = request.form['cluster_email']  # Vendor email
+    cluster_password = request.form['cluster_password']   # Vendor password
+
+    # Storing vendor name to global variable.
     vendor = collection_vendor
     # Create the clusters
     for i in range(1):
         collection_name = f"{collection_vendor}"
+
+        # Calling the create_cluster_vendor method
         create_cluster_vendor(collection_name, cluster_code, cluster_phone_no,
                               cluster_address, cluster_email, cluster_password)
 
-    # Return a success message
-    # return redirect(url_for('customer', cluster_name=f"{cluster_customer}"))
+    # Returning signup_vendor2 method
     return redirect(url_for('signup_vendor2'))
 
 
+# Method store insert data inside the mongodb
 def create_cluster_vendor(collection_name, cluster_code, cluster_phone_no, cluster_address, cluster_email,
                           cluster_password):
+    """
+    A method to create a cluster for the vendor and pass them into
+    :param collection_name:
+    :param cluster_code:
+    :param cluster_phone_no:
+    :param cluster_address:
+    :param cluster_email:
+    :param cluster_password:
+    :return:
+    """
     global cluster, db_vendor
 
     # Create the new collection
@@ -339,12 +477,13 @@ def insert_signup_vendor6():
 
     account_vendor_collection.update_one({"Vendor_name": collection_vendor}, {"$set": {"Vendor_request": "proceeding"}},
                                          upsert=True)
-    print(collection_vendor)
+
     request_query = account_vendor_collection.find_one({"Vendor_name": collection_vendor})
-    print(request_query)
+
     digit = int(request_query['request_dig'])
     print(digit, " the digit in database ", type(digit))
     print(ver_number, " the digit user entered ", type(ver_number))
+
     if ver_number == digit:
         account_vendor_collection.update_one({"Vendor_name": collection_vendor},
                                              {"$set": {"Vendor_request": "Accepted"}})
@@ -555,17 +694,31 @@ def rfq_pass_data():
 
 @app.route('/vendor_rfq_product/<p_id>/<p_name>/<s_quantity>/<p_price>/<p_customer>')
 def vendor_rfq_product(p_id, p_name, s_quantity, p_price, p_customer):
-    global vendor
+    global vendor, collection_products
+    message = ""
+
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
+
+    one_product = collection_products.find_one({"productId": int(p_id)})
+
+    available_quantity = int(one_product['quantity'])
+
+    if int(s_quantity) > available_quantity:
+        print("No product available")
+        message = "Warning : Not enough product available. Decline"
+    else:
+        message = "There are enough products in inventory"
+
     return render_template('vendor-rfq-product.html', date=date, vendor=vendor,
                            p_id=p_id, p_name=p_name, s_quantity=s_quantity
-                           , p_price=p_price, p_customer=p_customer)
+                           , p_price=p_price, p_customer=p_customer, one_product=one_product,
+                           message=message)
 
 
 @app.route('/vendor_sent_quote', methods=['POST'])
 def vendor_sent_quote():
-    global vendor
+    global vendor, db_vendor, db_customer
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     contract_renewal = ""
@@ -587,15 +740,24 @@ def vendor_sent_quote():
         query = {"product_Id": p_id, "product_Customer": cus_name}
         query2 = {"product_id": p_id, "product_Customer": cus_name}
 
-        new_value = {"$set": {"total_price": total_price, "period": period, "status": "rfq_sent", "contract_renewal": contract_renewal}}
+        new_value = {"$set": {"total_price": total_price, "period": period, "status": "rfq_sent",
+                              "contract_renewal": contract_renewal}}
 
         update = db_customer[cus_name].update_one(query, new_value)
         update2 = db_vendor[vendor].update_one(query2, new_value)
+
         print(update.modified_count, " ", update2.modified_count)
-        return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=vendor)
+
+        return render_template('vendor-inventory.html', date=date, vendor_inventory=vendor_inventory, vendor=vendor)
 
     elif "decline_quote" in request.form:
-        return "decline quote"
+        button_values = request.form['decline_quote']
+        words = [w.strip() for w in button_values.split()]
+        p_id = int(words[0])
+        cus_name = words[1]
+        db_vendor[vendor].delete_one({"product_id": p_id, "product_Customer": cus_name})
+        db_customer[cus_name].delete_one({"product_Id": p_id, "product_Customer": cus_name})
+        return render_template('vendor-inventory.html', date=date, vendor_inventory=vendor_inventory, vendor=vendor)
 
 
 @app.route('/vendor_purchase_order')
@@ -1134,17 +1296,30 @@ def customer_rfq_proceed_page(p_name, p_vendor):
 
 @app.route('/proceed_po', methods=['POST'])
 def proceed_po():
-    global customer
+    global customer, db_customer, db_vendor
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     if "proc-po" in request.form:
         button_value = request.form['proc-po']
         words = [w.strip() for w in button_value.split()]
+
         p_id = int(words[0])
         p_vendor = words[1]
+
         return redirect(url_for('customer_proceed_page', p_id=p_id, p_vendor=p_vendor))
+
     elif "dic_po" in request.form:
-        return "decline order"
+        button_values = request.form['dic_po']
+        words = [w.strip() for w in button_values.split()]
+
+        p_id = int(words[0])
+        p_vendor = words[1]
+
+        db_vendor[p_vendor].delete_one({"product_id": p_id, "product_Customer": customer, "status": "rfq_sent"})
+        db_customer[customer].delete_one({"product_Id": p_id, "product_Vendor": p_vendor, "status": "rfq_sent"})
+
+        return render_template('customer-products.html', date=date, customer_products=customer_products,
+                               customer=customer)
 
 
 @app.route('/customer_proceed_page/<p_id>/<p_vendor>')
@@ -1161,7 +1336,8 @@ def customer_proceed_page(p_id, p_vendor):
 
 @app.route('/order_purchase', methods=['POST'])
 def order_purchase():
-    global customer
+    global customer, db_customer, db_vendor, collection_products
+
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
     button_values = request.form['proceed-po']
@@ -1176,6 +1352,8 @@ def order_purchase():
     retrieve_quote2 = db_customer[customer].find_one({"status": "rfq_sent", "product_Id": prod_id,
                                                       "product_Vendor": vend_name})
 
+    selected_quantity = int(retrieve_quote2['selected_Quantity'])
+
     query_customer = {"status": "rfq_sent", "product_Id": prod_id, "product_Vendor": vend_name}
     query_vendor = {"status": "rfq_sent", "product_id": prod_id, "product_Customer": customer}
 
@@ -1184,9 +1362,16 @@ def order_purchase():
     update_customer = db_customer[customer].update_one(query_customer, update_values)
     update_vendor = db_vendor[vend_name].update_one(query_vendor, update_values)
 
+    quantity_query = collection_products.find_one({"productId": prod_id})
+    reduce_quantity = int(quantity_query['quantity']) - selected_quantity
+
+    collection_products.update_one({"productId": prod_id}, {"$set": {"quantity": reduce_quantity}})
+
     print("Modified Count at Vendor Collection ", update_vendor.modified_count)
     print("Modified Count at Customer Collection ", update_customer.modified_count)
-    return render_template('customer.html', date=date, customer_products=customer_products, cluster_name=customer)
+    print("Modified Count at storage ", collection_products.modified_count)
+
+    return render_template('customer-products.html', date=date, customer_products=customer_products, customer=customer)
 
 
 @app.route('/customer_orders_page')

@@ -150,6 +150,39 @@
                             </div>
                         </div>
                     </div>
+
+                    <div id="inventory-content">
+                        <div id="back">
+                            
+                            <u><h2>Inventory details</h2></u>
+                            <p id="product-id">Product ID &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp-
+                                <span class="data">{{one_product._id}}</span>
+                            </p>
+
+                            <p class="prod">Product Name
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp - 
+                                <span class="data">{{one_product.productName}}</span>
+                            </p>
+                                
+                            <p class="prod">Available quantity &nbsp&nbsp&nbsp&nbsp&nbsp- 
+                                <span class="data">{{one_product.quantity}}</span>
+                            </p>
+
+                            <p class="prod">Per unit price 
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp- 
+                                    <span class="data">{{one_product.price}}</span>
+                            </p>
+
+                            <p class="prod">Bought count
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp - 
+                                <span class="data">{{one_product.added_count}}</span> 
+                            </p>
+
+                            <p class="prod"> 
+                                {{message}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

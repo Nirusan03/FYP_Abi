@@ -105,7 +105,7 @@
                             <p class="prod">Total  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp: <span class="name">{{retrieve_quote .total_price}}</span></p>
                             <form method="POST" action="/proceed_po">
                                 <button type="submit" value="{{retrieve_quote.product_Id}} {{retrieve_quote.product_Vendor}}" id="proc-po" name="proc-po">Proceed to Purchase Order</button>
-                                <button type="submit" value="{{product_Id}} {{product_Vendor}}" id="dic_po" name="dic_po">Decline the order</button>
+                                <button type="submit" value="{{retrieve_quote.product_Id}} {{retrieve_quote.product_Vendor}}" id="dic_po" name="dic_po">Decline the order</button>
                             </form>
                         </div>
                     </div>
