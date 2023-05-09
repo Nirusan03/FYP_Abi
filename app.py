@@ -385,6 +385,7 @@ def create_cluster_vendor(collection_name, cluster_code, cluster_phone_no, clust
 @app.route('/insert_signup_vendor2', methods=['POST'])
 def insert_signup_vendor2():
     global collection_vendor, cluster, db_vendor
+
     # Get the form data
     cluster_registration_no = request.form['cluster_registrationNo']
     cluster_vat = request.form['cluster_vat']
@@ -392,8 +393,7 @@ def insert_signup_vendor2():
     cluster_regis_cert = request.form['cluster_regisCert']
     cluster_product_cert = request.form['cluster_productCert']
 
-    # vendor_collection = db_vendor[collection_vendor]
-
+    # Storing the data inside the dictionary
     post = {
         "Vendor_RegisterNo": cluster_registration_no,
         "Vendor_vat": cluster_vat,
@@ -401,6 +401,8 @@ def insert_signup_vendor2():
         "Vendor_regisCert": cluster_regis_cert,
         "Vendor_productCert": cluster_product_cert
     }
+
+    # Upating the collection
     account_vendor_collection.update_one({"Vendor_name": collection_vendor}, {"$set": post}, upsert=True)
 
     # Return a success message
@@ -513,14 +515,17 @@ def login_vendor():
     else:
         return redirect(url_for('login_page_vendor'))
 
-
+# Method to return for home
 @app.route('/home_vendor/<cluster_name>')
 def home_vendor(cluster_name):
+    # accessing the global variables
     global retrieve_vendor_inventory, vendor_inventory, db_vendor
 
+    # Data and time
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
+    # List to store data and show on dashboard
     vendor_inventory = []
     vendor_rfq_list = []
     vendor_po = []
@@ -530,6 +535,7 @@ def home_vendor(cluster_name):
     total_income = 0
     due_payment = 0
 
+    # Fetching the data from mongo db
     retrieve_vendor_inventory = collection_products.find({"vendor": cluster_name})
     retrieve_rfq = db_vendor[cluster_name].find({"status": "rfq"})
     retrieve_po = db_vendor[cluster_name].find({"status": "purchased"})
@@ -538,6 +544,7 @@ def home_vendor(cluster_name):
     retrieve_pp = db_vendor[cluster_name].find({"status": "paid_pending"})
     retrieve_is = db_vendor[cluster_name].find({"status": "invoice_sent"})
 
+    # Appendig the list
     for documents in retrieve_vendor_inventory:
         vendor_inventory.append(documents)
 
@@ -553,59 +560,83 @@ def home_vendor(cluster_name):
     for documents in retrieve_in:
         vendor_invoice_needed.append(documents)
 
+    # Getting the total sale and appending the list
     for documents in retrieve_is:
         str_price = int(documents["total_price"])
         total_income += str_price
         print(total_income)
 
+    # Getting total due
     for documents in retrieve_pp:
         str_price = int(documents["total_price"])
         due_payment += due_payment
         vendor_pp.append(documents)
 
     print(total_income, " Total ")
+
+    # Retuning to home vendor
     return render_template('vendor.html', date=date, vendor_inventory=vendor_inventory, cluster_name=cluster_name,
                            vendor_rfq_list=vendor_rfq_list, vendor_po=vendor_po,
                            vendor_onto_order=vendor_onto_order, vendor_invoice_needed=vendor_invoice_needed,
                            total_income=total_income, vendor_pp=vendor_pp, due_payment=due_payment)
 
 
+# Routing to vendor account
 @app.route('/vendor_account')
 def vendor_account():
+
+    # accessing global variable
     global vendor
+
+    # Accessing data and time
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
 
+    # Finding the vendor account
     vend_account_dick = account_vendor_collection.find_one({"Vendor_name": vendor})
 
+    # Returnig vendor account
     return render_template('vendor-account.html', date=date, vendor=vendor, vend_account_dick=vend_account_dick)
 
 
+# Routing to inventory
 @app.route('/inventory')
 def inventory():
+    # time and data
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
+
+    # Routing to vendor inventory
     return render_template('vendor-inventory.html', date=date, vendor_inventory=vendor_inventory, vendor=vendor)
 
 
+# Method to pass product data
 @app.route('/pass_information', methods=['POST'])
 def pass_information():
     button_value = ""
     words = []
+
+    # Date and time
     now = datetime.datetime.now()
     date = now.strftime("%Y-%m-%d")
+
+    # Storing button value
     button_value = request.form['product-button']
+
+    # Separating the button value
     words = [w.strip() for w in button_value.split()]
 
+    # Product id
     p_id = words[0]
-    name = words[1]
-    quantity = words[2]
-    price = words[3]
 
-    print("Product ID : ", p_id,
-          "\nName : ", name,
-          "\nQuantity : ", quantity,
-          "\nPrice : ", price)
+    # name
+    name = words[1]
+
+    # Quantity
+    quantity = words[2]
+
+    # Price
+    price = words[3]
 
     return redirect(url_for('vendor_single_inventory', date=date, vendor=vendor,
                             p_id=p_id, name=name, quantity=quantity, price=price))
